@@ -27,7 +27,7 @@
 - **✅ Trust Score Clarity**: Changed format to "Trust: 1372" with CheckCircle icon for better understanding
 - **✅ Status Indicators**: Replaced text badges with colored dots (green=trusted, emerald=reputable, yellow=neutral, orange=questionable, red=risky)
 - **✅ Visual Separation**: Added stronger border-b border-gray-700 between results for clear content separation
-- **✅ Enhanced Hover States**: Improved hover:bg-gray-700 for better interaction feedback and visual response
+- **✅ Enhanced Hover States**: Refined to hover:bg-gray-700/30 for subtle interaction feedback and perfect visual response
 - **✅ Input Field Improvements**: Added subtle border (border-gray-600), better placeholder contrast (placeholder-gray-400), focus states (focus:border-blue-500 focus:ring-1 focus:ring-blue-500), and increased padding (px-4 py-3)
 - **✅ Search Button Enhancement**: Created prominent Farcaster blue button (bg-blue-600 hover:bg-blue-700) with proper padding (px-6 py-3), good touch target (min-h-[44px]), and smooth transitions (transition-all duration-200)
 - **✅ Card Refinements**: Enhanced main card with subtle border (border-gray-700), increased border radius (rounded-2xl), and gentle hover effect (hover:bg-gray-800/50)

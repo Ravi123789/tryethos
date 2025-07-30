@@ -190,7 +190,7 @@ export function SearchSuggestionsBelow({
                 className={`
                   relative flex items-center cursor-pointer transition-all duration-300 group 
                   min-h-[70px] p-4 border-b border-gray-700 last:border-b-0
-                  hover:bg-gray-700 hover:border-gray-600/50 active:bg-gray-700/80
+                  hover:bg-gray-700/30 hover:border-gray-600/50 active:bg-gray-700/50
                   ${farcasterMode ? 'hover:bg-blue-600/20 active:bg-blue-600/30' : ''}
                   ${tierAnimation === 'excellent' ? 'tier-excellent' : 
                     tierAnimation === 'good' ? 'tier-good' : ''

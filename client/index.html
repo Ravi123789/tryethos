@@ -8,15 +8,11 @@
     <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="apple-touch-icon" href="/logo.png" />
     
-    <!-- Farcaster Mini App Meta Tags -->
-    <meta name="fc:frame" content="next" />
-    <meta name="fc:frame:image" content="/logo.png" />
-    <meta name="fc:frame:button:1" content="Scan Your Trust Score" />
-    <meta name="fc:frame:button:1:action" content="link" />
-    <meta name="fc:frame:button:1:target" content="/" />
+    <!-- Farcaster Mini App Embed -->
+    <meta name="fc:miniapp" content='{"version":"1","imageUrl":"https://ethosradar.com/embed-preview.png","button":{"title":"Scan Your Trust Score","action":{"type":"launch_miniapp","name":"EthosRadar","url":"https://ethosradar.com/","splashImageUrl":"https://ethosradar.com/splash.png","splashBackgroundColor":"#0F172A"}}}' />
     
-    <!-- Farcaster Mini App Manifest -->
-    <meta name="fc:miniapp" content='{"version":"next","name":"EthosRadar","button":{"title":"Scan Your Trust Score","action":{"type":"launch_frame","name":"EthosRadar","url":"/","splashImageUrl":"/splash.png","splashBackgroundColor":"#0F172A"}}}' />
+    <!-- For backward compatibility -->
+    <meta name="fc:frame" content='{"version":"1","imageUrl":"https://ethosradar.com/embed-preview.png","button":{"title":"Scan Your Trust Score","action":{"type":"launch_frame","name":"EthosRadar","url":"https://ethosradar.com/","splashImageUrl":"https://ethosradar.com/splash.png","splashBackgroundColor":"#0F172A"}}}' />
     
     <!-- Open Graph Tags -->
     <meta property="og:title" content="EthosRadar - Trust Network Scanner" />

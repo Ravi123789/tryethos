@@ -54,6 +54,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Mount Farcaster frame routes
   app.use('/farcaster', farcasterFrameRoutes);
 
+  // Dynamic embed image for home page sharing
+  app.get('/embed-preview.png', async (req, res) => {
+    try {
+      // Redirect to the card generation endpoint
+      const cardUrl = `http://localhost:${process.env.PORT || 5000}/farcaster/card/cookedzera`;
+      const response = await fetch(cardUrl);
+      
+      if (response.ok && response.headers.get('content-type')?.includes('image/png')) {
+        const imageBuffer = await response.arrayBuffer();
+        res.setHeader('Content-Type', 'image/png');
+        res.setHeader('Cache-Control', 'public, max-age=300');
+        res.send(Buffer.from(imageBuffer));
+      } else {
+        // Fallback to logo if card generation fails
+        res.redirect('/logo.png');
+      }
+    } catch (error) {
+      // Fallback to logo if there's an error
+      res.redirect('/logo.png');
+    }
+  });
+
 
 
 

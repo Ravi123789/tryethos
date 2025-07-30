@@ -52,7 +52,7 @@ router.get('/frame/:userkey', async (req, res) => {
         <meta property="og:image:height" content="315">
         
         <!-- Mini App Embed tags -->
-        <meta name="fc:miniapp" content='{"version":"1","imageUrl":"${cardImageUrl}","button":{"title":"Scan Your Trust Score","action":{"type":"launch_frame","name":"EthosRadar Trust Scanner","url":"${baseUrl}","splashImageUrl":"${baseUrl}/logo-200x200.png","splashBackgroundColor":"#1e1b4b"}}}'>
+        <meta name="fc:frame" content='{"version":"next","imageUrl":"${cardImageUrl}","button":{"title":"Scan Your Trust Score","action":{"type":"launch_frame","name":"EthosRadar Trust Scanner","url":"${baseUrl}","splashImageUrl":"${baseUrl}/logo-200x200.png","splashBackgroundColor":"#1e1b4b"}}}'>
         
         <!-- Backward compatibility with Farcaster Frame tags -->
         <meta property="fc:frame" content="vNext">

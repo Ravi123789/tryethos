@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User, Crown, Sparkles, Shield, Hash } from 'lucide-react';
+import { User, Crown, Sparkles, Shield, Hash, CheckCircle } from 'lucide-react';
 import { SiFarcaster } from 'react-icons/si';
 // Theme provider removed - dark mode only
 
@@ -109,9 +109,11 @@ export function SearchSuggestionsBelow({
   }
 
   const getTierInfo = (score: number) => {
-    if (score >= 2000) return { tier: 'excellent', animation: 'excellent' };
-    if (score >= 1600) return { tier: 'good', animation: 'good' };
-    return { tier: 'neutral', animation: 'none' };
+    if (score >= 2000) return { tier: 'excellent', animation: 'excellent', status: 'trusted', color: 'green' };
+    if (score >= 1600) return { tier: 'good', animation: 'good', status: 'reputable', color: 'emerald' };
+    if (score >= 1200) return { tier: 'neutral', animation: 'none', status: 'neutral', color: 'yellow' };
+    if (score >= 800) return { tier: 'questionable', animation: 'none', status: 'questionable', color: 'orange' };
+    return { tier: 'risky', animation: 'none', status: 'risky', color: 'red' };
   };
 
   return (
@@ -179,7 +181,7 @@ export function SearchSuggestionsBelow({
       {!isLoading && !error && suggestions.length > 0 && (
         <div className={`relative overflow-y-auto ${isMobile() ? 'max-h-[320px]' : 'max-h-[400px]'}`}>
           {suggestions.map((suggestion: SearchSuggestion, index: number) => {
-            const { tier, animation: tierAnimation } = getTierInfo(suggestion.score);
+            const { tier, animation: tierAnimation, status, color } = getTierInfo(suggestion.score);
             
             return (
               <div 
@@ -187,8 +189,8 @@ export function SearchSuggestionsBelow({
                 onClick={() => handleSelect(suggestion)}
                 className={`
                   relative flex items-center cursor-pointer transition-all duration-300 group 
-                  min-h-[70px] p-4 border-b border-gray-700/30 last:border-b-0
-                  hover:bg-gray-700/40 hover:border-gray-600/50 active:bg-gray-700/60
+                  min-h-[70px] p-4 border-b border-gray-700 last:border-b-0
+                  hover:bg-gray-700 hover:border-gray-600/50 active:bg-gray-700/80
                   ${farcasterMode ? 'hover:bg-blue-600/20 active:bg-blue-600/30' : ''}
                   ${tierAnimation === 'excellent' ? 'tier-excellent' : 
                     tierAnimation === 'good' ? 'tier-good' : ''
@@ -263,9 +265,9 @@ export function SearchSuggestionsBelow({
                   
                   {/* Trust score with context and icon */}
                   <div className="flex items-center gap-2">
-                    <Hash className="w-4 h-4 text-white/60" />
+                    <CheckCircle className="w-4 h-4 text-white/60" />
                     <span className="text-sm font-semibold text-white/80">
-                      Trust Score: 
+                      Trust: 
                     </span>
                     <span className={`text-sm font-bold ${
                       tierAnimation === 'excellent' 
@@ -281,19 +283,24 @@ export function SearchSuggestionsBelow({
                   </div>
                 </div>
 
-                {/* Enhanced tier badge */}
+                {/* Status indicator with colored dot */}
                 <div className="text-right flex-shrink-0 ml-4 relative z-10">
-                  <div className={`px-3 py-1.5 rounded-lg border transition-all duration-300 ${
-                    tierAnimation === 'excellent' 
-                      ? 'bg-amber-500/20 border-amber-400/40 text-amber-200 group-hover:bg-amber-500/30' 
-                      : tierAnimation === 'good' 
-                        ? 'bg-emerald-500/20 border-emerald-400/40 text-emerald-200 group-hover:bg-emerald-500/30'
-                        : farcasterMode 
-                          ? 'bg-blue-500/20 border-blue-400/40 text-blue-200 group-hover:bg-blue-500/30' 
-                          : 'bg-gray-500/20 border-gray-400/40 text-gray-200 group-hover:bg-gray-500/30'
-                  }`}>
-                    <div className="text-xs font-bold uppercase tracking-wider leading-none">
-                      {tier === 'excellent' ? 'Exemplary' : tier === 'good' ? 'Reputable' : 'Neutral'}
+                  <div className="flex items-center gap-2">
+                    <div className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      color === 'green' ? 'bg-green-500 shadow-lg shadow-green-500/30' :
+                      color === 'emerald' ? 'bg-emerald-500 shadow-lg shadow-emerald-500/30' :
+                      color === 'yellow' ? 'bg-yellow-500 shadow-lg shadow-yellow-500/30' :
+                      color === 'orange' ? 'bg-orange-500 shadow-lg shadow-orange-500/30' :
+                      'bg-red-500 shadow-lg shadow-red-500/30'
+                    }`}></div>
+                    <div className={`text-xs font-bold uppercase tracking-wider leading-none transition-colors ${
+                      color === 'green' ? 'text-green-300' :
+                      color === 'emerald' ? 'text-emerald-300' :
+                      color === 'yellow' ? 'text-yellow-300' :
+                      color === 'orange' ? 'text-orange-300' :
+                      'text-red-300'
+                    }`}>
+                      {status}
                     </div>
                   </div>
                 </div>

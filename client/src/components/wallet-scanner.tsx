@@ -369,33 +369,7 @@ export function WalletScanner() {
               )}
             </div>
             
-            {/* Search Button */}
-            <div className="flex justify-center mt-6 mb-4">
-              <button
-                onClick={handleSearch}
-                disabled={!query.trim() || searchMutation.isPending}
-                className={`
-                  group relative px-6 py-3 rounded-2xl backdrop-blur-xl 
-                  border transition-all duration-200 hover:scale-105
-                  shadow-2xl shadow-black/25 dark:shadow-black/80 min-h-[44px]
-                  ${!query.trim() || searchMutation.isPending
-                    ? 'bg-gray-600/50 border-gray-600 text-gray-400 cursor-not-allowed'
-                    : 'bg-blue-600 hover:bg-blue-700 border-blue-500 text-white'
-                  }
-                `}
-              >
-                <div className="flex items-center gap-3">
-                  {searchMutation.isPending ? (
-                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                  ) : (
-                    <Search className="w-5 h-5" />
-                  )}
-                  <span className="text-base font-semibold">
-                    {searchMutation.isPending ? 'Searching...' : 'Search Trust Score'}
-                  </span>
-                </div>
-              </button>
-            </div>
+
 
             {/* Modern Glassmorphism Toggle */}
             <div className="flex justify-center mb-6">
@@ -403,7 +377,11 @@ export function WalletScanner() {
                 <div className="flex items-center gap-2">
                   {/* Global Search Option */}
                   <button
-                    onClick={() => !farcasterMode || toggleFarcasterMode()}
+                    onClick={() => {
+                      if (farcasterMode) {
+                        toggleFarcasterMode();
+                      }
+                    }}
                     className={`
                       relative px-4 py-2.5 rounded-lg transition-all duration-200 flex items-center gap-2 
                       min-w-[130px] min-h-[44px] justify-center font-semibold text-sm
@@ -419,7 +397,11 @@ export function WalletScanner() {
                   
                   {/* Farcaster Option */}
                   <button
-                    onClick={() => farcasterMode || toggleFarcasterMode()}
+                    onClick={() => {
+                      if (!farcasterMode) {
+                        toggleFarcasterMode();
+                      }
+                    }}
                     className={`
                       relative px-4 py-2.5 rounded-lg transition-all duration-200 flex items-center gap-2 
                       min-w-[130px] min-h-[44px] justify-center font-semibold text-sm

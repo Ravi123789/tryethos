@@ -1033,7 +1033,7 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                         const ethAmount = parseFloat(vouch.amountEth || '0.010');
 
                         return (
-                          <div key={vouch.id || index} className="flex items-center justify-between p-4 bg-white/3 dark:bg-gray-700/20 rounded-lg hover:bg-gray-700/30 transition-all duration-200 group">
+                          <div key={vouch.id || index} className="flex items-center justify-between p-4 bg-white/3 dark:bg-gray-700/20 rounded-lg hover:bg-gray-700/20 transition-all duration-200 group">
                             <div className="flex items-center gap-3 flex-1 min-w-0">
                               <ArrowDownLeft className="w-4 h-4 text-emerald-400" />
                               <div className="flex-1 min-w-0">
@@ -1124,7 +1124,7 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                         const ethAmount = parseFloat(vouch.amountEth || '0.010');
 
                         return (
-                          <div key={vouch.id || index} className="flex items-center justify-between p-4 bg-white/3 dark:bg-gray-700/20 rounded-lg hover:bg-gray-700/30 transition-all duration-200 group">
+                          <div key={vouch.id || index} className="flex items-center justify-between p-4 bg-white/3 dark:bg-gray-700/20 rounded-lg hover:bg-gray-700/20 transition-all duration-200 group">
                             <div className="flex items-center gap-3 flex-1 min-w-0">
                               <ArrowUpRight className="w-4 h-4 text-red-400" />
                               <div className="flex-1 min-w-0">
@@ -1302,9 +1302,9 @@ ${frameUrl}`;
                 </div>
                 <button 
                   onClick={() => setShowVouchModal({ type: null })}
-                  className="group p-3 hover:bg-white/10 rounded-2xl transition-all duration-300 hover:scale-105"
+                  className="group p-3 hover:bg-white/10 rounded-2xl transition-all duration-300 hover:scale-105 min-h-[44px] min-w-[44px] flex items-center justify-center"
                 >
-                  <X className="w-6 h-6 text-white/70 group-hover:text-white transition-colors" />
+                  <X className="w-7 h-7 text-white/80 group-hover:text-white transition-colors stroke-2" />
                 </button>
               </div>
             </div>
@@ -1430,7 +1430,7 @@ ${frameUrl}`;
 
                   return (
                     <div key={vouch.id || index} className="group relative">
-                      <div className="relative bg-gradient-to-br from-white/8 via-white/4 to-white/8 backdrop-blur-xl rounded-xl border border-white/10 p-4 hover:border-white/20 transition-all duration-300">
+                      <div className="relative bg-gradient-to-br from-white/8 via-white/4 to-white/8 backdrop-blur-xl rounded-xl border border-white/10 p-4 hover:border-white/20 hover:bg-gray-700/20 transition-all duration-300">
                         <div className="flex items-center justify-between gap-4">
                           {/* Compact User Info */}
                           <div className="flex items-center gap-3 flex-1 min-w-0">

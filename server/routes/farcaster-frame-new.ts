@@ -53,15 +53,6 @@ router.get('/frame/:userkey', async (req, res) => {
         
         <!-- Mini App Embed tags -->
         <meta name="fc:frame" content='{"version":"next","imageUrl":"${cardImageUrl}","button":{"title":"Scan Your Trust Score","action":{"type":"launch_frame","name":"EthosRadar Trust Scanner","url":"${baseUrl}","splashImageUrl":"${baseUrl}/logo-200x200.png","splashBackgroundColor":"#1e1b4b"}}}'>
-        
-        <!-- Backward compatibility with Farcaster Frame tags -->
-        <meta property="fc:frame" content="vNext">
-        <meta property="fc:frame:image" content="${cardImageUrl}">
-        <meta property="fc:frame:image:aspect_ratio" content="1.91:1">
-        <meta name="fc:frame:image:alt" content="Ethos Trust Score Card for ${frameTitle}">
-        <meta property="fc:frame:button:1" content="Scan Your Trust Score">
-        <meta property="fc:frame:button:1:action" content="link">
-        <meta property="fc:frame:button:1:target" content="${baseUrl}">
 
 
 

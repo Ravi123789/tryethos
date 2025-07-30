@@ -12,6 +12,7 @@
 - **✅ API Fix**: Fixed handleViewProfile function to send correct farcasterUsername parameter to backend API
 - **✅ Unified Profile Display**: Removed separate Farcaster profile handling - auto-detect now uses same UserProfileView as regular search for consistency
 - **✅ Farcaster Mini App Spec Compliance**: Fixed meta tag name from "fc:miniapp" to "fc:frame" and version from "1" to "next" for official specification compliance
+- **✅ Removed Conflicting Meta Tags**: Eliminated duplicate fc:frame tags that were causing Mini App embed conflicts and preventing proper interactive card display
 
 ### Weekly Momentum Layout Fix Complete - Large Number Overflow Resolved - July 30, 2025
 **✅ WEEKLY MOMENTUM LAYOUT FIX COMPLETE**: Successfully fixed large number overflow with clean 3-column responsive layout

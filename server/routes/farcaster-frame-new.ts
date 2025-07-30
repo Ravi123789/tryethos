@@ -16,9 +16,8 @@ const getImageUrl = (userkey: string) => {
 // Farcaster frame endpoint
 router.get('/frame/:userkey', async (req, res) => {
   const { userkey } = req.params;
-  const baseUrl = process.env.REPLIT_DEV_DOMAIN 
-    ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-    : `http://localhost:${process.env.PORT || 5000}`;
+  // Always use production domain for frames
+  const baseUrl = 'https://ethosradar.com';
 
   // Resolve userkey if it's a username format
   let resolvedUserkey = decodeURIComponent(userkey);
@@ -69,7 +68,10 @@ router.get('/frame/:userkey', async (req, res) => {
         <meta property="og:image:height" content="315">
         
         <!-- Mini App Embed tags -->
-        <meta name="fc:frame" content='{"version":"next","imageUrl":"${cardImageUrl}","button":{"title":"Scan Your Trust Score","action":{"type":"launch_frame","name":"EthosRadar Trust Scanner","url":"${baseUrl}","splashImageUrl":"${baseUrl}/logo-200x200.png","splashBackgroundColor":"#1e1b4b"}}}'>
+        <meta name="fc:frame" content='{"version":"1","imageUrl":"${cardImageUrl}","button":{"title":"Scan Your Trust Score","action":{"type":"launch_miniapp","name":"EthosRadar","url":"${baseUrl}/","splashImageUrl":"${baseUrl}/splash.png","splashBackgroundColor":"#0F172A"}}}'>
+        
+        <!-- For backward compatibility -->
+        <meta name="fc:miniapp" content='{"version":"1","imageUrl":"${cardImageUrl}","button":{"title":"Scan Your Trust Score","action":{"type":"launch_miniapp","name":"EthosRadar","url":"${baseUrl}/","splashImageUrl":"${baseUrl}/splash.png","splashBackgroundColor":"#0F172A"}}}'>
 
 
 

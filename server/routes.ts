@@ -51,6 +51,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   
   // Serve PNG images with correct content type
+  app.get('/logo.png', (req, res) => {
+    res.setHeader('Content-Type', 'image/png');
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
+    res.sendFile(path.join(process.cwd(), 'public', 'logo.png'));
+  });
+  
   app.get('/icon.png', (req, res) => {
     res.setHeader('Content-Type', 'image/png');
     res.setHeader('Cache-Control', 'public, max-age=31536000');

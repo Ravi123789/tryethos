@@ -144,9 +144,9 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                   return (
                     <div key={index} className="py-3 border-b border-white/10 last:border-b-0 hover:bg-white/5 rounded-lg px-2 -mx-2 transition-all duration-200 hover:scale-[1.01]">
                       
-                      {/* Compact Review Layout */}
-                      <div className="flex items-center justify-between gap-3">
-                        {/* Left User - Shows who gave the review */}
+                      {/* Perfect Mobile Layout */}
+                      <div className="flex items-center justify-between w-full gap-3">
+                        {/* Left Side - Username + Avatar */}
                         <div className="flex items-center gap-2 flex-1 min-w-0">
                           <Avatar className="w-6 h-6 border border-white/20 flex-shrink-0">
                             {reviewItem.type === 'received' ? (
@@ -173,9 +173,9 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                               </>
                             )}
                           </Avatar>
-                          <span className={`text-sm font-medium ${
+                          <span className={`text-sm font-medium truncate max-w-[80px] sm:max-w-[120px] ${
                             reviewItem.type === 'given' 
-                              ? 'text-blue-300 bg-blue-500/20 px-2 py-1 rounded text-xs font-bold'
+                              ? 'text-blue-300'
                               : 'text-white/90'
                           }`}>
                             {reviewItem.type === 'received' 
@@ -185,8 +185,8 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                           </span>
                         </div>
                         
-                        {/* Simple Center Section */}
-                        <div className="flex items-center gap-2 flex-shrink-0">
+                        {/* Center - Arrow + Review Types */}
+                        <div className="flex items-center gap-1 flex-shrink-0">
                           {/* Show sentiment based on review direction */}
                           {reviewItem.type === 'received' ? (
                             // For received reviews: other user → current user
@@ -198,9 +198,9 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                               </span>
                               
                               {reviewItem.isReciprocal ? (
-                                <span className="text-emerald-400 text-xl font-bold px-2">⟷</span>
+                                <span className="text-emerald-400 text-sm font-bold px-1">⟷</span>
                               ) : (
-                                <span className="text-white/80 text-xl font-bold px-2">→</span>
+                                <span className="text-white/80 text-sm font-bold px-1">→</span>
                               )}
                               
                               {/* Reciprocal review sentiment (your response) */}
@@ -221,48 +221,23 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                                 {reviewItem.review?.sentiment === 'positive' ? 'positive' : 'negative'}
                               </span>
                               
-                              <span className="text-white/80 text-xl font-bold px-2">→</span>
+                              <span className="text-white/80 text-sm font-bold px-1">→</span>
                             </>
                           )}
                         </div>
                         
-                        {/* Right User - Shows who received the review */}
-                        <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
-                          <span className={`text-sm text-right font-medium max-w-[100px] overflow-hidden whitespace-nowrap text-ellipsis ${
+                        {/* Right Side - You Badge */}
+                        <div className="flex-shrink-0">
+                          <span className={`text-sm font-medium px-2 py-1 rounded ${
                             reviewItem.type === 'received' 
-                              ? 'text-blue-300 bg-blue-500/20 px-2 py-1 rounded text-xs font-bold'
-                              : 'text-white/90'
+                              ? 'text-blue-300 bg-blue-500/20 text-xs font-bold'
+                              : 'text-white/90 truncate max-w-[80px] sm:max-w-[120px]'
                           }`}>
                             {reviewItem.type === 'received' 
                               ? 'You'
                               : (reviewItem.otherUser?.displayName || reviewItem.otherUser?.username || 'Anonymous')
                             }
                           </span>
-                          <Avatar className="w-6 h-6 border border-white/20 flex-shrink-0">
-                            {reviewItem.type === 'received' ? (
-                              // Current user received the review
-                              <>
-                                <AvatarImage 
-                                  src={currentUser?.avatarUrl} 
-                                  alt="Your avatar"
-                                />
-                                <AvatarFallback className="bg-gradient-to-br from-blue-400 to-purple-400 text-white text-xs font-bold">
-                                  You
-                                </AvatarFallback>
-                              </>
-                            ) : (
-                              // Other user received the review
-                              <>
-                                <AvatarImage 
-                                  src={reviewItem.otherUser?.avatarUrl || reviewItem.otherUser?.avatar || reviewItem.otherUser?.image} 
-                                  alt={reviewItem.otherUser?.displayName || 'User avatar'}
-                                />
-                                <AvatarFallback className="bg-emerald-500/20 text-white text-xs">
-                                  {(reviewItem.otherUser?.displayName || reviewItem.otherUser?.username || 'A')[0].toUpperCase()}
-                                </AvatarFallback>
-                              </>
-                            )}
-                          </Avatar>
                         </div>
                       </div>
 

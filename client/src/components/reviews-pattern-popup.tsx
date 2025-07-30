@@ -105,10 +105,10 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
         {/* Compact Glassmorphism Container */}
         <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-xl overflow-hidden">
           
-          {/* Mobile Optimized Header */}
-          <div className="relative flex items-start justify-between w-full p-4 border-b border-white/10">
-            {/* Left Content with Space for Close Button */}
-            <div className="flex-1 pr-12">
+          {/* Mobile Optimized Header - Fixed Close Button Layout */}
+          <div className="flex justify-between items-start p-4 border-b border-white/10">
+            {/* Left Content with Proper Spacing */}
+            <div className="flex-1 pr-8">
               {/* Title Row with Risk Badge */}
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
@@ -132,13 +132,14 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
               </div>
             </div>
             
-            {/* Close Button - Absolute Positioned */}
+            {/* Close Button - Properly Positioned */}
             <button 
               onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 min-h-[44px] min-w-[44px] rounded-full hover:bg-gray-700 flex items-center justify-center transition-colors duration-200"
+              className="w-8 h-8 rounded-full hover:bg-gray-700/50 flex items-center justify-center transition-colors duration-200 flex-shrink-0"
+              style={{ minHeight: '44px', minWidth: '44px' }}
               aria-label="Close modal"
             >
-              <X className="w-5 h-5 text-gray-400 hover:text-white" />
+              <X className="w-5 h-5 text-gray-400 hover:text-white stroke-2" />
             </button>
           </div>
 

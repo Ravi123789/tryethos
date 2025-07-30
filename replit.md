@@ -13,6 +13,8 @@
 - **✅ Score Change Layout Fix**: Split score change into two lines (number on top, percentage below) to prevent text overflow on mobile screens
 - **✅ Container Height Adjustment**: Increased min-height from 60px to 70px to accommodate two-line score display and improved mobile readability
 - **✅ Vouches Currency Display Bug Fix**: Fixed floating-point precision issue in formatCurrency function preventing display of "$541.8000000000001" by adding proper rounding to 2 decimal places
+- **✅ Farcaster User Auto-Detection Feature**: Implemented @farcaster/frame-sdk integration with auto-detection hook, glassmorphism profile card display, and direct search integration
+- **✅ Smart Profile Loading**: Auto-detected users trigger Farcaster search mode with enhanced profile view and proper error handling for profile images
 - **✅ Flex Button Text Update**: Changed "Flex" button text to "Flex Your Card" in FarcasterShareButton component with proper state management
 - **✅ Component State Fixes**: Added missing useState hooks for isOpen, copied states and copyFrameUrl function to resolve LSP diagnostics
 - **✅ Tab Navigation Mobile Fix**: Fixed dashboard tab overflow by implementing proper mobile container with px-4 padding, flex justify-between layout, and responsive text (hidden sm:inline)

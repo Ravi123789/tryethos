@@ -9,9 +9,53 @@ import { HeroTagline } from '@/components/hero-tagline';
 import { EthosStatus } from '@/components/ethos-status';
 import { BottomNavigation } from '@/components/bottom-navigation';
 import { useUserProfile } from '@/hooks/use-ethos-api';
+import { sdk } from '@farcaster/frame-sdk';
+
+interface DetectedFarcasterUser {
+  fid: number;
+  username: string;
+  displayName: string;
+  pfpUrl: string;
+}
 
 export default function Home() {
   const { user, searchMode, setUser, clearUser } = useUserProfile();
+  const [detectedUser, setDetectedUser] = useState<DetectedFarcasterUser | null>(null);
+
+  // Farcaster user auto-detection hook
+  useEffect(() => {
+    const detectFarcasterUser = async () => {
+      try {
+        const context = await sdk.context;
+        if (context?.user) {
+          setDetectedUser({
+            fid: context.user.fid,
+            username: context.user.username,
+            displayName: context.user.displayName,
+            pfpUrl: context.user.pfpUrl
+          });
+        }
+      } catch (error) {
+        // Farcaster context not available, user not in frame environment
+        console.log('Farcaster context not available - this is expected in regular browser');
+        
+        // DEMO MODE: For testing purposes, we can simulate a detected user
+        // Remove this in production or when testing in actual Farcaster environment
+        if (window.location.hostname.includes('replit')) {
+          setTimeout(() => {
+            setDetectedUser({
+              fid: 123456,
+              username: 'cookedzera',
+              displayName: 'CookedZera',
+              pfpUrl: 'https://i.imgur.com/example.jpg' // This will fail and show fallback
+            });
+          }, 2000); // Show after 2 seconds to simulate detection
+        }
+      }
+    };
+    
+    detectFarcasterUser();
+  }, []);
 
   // Check for URL parameters on component mount
   useEffect(() => {
@@ -35,6 +79,33 @@ export default function Home() {
 
   const handleBackToSearch = () => {
     clearUser();
+  };
+
+  const handleViewProfile = async (username: string) => {
+    try {
+      // Use Farcaster search mode for detected users
+      const response = await fetch('/api/search-user-farcaster', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: username })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.data) {
+          // Mark as Farcaster enhanced user and set user data
+          const userData = {
+            ...result.data,
+            _isFarcasterEnhanced: true
+          };
+          setUser(userData, 'farcaster');
+        }
+      }
+    } catch (error) {
+      console.error('Failed to search for Farcaster user:', error);
+    }
   };
 
   if (user) {
@@ -71,6 +142,46 @@ export default function Home() {
             <WalletScanner />
           </div>
         </div>
+
+        {/* Farcaster Auto-Detect Component */}
+        {detectedUser && (
+          <div className="w-full mx-auto mb-6 px-4">
+            <div className="max-w-7xl mx-auto">
+              <div className="backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/15 shadow-2xl shadow-black/25 dark:shadow-black/80 rounded-xl p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {detectedUser.pfpUrl ? (
+                    <img 
+                      src={detectedUser.pfpUrl} 
+                      alt={detectedUser.displayName || 'Profile'}
+                      className="w-12 h-12 rounded-full border-2 border-white/20 object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full border-2 border-white/20 bg-gray-600 flex items-center justify-center text-white text-xl font-bold">
+                      {detectedUser.displayName ? detectedUser.displayName[0].toUpperCase() : '?'}
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-white font-semibold">{detectedUser.displayName || 'Farcaster User'}</p>
+                    <p className="text-white/60 text-sm">@{detectedUser.username} • Your Profile</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => handleViewProfile(detectedUser.username)}
+                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg flex items-center gap-2 text-white font-medium transition-colors duration-200 min-h-[44px]"
+                >
+                  View Profile →
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* API Status */}
+        {!user && <EthosStatus />}
       </div>
       
       {/* Bottom Navigation - only show on home page when no user profile is displayed */}

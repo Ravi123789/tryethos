@@ -13,14 +13,8 @@
     "splashBackgroundColor": "#0F172A",
     "buttonTitle": "Scan Your Trust Score",
     "subtitle": "Trust Score Scanner for Web3",
-    "description": "Generate your personalized trust reputation card on Ethos Protocol",
+    "description": "Check detailed analysis of any profile on ethos. You can check almost everything related to that profile",
     "primaryCategory": "utility",
-    "tags": [
-      "trust",
-      "reputation",
-      "ethos",
-      "crypto",
-      "web3"
-    ]
+    "tags": ["trust", "reputation", "ethos", "crypto", "web3"]
   }
 }

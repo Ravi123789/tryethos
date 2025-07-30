@@ -39,6 +39,7 @@
 - **✅ Migration Completed**: Successfully migrated from Replit Agent to standard Replit environment with all functionality preserved
 - **✅ Deployment Ready**: Logo uploaded, all dependencies verified, production deployment initiated
 - **✅ Farcaster Manifest Updated**: Updated fc:frame meta tags to use new logo, proper button configuration, and deployment-ready URLs
+- **✅ Mini App Domain Fix**: Updated Farcaster Mini App manifest to use correct Replit domain, removed old ethosradar.com references
 
 ### Farcaster Auto-Detect Card Optimization - July 30, 2025
 **✅ FARCASTER AUTO-DETECT CARD OPTIMIZATION COMPLETE**: Successfully optimized auto-detect card with compact sizing and improved navigation spacing

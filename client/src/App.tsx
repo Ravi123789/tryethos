@@ -2,6 +2,9 @@
 import { useEffect } from "react";
 import { Switch, Route } from "wouter";
 
+// Farcaster SDK
+import { sdk } from "@farcaster/miniapp-sdk";
+
 // External libraries
 import { QueryClientProvider } from "@tanstack/react-query";
 
@@ -49,9 +52,31 @@ function Router() {
 }
 
 function App() {
-  // Set dark mode on load
+  // Set dark mode on load and initialize Farcaster SDK
   useEffect(() => {
     document.documentElement.classList.add('dark');
+    
+    // Initialize Farcaster Mini App SDK
+    const initializeSdk = async () => {
+      try {
+        // Wait for the app to be fully rendered
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Signal to Farcaster that the app is ready
+        await sdk.actions.ready();
+        console.log('Farcaster SDK initialized successfully');
+      } catch (error) {
+        console.error('Failed to initialize Farcaster SDK:', error);
+        // Still call ready to hide splash screen even if there's an error
+        try {
+          await sdk.actions.ready();
+        } catch (readyError) {
+          console.error('Failed to call ready():', readyError);
+        }
+      }
+    };
+    
+    initializeSdk();
   }, []);
 
   return (

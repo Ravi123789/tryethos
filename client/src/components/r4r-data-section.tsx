@@ -96,32 +96,32 @@ export function R4RDataSection({ userkey, userProfile: passedUserProfile }: R4RD
       </div>
       
       {/* Enhanced R4R Score with Prominent Risk Indicators */}
-      <div className={`mb-4 p-4 rounded-lg border-2 ${
-        r4rAnalysis.r4rScore >= 75 ? 'bg-gradient-to-r from-red-500/20 to-red-600/20 border-red-400/40' :
-        r4rAnalysis.r4rScore >= 50 ? 'bg-gradient-to-r from-orange-500/20 to-yellow-500/20 border-orange-400/40' :
-        'bg-gradient-to-r from-purple-500/10 to-blue-500/10 border-purple-400/20'
+      <div className={`mb-4 p-5 rounded-xl border-2 shadow-lg ${
+        r4rAnalysis.r4rScore >= 75 ? 'bg-gradient-to-r from-red-500/25 to-red-600/25 border-red-400/50 shadow-red-500/20' :
+        r4rAnalysis.r4rScore >= 50 ? 'bg-gradient-to-r from-orange-500/25 to-yellow-500/25 border-orange-400/50 shadow-orange-500/20' :
+        'bg-gradient-to-r from-purple-500/15 to-blue-500/15 border-purple-400/30 shadow-purple-500/10'
       }`}>
         <div className="flex items-center justify-between">
           <div>
-            <div className={`text-3xl font-black ${
-              r4rAnalysis.r4rScore >= 75 ? 'text-red-300' :
-              r4rAnalysis.r4rScore >= 50 ? 'text-orange-300' :
+            <div className={`text-5xl font-black mb-1 ${
+              r4rAnalysis.r4rScore >= 75 ? 'text-red-200 animate-pulse' :
+              r4rAnalysis.r4rScore >= 50 ? 'text-orange-200 animate-pulse' :
               'text-white'
             }`}>
               {r4rAnalysis.r4rScore.toFixed(1)}%
             </div>
-            <div className="text-xs text-white/60 font-medium">R4R Risk Score</div>
+            <div className="text-sm text-white/80 font-semibold">R4R Risk Score</div>
           </div>
           <div className="text-right">
-            <div className={`text-xl font-bold flex items-center ${
-              r4rAnalysis.reciprocalPercentage >= 75 ? 'text-red-300' :
-              r4rAnalysis.reciprocalPercentage >= 50 ? 'text-orange-300' :
+            <div className={`text-2xl font-black flex items-center mb-1 ${
+              r4rAnalysis.reciprocalPercentage >= 75 ? 'text-red-200' :
+              r4rAnalysis.reciprocalPercentage >= 50 ? 'text-orange-200' :
               'text-purple-300'
             }`}>
-              <TrendingUp className="w-5 h-5 mr-1" />
+              <TrendingUp className="w-6 h-6 mr-2" />
               {r4rAnalysis.reciprocalPercentage.toFixed(1)}%
             </div>
-            <div className="text-xs text-white/60 font-medium">Reciprocal Rate</div>
+            <div className="text-sm text-white/80 font-semibold">Reciprocal Rate</div>
           </div>
         </div>
       </div>
@@ -171,25 +171,25 @@ export function R4RDataSection({ userkey, userProfile: passedUserProfile }: R4RD
 
       {/* Enhanced Coordinated Activity Warning */}
       {r4rAnalysis.r4rScore >= 50 && (
-        <div className={`mb-4 p-3 rounded-xl border-2 ${
-          r4rAnalysis.r4rScore >= 75 ? 'bg-red-500/15 border-red-400/50' :
-          'bg-orange-500/15 border-orange-400/50'
+        <div className={`mb-4 p-4 rounded-xl border-2 shadow-lg ${
+          r4rAnalysis.r4rScore >= 75 ? 'bg-red-900/30 border-red-400/60 shadow-red-500/25' :
+          'bg-red-900/30 border-orange-400/60 shadow-orange-500/25'
         }`}>
-          <div className="flex items-center gap-3">
-            <div className={`p-2 rounded-lg ${
-              r4rAnalysis.r4rScore >= 75 ? 'bg-red-500/20' : 'bg-orange-500/20'
+          <div className="flex items-center gap-4">
+            <div className={`p-3 rounded-xl ${
+              r4rAnalysis.r4rScore >= 75 ? 'bg-red-500/30' : 'bg-orange-500/30'
             }`}>
-              <AlertTriangle className={`w-5 h-5 ${
-                r4rAnalysis.r4rScore >= 75 ? 'text-red-300' : 'text-orange-300'
+              <AlertTriangle className={`w-6 h-6 ${
+                r4rAnalysis.r4rScore >= 75 ? 'text-red-200' : 'text-orange-200'
               }`} />
             </div>
             <div className="flex-1">
-              <div className={`text-sm font-bold ${
-                r4rAnalysis.r4rScore >= 75 ? 'text-red-300' : 'text-orange-300'
+              <div className={`text-base font-bold ${
+                r4rAnalysis.r4rScore >= 75 ? 'text-red-200' : 'text-orange-200'
               }`}>
-                {r4rAnalysis.r4rScore >= 75 ? 'High Risk: Coordinated Review Activity Detected' : 'Warning: Suspicious Review Patterns'}
+                ⚠️ {r4rAnalysis.r4rScore >= 75 ? 'High Risk: Coordinated Review Activity Detected' : 'Warning: Suspicious Review Patterns'}
               </div>
-              <div className="text-xs text-white/60 mt-1">
+              <div className="text-sm text-white/70 mt-1">
                 {r4rAnalysis.r4rScore >= 75 
                   ? 'Strong indicators of reputation farming behavior' 
                   : 'Elevated mutual review activity detected'}
@@ -210,15 +210,15 @@ export function R4RDataSection({ userkey, userProfile: passedUserProfile }: R4RD
             </span>
           </div>
           {(showAllHighRisk ? r4rAnalysis.highR4RReviewers : r4rAnalysis.highR4RReviewers.slice(0, 3)).map((reviewer, index) => (
-            <div key={reviewer.userkey} className="flex items-center justify-between py-2 px-3 rounded-lg bg-red-500/10 border border-red-400/20 mb-2 hover:bg-red-500/15 transition-all duration-200">
+            <div key={reviewer.userkey} className="flex items-center justify-between py-3 px-4 rounded-xl bg-red-900/20 border border-red-400/30 mb-2 hover:bg-red-900/30 transition-all duration-200 shadow-lg shadow-red-500/10">
               <div className="text-sm text-white/90 truncate max-w-[120px] font-medium">
                 {reviewer.displayName || 'Unknown User'}
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-lg font-black text-red-300">
+                <span className="text-xl font-black text-red-200 bg-red-500/20 px-3 py-1 rounded-lg">
                   {reviewer.r4rScore.toFixed(0)}%
                 </span>
-                <span className="text-xs font-medium text-red-400 bg-red-500/20 px-2 py-1 rounded">
+                <span className="text-sm font-bold text-red-100 bg-red-600/40 px-3 py-1 rounded-full border border-red-400/50">
                   {reviewer.riskLevel}
                 </span>
               </div>
@@ -254,14 +254,18 @@ export function R4RDataSection({ userkey, userProfile: passedUserProfile }: R4RD
         <div className="mt-4 pt-4 border-t border-white/10">
           <div className="text-sm font-semibold text-white mb-3">Top Network Connections</div>
           {(showAllConnections ? r4rAnalysis.networkConnections : r4rAnalysis.networkConnections.slice(0, 2)).map((connection, index) => (
-            <div key={connection.userkey} className="flex items-center justify-between py-2 px-3 rounded-lg bg-white/5 border border-white/10 mb-2 hover:bg-white/10 transition-all duration-200">
-              <div className="text-sm text-white/80 truncate max-w-[140px] font-medium">
+            <div key={connection.userkey} className={`flex items-center justify-between py-3 px-4 rounded-xl border mb-2 transition-all duration-200 shadow-md ${
+              connection.suspiciousScore >= 70 ? 'bg-red-900/15 border-red-400/30 hover:bg-red-900/25 shadow-red-500/10' :
+              connection.suspiciousScore >= 40 ? 'bg-orange-900/15 border-orange-400/30 hover:bg-orange-900/25 shadow-orange-500/10' :
+              'bg-yellow-900/15 border-yellow-400/30 hover:bg-yellow-900/25 shadow-yellow-500/10'
+            }`}>
+              <div className="text-sm text-white/90 truncate max-w-[140px] font-medium">
                 {connection.displayName || 'Unknown User'}
               </div>
-              <div className={`text-sm font-bold ${
-                connection.suspiciousScore >= 70 ? 'text-red-300' :
-                connection.suspiciousScore >= 40 ? 'text-orange-300' :
-                'text-yellow-300'
+              <div className={`text-base font-black px-3 py-1 rounded-lg ${
+                connection.suspiciousScore >= 70 ? 'text-red-200 bg-red-500/20' :
+                connection.suspiciousScore >= 40 ? 'text-orange-200 bg-orange-500/20' :
+                'text-yellow-200 bg-yellow-500/20'
               }`}>
                 {connection.suspiciousScore.toFixed(0)}% risk
               </div>

@@ -43,6 +43,7 @@
 - **✅ HTML Entity Encoding Fix**: Fixed fc:miniapp meta tag with proper HTML entity encoding to prevent build process stripping
 - **✅ Farcaster Account Association**: Added authenticated account association credentials for FID 190522 to verify ethosradar.com domain ownership
 - **✅ Logo Route Fix**: Added explicit /logo.png server route to properly serve orange/teal circular logo on ethosradar.com
+- **✅ Complete Frame Manifest**: Updated Farcaster manifest with full frame configuration including subtitle, description, category, and tags for proper app store listing
 
 ### Farcaster Auto-Detect Card Optimization - July 30, 2025
 **✅ FARCASTER AUTO-DETECT CARD OPTIMIZATION COMPLETE**: Successfully optimized auto-detect card with compact sizing and improved navigation spacing

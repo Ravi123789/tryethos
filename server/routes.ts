@@ -31,17 +31,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         payload: "eyJkb21haW4iOiJldGhvc3JhZGFyLmNvbSJ9",
         signature: "Ap2jpG3Hb7ifpde/kd56Hr6Z8e4mOnSi7tQZU25LYsVtsveU1T2LyfqQmB1oy0w1Mwm31IDlQlWKuAoOIquj0Bs="
       },
-      version: "next",
-      name: "EthosRadar",
-      button: {
-        title: "Scan Your Trust Score",
-        action: {
-          type: "launch_frame",
-          name: "EthosRadar",
-          url: "/",
-          splashImageUrl: "/splash.png",
-          splashBackgroundColor: "#0F172A"
-        }
+      frame: {
+        version: "1",
+        name: "EthosRadar",
+        homeUrl: "https://ethosradar.com",
+        iconUrl: "https://ethosradar.com/logo.png",
+        splashBackgroundColor: "#0F172A",
+        subtitle: "Trust Score Scanner for Web3",
+        description: "Generate your personalized trust reputation card on Ethos Protocol",
+        primaryCategory: "utility",
+        tags: ["trust", "reputation", "ethos", "crypto", "web3"]
       }
     };
     res.json(manifest);

@@ -111,12 +111,26 @@ router.get('/card/:userkey', async (req, res) => {
       // Error handled silently
     }
 
+    // Get vouch data using our API endpoint
+    let vouchData: any = null;
+    try {
+      const vouchResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/user-vouch-activities/${userkey}`);
+      if (vouchResponse.ok) {
+        const vouchResult = await vouchResponse.json();
+        if (vouchResult.success && vouchResult.data) {
+          vouchData = vouchResult.data;
+        }
+      }
+    } catch (error) {
+      // Error handled silently
+    }
+
     // Extract data with fallbacks - use displayName as shown in profile
     const displayName = user?.displayName || enhancedProfile?.displayName || user?.username || 'Unknown User';
     const score = user?.score || enhancedProfile?.score || 0;
     const totalReviews = dashboardData?.data?.totalReviews || 0;
     const positivePercentage = dashboardData?.data?.positivePercentage || 0;
-    const vouchCount = enhancedProfile?.stats?.vouch?.received?.count || 0;
+    const vouchCount = vouchData?.received?.length || 0;
 
     // Generate frame card with optimized rendering
 

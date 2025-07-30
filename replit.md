@@ -10,6 +10,7 @@
 - **✅ Mobile Safety**: Maintained minimum 44px touch target requirements while ensuring no collision with bottom navigation
 - **✅ TypeScript Fixes**: Resolved LSP diagnostics with proper handling of potentially undefined Farcaster SDK values
 - **✅ API Fix**: Fixed handleViewProfile function to send correct farcasterUsername parameter to backend API
+- **✅ Unified Profile Display**: Removed separate Farcaster profile handling - auto-detect now uses same UserProfileView as regular search for consistency
 
 ### Weekly Momentum Layout Fix Complete - Large Number Overflow Resolved - July 30, 2025
 **✅ WEEKLY MOMENTUM LAYOUT FIX COMPLETE**: Successfully fixed large number overflow with clean 3-column responsive layout

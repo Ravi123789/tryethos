@@ -3,7 +3,6 @@ import { ArrowLeft } from 'lucide-react';
 import { Link } from 'wouter';
 import { WalletScanner } from '@/components/wallet-scanner';
 import { UserProfileView } from '@/components/user-profile-view';
-import { EnhancedFarcasterProfile } from '@/components/enhanced-farcaster-profile';
 
 import { HeroTagline } from '@/components/hero-tagline';
 import { EthosStatus } from '@/components/ethos-status';
@@ -83,7 +82,7 @@ export default function Home() {
 
   const handleViewProfile = async (username: string) => {
     try {
-      // Use Farcaster search mode for detected users
+      // Use regular search endpoint - same as typing in search bar
       const response = await fetch('/api/search-user-farcaster', {
         method: 'POST',
         headers: {
@@ -95,12 +94,8 @@ export default function Home() {
       if (response.ok) {
         const result = await response.json();
         if (result.success && result.data) {
-          // Mark as Farcaster enhanced user and set user data
-          const userData = {
-            ...result.data,
-            _isFarcasterEnhanced: true
-          };
-          setUser(userData, 'farcaster');
+          // Use the same profile view as regular search - no special handling needed
+          setUser(result.data, 'farcaster');
         } else {
           console.error('Failed to get user data:', result.error);
         }
@@ -113,15 +108,7 @@ export default function Home() {
   };
 
   if (user) {
-    // Check if this is a Farcaster user with enhanced data or has Farcaster userkey
-    const isFarcasterUser = (user as any)._isFarcasterEnhanced || user.userkeys?.some((key: string) => key.startsWith('service:farcaster:'));
-    
-    if (isFarcasterUser) {
-      return (
-        <EnhancedFarcasterProfile user={user} onBackToSearch={handleBackToSearch} />
-      );
-    }
-    
+    // Use the same unified profile view for all users - no special Farcaster handling
     return (
       <UserProfileView user={user} onBackToSearch={handleBackToSearch} onUserSearch={setUser} searchMode={searchMode} />
     );

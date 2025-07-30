@@ -15,6 +15,9 @@ interface FarcasterShareButtonProps {
 }
 
 export function FarcasterShareButton({ user, compact = false }: FarcasterShareButtonProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  
   const userkey = user?.userkeys?.[0] || '';
   const displayName = user?.displayName || user?.username || 'Anonymous';
   const score = user?.score || 0;
@@ -61,6 +64,16 @@ ${frameUrl}`;
     openWarpcast();
   };
 
+  const copyFrameUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(frameUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
+
   if (compact) {
     return (
       <button 
@@ -68,7 +81,7 @@ ${frameUrl}`;
         className="flex items-center gap-1.5 px-2 py-1 rounded-lg backdrop-blur-md bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 hover:text-purple-200 transition-all duration-300 text-xs font-medium group ml-2"
       >
         <SiFarcaster className="w-3 h-3 transition-transform group-hover:scale-110" />
-        <span>Flex</span>
+        <span>Flex Your Card</span>
       </button>
     );
   }

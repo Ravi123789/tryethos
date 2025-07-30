@@ -142,7 +142,7 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                 analysis.allReviews.map((reviewItem: any, index: number) => {
                   
                   return (
-                    <div key={index} className="py-3 border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors duration-200">
+                    <div key={index} className="py-3 border-b border-white/10 last:border-b-0 hover:bg-white/5 rounded-lg px-2 -mx-2 transition-all duration-200 hover:scale-[1.01]">
                       
                       {/* Compact Review Layout */}
                       <div className="flex items-center justify-between gap-3">
@@ -198,9 +198,9 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                               </span>
                               
                               {reviewItem.isReciprocal ? (
-                                <span className="text-orange-300 text-xl font-bold px-1">⇄</span>
+                                <span className="text-emerald-400 text-xl font-bold px-2">⟷</span>
                               ) : (
-                                <span className="text-white/80 text-xl font-bold px-1">→</span>
+                                <span className="text-white/80 text-xl font-bold px-2">→</span>
                               )}
                               
                               {/* Reciprocal review sentiment (your response) */}
@@ -221,7 +221,7 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                                 {reviewItem.review?.sentiment === 'positive' ? 'positive' : 'negative'}
                               </span>
                               
-                              <span className="text-white/80 text-xl font-bold">→</span>
+                              <span className="text-white/80 text-xl font-bold px-2">→</span>
                             </>
                           )}
                         </div>
@@ -269,13 +269,15 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                       {/* Compact Timing information for reciprocal reviews */}
                       {reviewItem.isReciprocal && reviewItem.reciprocalReview && (
                         <div className="mt-2 text-center">
-                          <span className={`text-sm font-medium ${
-                            reviewItem.reciprocalReview.timeGap && reviewItem.reciprocalReview.timeGap <= 30
-                              ? 'text-red-300'
-                              : 'text-blue-300'
-                          }`}>
-                            {reviewItem.reciprocalReview.timeGap && reviewItem.reciprocalReview.timeGap <= 30 ? '🚨 Quick' : '↩️ Back'} in {formatTimeGap(reviewItem.reciprocalReview.timeGap || 0)}
-                          </span>
+                          <div className="flex items-center justify-center">
+                            <span className={`text-sm font-medium px-2 py-1 rounded-md ${
+                              reviewItem.reciprocalReview.timeGap && reviewItem.reciprocalReview.timeGap <= 30
+                                ? 'text-red-200 bg-red-500/20'
+                                : 'text-blue-200 bg-blue-500/20'
+                            }`}>
+                              📅 {reviewItem.reciprocalReview.timeGap && reviewItem.reciprocalReview.timeGap <= 30 ? 'Quick' : 'Back'} in {formatTimeGap(reviewItem.reciprocalReview.timeGap || 0)}
+                            </span>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -289,17 +291,28 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
               )}
             </div>
 
-            {/* Simple Bottom Analysis */}
+            {/* Enhanced Coordinated Activity Warning */}
             {analysis.r4rScore > 30 && (
-              <div className="mt-4 pt-3 border-t border-white/10 text-center">
-                <div className={`text-sm font-semibold ${
-                  analysis.r4rScore >= 70 ? 'text-red-400' :
-                  analysis.r4rScore >= 40 ? 'text-orange-400' :
-                  'text-yellow-400'
+              <div className="mt-4 pt-4 border-t border-white/10 text-center">
+                <div className={`p-4 rounded-xl border-2 shadow-lg ${
+                  analysis.r4rScore >= 70 ? 'bg-red-900/30 border-red-400/60 shadow-red-500/25 animate-pulse' :
+                  analysis.r4rScore >= 40 ? 'bg-red-900/30 border-orange-400/60 shadow-orange-500/25 animate-pulse' :
+                  'bg-yellow-900/20 border-yellow-400/40 shadow-yellow-500/15'
                 }`}>
-                  {analysis.r4rScore >= 70 ? '🚨 Review farming detected' :
-                   analysis.r4rScore >= 40 ? '⚠️ Coordinated review activity' :
-                   '📊 Mutual review activity'}
+                  <div className={`text-lg font-black ${
+                    analysis.r4rScore >= 70 ? 'text-red-200' :
+                    analysis.r4rScore >= 40 ? 'text-orange-200' :
+                    'text-yellow-200'
+                  }`}>
+                    ⚠️ {analysis.r4rScore >= 70 ? 'COORDINATED ACTIVITY DETECTED' :
+                     analysis.r4rScore >= 40 ? 'COORDINATED ACTIVITY WARNING' :
+                     'MUTUAL REVIEW ACTIVITY'}
+                  </div>
+                  <div className="text-sm text-white/70 mt-1">
+                    {analysis.r4rScore >= 70 ? 'Strong indicators of review farming behavior' :
+                     analysis.r4rScore >= 40 ? 'Elevated mutual review activity detected' :
+                     'Moderate mutual review patterns observed'}
+                  </div>
                 </div>
               </div>
             )}

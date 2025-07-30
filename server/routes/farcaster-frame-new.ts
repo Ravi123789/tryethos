@@ -20,12 +20,29 @@ router.get('/frame/:userkey', async (req, res) => {
     ? `https://${process.env.REPLIT_DEV_DOMAIN}`
     : `http://localhost:${process.env.PORT || 5000}`;
 
-  let cardImageUrl = `${baseUrl}${getImageUrl(userkey)}`;
+  // Resolve userkey if it's a username format
+  let resolvedUserkey = decodeURIComponent(userkey);
+  
+  if (!resolvedUserkey.includes('service:') && !resolvedUserkey.includes('address:') && !resolvedUserkey.includes('profileId:')) {
+    try {
+      const searchResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/search-suggestions?q=${encodeURIComponent(resolvedUserkey)}&limit=1`);
+      if (searchResponse.ok) {
+        const searchResult = await searchResponse.json();
+        if (searchResult.success && searchResult.data && searchResult.data.length > 0) {
+          resolvedUserkey = searchResult.data[0].userkey;
+        }
+      }
+    } catch (error) {
+      // Username resolution failed, continue with original
+    }
+  }
+
+  let cardImageUrl = `${baseUrl}${getImageUrl(resolvedUserkey)}`;
   let frameTitle = 'Check Your Ethos Trust Score';
   let frameDescription = 'Generate your personalized trust reputation card';
 
   try {
-    const profileResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/enhanced-profile/${userkey}`);
+    const profileResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/enhanced-profile/${encodeURIComponent(resolvedUserkey)}`);
     if (profileResponse.ok) {
       const profileResult = await profileResponse.json();
       if (profileResult.success && profileResult.data) {
@@ -81,13 +98,32 @@ router.get('/card/:userkey', async (req, res) => {
     const canvas = createCanvas(600, 315);
     const ctx = canvas.getContext('2d');
 
+    // STEP 1: Resolve userkey if it's a username format
+    let resolvedUserkey = decodeURIComponent(userkey);
+    
+    // If userkey doesn't contain service format, try to resolve it as username
+    if (!resolvedUserkey.includes('service:') && !resolvedUserkey.includes('address:') && !resolvedUserkey.includes('profileId:')) {
+      try {
+        const searchResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/search-suggestions?q=${encodeURIComponent(resolvedUserkey)}&limit=1`);
+        if (searchResponse.ok) {
+          const searchResult = await searchResponse.json();
+          if (searchResult.success && searchResult.data && searchResult.data.length > 0) {
+            resolvedUserkey = searchResult.data[0].userkey;
+            // Resolved username to userkey
+          }
+        }
+      } catch (error) {
+        // Username resolution failed, continue with original
+      }
+    }
+
     // Get user data and enhanced profile with error handling
     let user: any = null;
     let enhancedProfile: any = null;
     let dashboardData: any = null;
 
     try {
-      const profileResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/enhanced-profile/${userkey}`);
+      const profileResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/enhanced-profile/${encodeURIComponent(resolvedUserkey)}`);
       if (profileResponse.ok) {
         const profileResult = await profileResponse.json();
         // Profile data successfully loaded
@@ -103,7 +139,7 @@ router.get('/card/:userkey', async (req, res) => {
 
     // Get dashboard review data
     try {
-      const dashboardResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/dashboard-reviews/${userkey}`);
+      const dashboardResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/dashboard-reviews/${encodeURIComponent(resolvedUserkey)}`);
       if (dashboardResponse.ok) {
         dashboardData = await dashboardResponse.json();
       }
@@ -114,7 +150,7 @@ router.get('/card/:userkey', async (req, res) => {
     // Get vouch data using our API endpoint
     let vouchData: any = null;
     try {
-      const vouchResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/user-vouch-activities/${userkey}`);
+      const vouchResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/user-vouch-activities/${encodeURIComponent(resolvedUserkey)}`);
       if (vouchResponse.ok) {
         const vouchResult = await vouchResponse.json();
         if (vouchResult.success && vouchResult.data) {

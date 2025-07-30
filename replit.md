@@ -47,6 +47,7 @@
 - **✅ Fixed Manifest Structure**: Changed from "frame" to "miniapp" key and added buttonTitle field to match Farcaster specification
 - **✅ Farcaster SDK Integration**: Added @farcaster/miniapp-sdk package with proper sdk.actions.ready() call to hide splash screen
 - **✅ Card Data Fix**: Fixed Farcaster card generation to use correct API endpoints for vouches and reviews data display
+- **✅ Username Resolution Bug Fix**: Fixed critical bug where usernames weren't resolved to proper userkeys, causing 0 vouch/review display instead of actual data
 
 ### Farcaster Auto-Detect Card Optimization - July 30, 2025
 **✅ FARCASTER AUTO-DETECT CARD OPTIMIZATION COMPLETE**: Successfully optimized auto-detect card with compact sizing and improved navigation spacing

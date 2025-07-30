@@ -44,6 +44,7 @@
 - **✅ Farcaster Account Association**: Added authenticated account association credentials for FID 190522 to verify ethosradar.com domain ownership
 - **✅ Logo Route Fix**: Added explicit /logo.png server route to properly serve orange/teal circular logo on ethosradar.com
 - **✅ Complete Frame Manifest**: Updated Farcaster manifest with full frame configuration including subtitle, description, category, and tags for proper app store listing
+- **✅ Fixed Manifest Structure**: Changed from "frame" to "miniapp" key and added buttonTitle field to match Farcaster specification
 
 ### Farcaster Auto-Detect Card Optimization - July 30, 2025
 **✅ FARCASTER AUTO-DETECT CARD OPTIMIZATION COMPLETE**: Successfully optimized auto-detect card with compact sizing and improved navigation spacing

@@ -371,61 +371,47 @@ export function WalletScanner() {
             
 
 
-            {/* Modern Glassmorphism Toggle */}
-            <div className="flex justify-center mb-6">
-              <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-600 rounded-2xl p-1.5 shadow-2xl shadow-black/25 dark:shadow-black/80">
-                <div className="flex items-center gap-2">
+            {/* Compact Modern Toggle */}
+            <div className="flex justify-center mb-4">
+              <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-600 rounded-lg p-1 shadow-lg">
+                <div className="flex items-center gap-1">
                   {/* Global Search Option */}
                   <button
-                    onClick={() => {
-                      if (farcasterMode) {
-                        toggleFarcasterMode();
-                      }
-                    }}
+                    onClick={() => setFarcasterMode(false)}
                     className={`
-                      relative px-4 py-2.5 rounded-lg transition-all duration-200 flex items-center gap-2 
-                      min-w-[130px] min-h-[44px] justify-center font-semibold text-sm
+                      relative px-3 py-1.5 rounded-md transition-all duration-200 flex items-center gap-1.5 
+                      min-w-[90px] justify-center font-medium text-sm
                       ${!farcasterMode 
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25' 
-                        : 'bg-gray-700 text-white/80 hover:text-white hover:bg-gray-600'
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25' 
+                        : 'text-white/70 hover:text-white hover:bg-gray-700/50'
                       }
                     `}
                   >
-                    <span className="text-base">🌐</span>
+                    <span className="text-sm">🌐</span>
                     <span>Global</span>
                   </button>
                   
                   {/* Farcaster Option */}
                   <button
-                    onClick={() => {
-                      if (!farcasterMode) {
-                        toggleFarcasterMode();
-                      }
-                    }}
+                    onClick={() => setFarcasterMode(true)}
                     className={`
-                      relative px-4 py-2.5 rounded-lg transition-all duration-200 flex items-center gap-2 
-                      min-w-[130px] min-h-[44px] justify-center font-semibold text-sm
+                      relative px-3 py-1.5 rounded-md transition-all duration-200 flex items-center gap-1.5 
+                      min-w-[90px] justify-center font-medium text-sm
                       ${farcasterMode 
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25' 
-                        : 'bg-gray-700 text-white/80 hover:text-white hover:bg-gray-600'
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25' 
+                        : 'text-white/70 hover:text-white hover:bg-gray-700/50'
                       }
                     `}
                   >
-                    <SiFarcaster className="w-4 h-4" />
+                    <SiFarcaster className="w-3 h-3" />
                     <span>Farcaster</span>
                     {farcasterMode && (
-                      <span className="text-[9px] font-bold px-1 py-0.5 bg-white/20 text-white/90 rounded-md">
+                      <span className="text-[8px] font-bold px-1 py-0.5 bg-white/20 text-white/90 rounded">
                         β
                       </span>
                     )}
                   </button>
                 </div>
-                
-                {/* Subtle glow effect */}
-                <div className={`
-                  absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300
-                  ${farcasterMode ? 'opacity-30 bg-blue-500/10' : 'opacity-20 bg-blue-400/5'}
-                `}></div>
               </div>
             </div>
             

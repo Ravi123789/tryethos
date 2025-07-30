@@ -13,9 +13,9 @@
 - **✅ Minimized Beta Notice**: Reduced beta warning to elegant notification with animated indicator
 - **✅ Theme Consistency**: Perfect integration with existing glassmorphism design language
 - **✅ Enhanced UX**: Clear visual state indication with professional tab-based interface
-- **✅ Button Consistency**: Equal width buttons (min-w-[130px]) with perfect symmetry and gap-2 spacing
+- **✅ Compact Design**: Smaller buttons (min-w-[90px]) with reduced padding and gap-1 spacing for modern compact look
 - **✅ Visual Hierarchy**: Added globe emoji (🌐) for Global and Farcaster icon with perfectly centered text
-- **✅ Touch Optimization**: Ensured 44px minimum height for mobile with proper touch targets and rounded-lg corners
+- **✅ Simplified Toggle**: Direct setFarcasterMode(true/false) calls for reliable state switching without conditional logic
 - **✅ State Management**: Active buttons use blue background, inactive use gray-700 with smooth transitions
 
 ### Perfect Glassmorphism Search Suggestions with Enhanced Text Effects - July 30, 2025

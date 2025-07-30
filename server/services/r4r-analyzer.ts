@@ -253,7 +253,7 @@ export class R4RAnalyzer {
       const pairKey = `${receivedReview.author.userkey}_${receivedReview.id}`;
 
       if (!processedPairs.has(pairKey)) {
-        const reviewData = {
+        const reviewData: any = {
           id: receivedReview.id || `received_${Date.now()}_${Math.random()}`,
           type: 'received' as const,
           isReciprocal,
@@ -838,6 +838,35 @@ export class R4RAnalyzer {
       console.error('R4R Analysis error:', error);
       return null;
     }
+  }
+
+  // Missing method implementations that the API endpoints expect
+  async getR4RAnalytics(userkey: string) {
+    return await this.analyzeUser(userkey);
+  }
+
+  async getR4RAnalysis(userkey: string) {
+    return await this.analyzeUser(userkey);
+  }
+
+  async getNetworkAnalysis(userkey: string) {
+    // Simplified network analysis - just return some basic data
+    const analysis = await this.analyzeUser(userkey);
+    return {
+      networkConnections: analysis?.networkConnections || [],
+      crossConnections: [],
+      networkSuspiciousScore: analysis?.r4rScore || 0
+    };
+  }
+
+  async getR4RSummary(userkey: string) {
+    const analysis = await this.analyzeUser(userkey);
+    return {
+      reciprocalRate: analysis?.reciprocalPercentage || 0,
+      totalReviews: analysis?.totalReviewsReceived || 0,
+      riskLevel: analysis?.riskLevel || 'Low',
+      r4rScore: analysis?.r4rScore || 0
+    };
   }
 }
 

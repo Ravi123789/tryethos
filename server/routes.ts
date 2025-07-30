@@ -201,13 +201,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const data = await response.json();
       
       if (data.ok && data.data && data.data.values) {
-        // Simple conversion to our format
+        // Simple conversion to our format with null safety
         const suggestions = data.data.values.map((user: any) => ({
-          userkey: user.userkey,
-          displayName: user.name,
-          username: user.username,
-          avatarUrl: user.avatar,
-          score: user.score,
+          userkey: user.userkey || '',
+          displayName: user.name || user.username || 'Unknown User',
+          username: user.username || 'unknown',
+          avatarUrl: user.avatar || '',
+          score: user.score || 0,
           description: user.description || ''
         }));
         
@@ -326,18 +326,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
               }
               
               suggestions.push({
-                userkey: userkey,
-                displayName: user.displayName,
+                userkey: userkey || `farcaster:${cleanUsername}`,
+                displayName: user.displayName || cleanUsername,
                 username: cleanUsername, // Clean username without .eth suffix
-                avatarUrl: avatarUrl,
+                avatarUrl: avatarUrl || '',
                 score: user.score || 0,
                 description: user.description || `Farcaster: @${cleanUsername}`,
                 farcasterUsername: cleanUsername,
                 hasEthosAccount: true,
-                status: user.status,
-                xpTotal: user.xpTotal,
-                xpStreakDays: user.xpStreakDays,
-                profileId: user.profileId
+                status: user.status || 'ACTIVE',
+                xpTotal: user.xpTotal || 0,
+                xpStreakDays: user.xpStreakDays || 0,
+                profileId: user.profileId || 0
               });
               
               if (suggestions.length >= limit) break;
@@ -2199,6 +2199,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Avatar proxy error:', error);
       res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+  // Add missing API endpoints that frontend is calling
+
+  // R4R Analytics endpoint 
+  app.get("/api/r4r-analytics/:userkey", async (req, res) => {
+    try {
+      const userkey = decodeURIComponent(req.params.userkey);
+      const result = await r4rAnalyzer.getR4RAnalytics(userkey);
+      res.json({ success: true, data: result });
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Internal server error' 
+      });
+    }
+  });
+
+  // R4R Analysis endpoint  
+  app.get("/api/r4r-analysis/:userkey", async (req, res) => {
+    try {
+      const userkey = decodeURIComponent(req.params.userkey);
+      const result = await r4rAnalyzer.getR4RAnalysis(userkey);
+      res.json({ success: true, data: result });
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Internal server error' 
+      });
+    }
+  });
+
+  // R4R Network Analysis endpoint
+  app.post("/api/r4r-network-analysis", async (req, res) => {
+    try {
+      const { userkey } = z.object({
+        userkey: z.string().min(1),
+      }).parse(req.body);
+      
+      const result = await r4rAnalyzer.getNetworkAnalysis(userkey);
+      res.json({ success: true, data: result });
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Internal server error' 
+      });
+    }
+  });
+
+  // R4R Summary endpoint
+  app.get("/api/r4r-summary/:userkey", async (req, res) => {
+    try {
+      const userkey = decodeURIComponent(req.params.userkey);
+      const result = await r4rAnalyzer.getR4RSummary(userkey);
+      res.json({ success: true, data: result });
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Internal server error' 
+      });
     }
   });
 

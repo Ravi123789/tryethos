@@ -140,12 +140,12 @@ export function useR4RAnalytics(user: EthosUser | undefined) {
     queryFn: async () => {
       if (!user) return null;
       
-      // Calculate R4R metrics based on user stats
-      const totalReviews = user.stats.review.received.positive + 
-                          user.stats.review.received.neutral + 
-                          user.stats.review.received.negative;
+      // Calculate R4R metrics based on user stats with null safety
+      const totalReviews = (user.stats?.review?.received?.positive || 0) + 
+                          (user.stats?.review?.received?.neutral || 0) + 
+                          (user.stats?.review?.received?.negative || 0);
       
-      const vouchCount = user.stats.vouch.received.count;
+      const vouchCount = user.stats?.vouch?.received?.count || 0;
       
       // Calculate reciprocal rate based on actual user activity
       const score = user.score || 0;

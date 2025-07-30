@@ -21,6 +21,27 @@ function getTierInfo(score: number) {
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
+  // Farcaster Mini App Manifest endpoint
+  app.get('/.well-known/farcaster.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    const manifest = {
+      version: "next",
+      name: "EthosRadar",
+      button: {
+        title: "Scan Your Trust Score",
+        action: {
+          type: "launch_frame",
+          name: "EthosRadar",
+          url: "/",
+          splashImageUrl: "/splash.png",
+          splashBackgroundColor: "#0F172A"
+        }
+      }
+    };
+    res.json(manifest);
+  });
+
   // Mount Farcaster frame routes
   app.use('/farcaster', farcasterFrameRoutes);
 

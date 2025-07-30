@@ -40,6 +40,7 @@
 - **✅ Deployment Ready**: Logo uploaded, all dependencies verified, production deployment initiated
 - **✅ Farcaster Manifest Updated**: Updated fc:frame meta tags to use new logo, proper button configuration, and deployment-ready URLs
 - **✅ Mini App Domain Fix**: Updated Farcaster Mini App manifest to use correct Replit domain, removed old ethosradar.com references
+- **✅ HTML Entity Encoding Fix**: Fixed fc:miniapp meta tag with proper HTML entity encoding to prevent build process stripping
 
 ### Farcaster Auto-Detect Card Optimization - July 30, 2025
 **✅ FARCASTER AUTO-DETECT CARD OPTIMIZATION COMPLETE**: Successfully optimized auto-detect card with compact sizing and improved navigation spacing

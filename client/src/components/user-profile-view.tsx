@@ -279,11 +279,13 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                       <h1 className="text-2xl font-bold text-white truncate">
                         {user.displayName}
                       </h1>
-                      {/* Compact Farcaster Share Button */}
-                      <FarcasterShareButton 
-                        user={user}
-                        compact={true}
-                      />
+                      {/* Enhanced Flex Button Positioning */}
+                      <div className="flex-shrink-0">
+                        <FarcasterShareButton 
+                          user={user}
+                          compact={true}
+                        />
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 flex-wrap">
                       <p className="text-white/60 text-sm">@{user.username}</p>
@@ -430,21 +432,30 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
               </div>
             ) : (
               <div className="text-center mb-8">
-                <div className="relative inline-block">
-                  {/* Score background with original tier styling */}
-                  <div className={`relative backdrop-blur-xl bg-gradient-to-br ${tierInfo.colors.bg} border border-white/20 rounded-2xl p-6 mb-3 ${tierInfo.colors.glow} shadow-xl`}>
-                    <div className={`text-5xl font-black bg-gradient-to-br ${tierInfo.colors.text === 'text-blue-300' ? 'from-blue-300 to-cyan-400' : tierInfo.colors.text === 'text-emerald-300' ? 'from-emerald-300 to-teal-400' : tierInfo.colors.text === 'text-purple-300' ? 'from-purple-300 to-violet-400' : tierInfo.colors.text === 'text-amber-300' ? 'from-amber-300 to-orange-400' : 'from-gray-300 to-slate-400'} bg-clip-text text-transparent`}>
-                      {animatedScore}
-                    </div>
-                    <div className="text-sm font-bold text-white/80 uppercase tracking-widest mt-1">
-                      Trust Score
+                <div className="relative inline-block group">
+                  {/* Enhanced Score Card with Better Visual Hierarchy */}
+                  <div className={`relative backdrop-blur-2xl bg-gradient-to-br ${tierInfo.colors.bg} border-2 border-white/30 rounded-3xl p-8 mb-4 ${tierInfo.colors.glow} shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-3xl group-hover:border-white/40`}>
+                    {/* Floating accent orbs */}
+                    <div className="absolute top-4 right-6 w-3 h-3 bg-gradient-to-r from-white/30 to-white/20 rounded-full animate-pulse"></div>
+                    <div className="absolute bottom-6 left-8 w-2 h-2 bg-gradient-to-r from-white/25 to-white/15 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+                    
+                    {/* Enhanced gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/5 via-transparent to-white/10 rounded-3xl pointer-events-none"></div>
+                    
+                    <div className="relative">
+                      <div className={`text-6xl font-black bg-gradient-to-br ${tierInfo.colors.text === 'text-blue-300' ? 'from-blue-200 to-cyan-300' : tierInfo.colors.text === 'text-emerald-300' ? 'from-emerald-200 to-teal-300' : tierInfo.colors.text === 'text-purple-300' ? 'from-purple-200 to-violet-300' : tierInfo.colors.text === 'text-amber-300' ? 'from-amber-200 to-orange-300' : 'from-gray-200 to-slate-300'} bg-clip-text text-transparent drop-shadow-2xl`}>
+                        {animatedScore}
+                      </div>
+                      <div className="text-sm font-bold text-white/90 uppercase tracking-[0.2em] mt-2 drop-shadow-lg">
+                        Trust Score
+                      </div>
                     </div>
                   </div>
 
-                  {/* Tier Badge */}
-                  <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${tierInfo.colors.bg} border ${tierInfo.colors.border} text-white font-bold text-sm ${tierInfo.colors.glow}`}>
-                    <IconComponent className="w-4 h-4" />
-                    <span className="uppercase tracking-wide">{tierInfo.shortTier}</span>
+                  {/* Enhanced Tier Badge */}
+                  <div className={`inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-gradient-to-r ${tierInfo.colors.bg} border-2 ${tierInfo.colors.border} text-white font-bold text-base ${tierInfo.colors.glow} shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl`}>
+                    <IconComponent className="w-5 h-5" />
+                    <span className="uppercase tracking-wider">{tierInfo.tier}</span>
                   </div>
                 </div>
               </div>
@@ -456,15 +467,15 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
 
 
 
-            {/* Dashboard Navigation Tabs */}
+            {/* Enhanced Dashboard Navigation Tabs */}
             <div className="flex items-center justify-center mb-6">
-              <div className="flex items-center bg-gray-800/50 rounded-xl p-1 border border-gray-600/30">
+              <div className="flex items-center backdrop-blur-xl bg-white/8 border border-white/20 rounded-2xl p-1.5 shadow-xl">
                 <button
                   onClick={() => setActiveView('overview')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                  className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap min-h-[44px] ${
                     activeView === 'overview'
-                      ? 'bg-white/10 text-white shadow-sm'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                      ? 'bg-white/15 text-white shadow-lg shadow-white/10 scale-105'
+                      : 'text-white/70 hover:text-white hover:bg-white/8 hover:scale-102'
                   }`}
                 >
                   <BarChart3 className="w-4 h-4 flex-shrink-0" />
@@ -472,10 +483,10 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                 </button>
                 <button
                   onClick={() => setActiveView('activity')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                  className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap min-h-[44px] ${
                     activeView === 'activity'
-                      ? 'bg-white/10 text-white shadow-sm'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                      ? 'bg-white/15 text-white shadow-lg shadow-white/10 scale-105'
+                      : 'text-white/70 hover:text-white hover:bg-white/8 hover:scale-102'
                   }`}
                 >
                   <Activity className="w-4 h-4 flex-shrink-0" />
@@ -483,10 +494,10 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                 </button>
                 <button
                   onClick={() => setActiveView('network')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                  className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap min-h-[44px] ${
                     activeView === 'network'
-                      ? 'bg-white/10 text-white shadow-sm'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                      ? 'bg-white/15 text-white shadow-lg shadow-white/10 scale-105'
+                      : 'text-white/70 hover:text-white hover:bg-white/8 hover:scale-102'
                   }`}
                 >
                   <Network className="w-4 h-4 flex-shrink-0" />
@@ -510,16 +521,18 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                     <>
                       {/* Stats Grid - Compact 2x2 Layout */}
                       <div className="grid grid-cols-2 gap-4 mb-6">
-                        {/* Rank - Only show for active/established users */}
+                        {/* Enhanced Rank Card - Only show for active/established users */}
                         {!needsInvite && (
-                          <div className="backdrop-blur-md bg-gray-900/15 rounded-xl p-4 hover:bg-gray-900/20 transition-all duration-300 shadow-lg shadow-orange-400/20 hover:shadow-orange-400/30">
-                            <div className="flex items-center gap-2 mb-2">
-                              <TrendingUp className="w-4 h-4 text-orange-400" />
-                              <span className="text-xs text-white/60 font-medium uppercase tracking-wide">Rank</span>
+                          <div className="backdrop-blur-xl bg-gradient-to-br from-orange-500/15 to-yellow-500/10 border border-orange-400/20 rounded-2xl p-5 hover:bg-gradient-to-br hover:from-orange-500/20 hover:to-yellow-500/15 hover:border-orange-400/30 transition-all duration-500 shadow-xl shadow-orange-400/20 hover:shadow-orange-400/30 group">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="p-2 bg-orange-500/20 rounded-xl">
+                                <TrendingUp className="w-5 h-5 text-orange-400" />
+                              </div>
+                              <span className="text-sm text-white/80 font-semibold uppercase tracking-wide">Global Rank</span>
                             </div>
-                            <div className="text-2xl font-bold text-white">
+                            <div className="text-3xl font-black text-white group-hover:scale-105 transition-transform duration-300">
                               {isEnhancedLoading ? (
-                                <div className="loading-shimmer loading-pulse-soft h-6 w-16 rounded loading-glow"></div>
+                                <div className="loading-shimmer loading-pulse-soft h-8 w-20 rounded-lg loading-glow bg-gradient-to-r from-orange-300/20 to-yellow-300/20"></div>
                               ) : (
                                 `#${leaderboardPosition || 'N/A'}`
                               )}

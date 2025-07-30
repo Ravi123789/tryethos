@@ -36,14 +36,14 @@ export function R4RRiskDetailsPopup({ analysis, trigger }: R4RRiskDetailsPopupPr
     <Button 
       variant="outline" 
       size="sm" 
-      className="h-8 px-3 text-xs font-medium border-red-200 text-red-700 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/20 cursor-pointer"
+      className="h-9 px-4 text-sm font-semibold border-2 border-red-400/30 text-red-300 hover:bg-red-500/10 hover:border-red-400/50 dark:border-red-600/40 dark:text-red-400 dark:hover:bg-red-500/20 transition-all duration-300 rounded-lg shadow-lg hover:shadow-red-500/20 min-h-[44px]"
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
         setIsOpen(true);
       }}
     >
-      <Eye className="h-3 w-3 mr-1" />
+      <Eye className="h-4 w-4 mr-2" />
       View Details
     </Button>
   );
@@ -57,15 +57,22 @@ export function R4RRiskDetailsPopup({ analysis, trigger }: R4RRiskDetailsPopupPr
       <DialogTrigger asChild>
         {trigger || defaultTrigger}
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-red-500" />
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto backdrop-blur-2xl bg-white/95 dark:bg-gray-900/95 border-2 border-white/20 shadow-2xl">
+        <DialogHeader className="relative">
+          <DialogTitle className="flex items-center gap-3 text-xl">
+            <AlertTriangle className="h-6 w-6 text-red-500" />
             High Risk R4R Analysis Details
-            <Badge className={`ml-2 ${getRiskColor(analysis.riskLevel)}`}>
+            <Badge className={`ml-2 px-3 py-1 text-sm font-semibold ${getRiskColor(analysis.riskLevel)}`}>
               {analysis.riskLevel} Risk
             </Badge>
           </DialogTitle>
+          {/* Enhanced close button */}
+          <button
+            onClick={() => setIsOpen(false)}
+            className="absolute top-0 right-0 p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-all duration-200 group min-h-[44px] min-w-[44px] flex items-center justify-center"
+          >
+            <X className="h-5 w-5 text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-200" />
+          </button>
         </DialogHeader>
 
         <div className="space-y-6">

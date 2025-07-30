@@ -101,26 +101,45 @@ export function NextRankProgress({ currentScore, className = '' }: NextRankProgr
         </div>
       </div>
       
-      {/* Progress Bar */}
+      {/* Enhanced Progress Bar with Better Visual Indicators */}
       <div className="relative mb-3">
-        <Progress 
-          value={animatedProgress} 
-          className="h-3 bg-white/10 rounded-full overflow-hidden"
-        />
+        <div className="h-4 bg-white/8 rounded-full overflow-hidden border border-white/10">
+          <motion.div 
+            className={`h-full bg-gradient-to-r ${nextTier.colors} rounded-full relative overflow-hidden`}
+            initial={{ width: "0%" }}
+            animate={{ width: `${animatedProgress}%` }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+          >
+            {/* Shimmer effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse"></div>
+            {/* Progress indicator dot */}
+            {animatedProgress > 5 && (
+              <div className="absolute right-1 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow-lg"></div>
+            )}
+          </motion.div>
+        </div>
+        
+        {/* Enhanced Glow effect */}
         <motion.div 
-          className={`absolute top-0 left-0 h-full bg-gradient-to-r ${nextTier.colors} rounded-full transition-all duration-1000 ease-out`}
+          className={`absolute top-0 left-0 h-4 bg-gradient-to-r ${nextTier.colors} rounded-full opacity-40 blur-md -z-10`}
           initial={{ width: "0%" }}
           animate={{ width: `${animatedProgress}%` }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
         />
         
-        {/* Glow effect for progress */}
-        <motion.div 
-          className={`absolute top-0 left-0 h-full bg-gradient-to-r ${nextTier.colors} rounded-full opacity-60 blur-sm`}
-          initial={{ width: "0%" }}
-          animate={{ width: `${animatedProgress}%` }}
-          transition={{ duration: 1, ease: "easeOut" }}
-        />
+        {/* Progress percentage overlay */}
+        {animatedProgress > 20 && (
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.4 }}
+          >
+            <span className="text-xs font-bold text-white drop-shadow-lg">
+              {animatedProgress.toFixed(0)}%
+            </span>
+          </motion.div>
+        )}
       </div>
       
       {/* Tier Information */}

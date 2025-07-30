@@ -95,33 +95,35 @@ export function R4RDataSection({ userkey, userProfile: passedUserProfile }: R4RD
         </div>
       </div>
       
-      {/* Enhanced R4R Score with Prominent Risk Indicators */}
-      <div className={`mb-4 p-5 rounded-xl border-2 shadow-lg ${
+      {/* Fixed R4R Score Card with Proper Grid Layout */}
+      <div className={`mb-4 p-4 rounded-xl border-2 shadow-lg ${
         r4rAnalysis.r4rScore >= 75 ? 'bg-gradient-to-r from-red-500/25 to-red-600/25 border-red-400/50 shadow-red-500/20' :
         r4rAnalysis.r4rScore >= 50 ? 'bg-gradient-to-r from-orange-500/25 to-yellow-500/25 border-orange-400/50 shadow-orange-500/20' :
         'bg-gradient-to-r from-purple-500/15 to-blue-500/15 border-purple-400/30 shadow-purple-500/10'
       }`}>
-        <div className="flex items-center justify-between">
-          <div>
-            <div className={`text-5xl font-black mb-1 ${
+        <div className="grid grid-cols-2 gap-4">
+          {/* Left Column - R4R Risk Score */}
+          <div className="text-center space-y-1">
+            <div className={`text-3xl font-bold ${
               r4rAnalysis.r4rScore >= 75 ? 'text-red-200 animate-pulse' :
               r4rAnalysis.r4rScore >= 50 ? 'text-orange-200 animate-pulse' :
               'text-white'
             }`}>
               {r4rAnalysis.r4rScore.toFixed(1)}%
             </div>
-            <div className="text-sm text-white/80 font-semibold">R4R Risk Score</div>
+            <div className="text-sm text-gray-400">R4R Risk Score</div>
           </div>
-          <div className="text-right">
-            <div className={`text-2xl font-black flex items-center mb-1 ${
+          
+          {/* Right Column - Reciprocal Rate */}
+          <div className="text-center space-y-1">
+            <div className={`text-3xl font-bold ${
               r4rAnalysis.reciprocalPercentage >= 75 ? 'text-red-200' :
               r4rAnalysis.reciprocalPercentage >= 50 ? 'text-orange-200' :
               'text-purple-300'
             }`}>
-              <TrendingUp className="w-6 h-6 mr-2" />
               {r4rAnalysis.reciprocalPercentage.toFixed(1)}%
             </div>
-            <div className="text-sm text-white/80 font-semibold">Reciprocal Rate</div>
+            <div className="text-sm text-gray-400">Reciprocal Rate</div>
           </div>
         </div>
       </div>

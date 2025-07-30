@@ -236,7 +236,7 @@ export function WalletScanner() {
   return (
     <>
       <div className="w-full">
-        <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-700 rounded-2xl p-6 md:p-6 px-4 hover:bg-gray-800/50 transition-all duration-500 w-full pb-10 shadow-2xl shadow-black/25 dark:shadow-black/80 space-y-6">
+        <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-700 rounded-2xl p-6 md:p-6 px-4 hover:bg-gray-800/50 transition-all duration-500 w-full pb-8 shadow-2xl shadow-black/25 dark:shadow-black/80 space-y-4">
           {/* Floating background elements */}
           <div className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 dark:from-gray-600/10 dark:to-gray-700/10 rounded-full blur-xl animate-pulse"></div>
           <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-gradient-to-br from-purple-400/10 to-pink-400/10 dark:from-gray-500/10 dark:to-gray-600/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
@@ -286,7 +286,7 @@ export function WalletScanner() {
                       textShadow: '1px 1px 3px rgba(0,0,0,0.7)'
                     }}
                     className={`
-                      w-full px-4 py-3 pr-12 border-none 
+                      w-full px-4 py-2.5 pr-12 border-none 
                       text-white text-lg font-semibold
                       placeholder:font-medium placeholder-gray-400
                       focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none
@@ -371,16 +371,16 @@ export function WalletScanner() {
             
 
 
-            {/* Compact Modern Toggle */}
-            <div className="flex justify-center mb-4">
+            {/* Optimized Compact Toggle */}
+            <div className="flex justify-center mb-3">
               <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-600 rounded-lg p-1 shadow-lg">
                 <div className="flex items-center gap-1">
                   {/* Global Search Option */}
                   <button
                     onClick={() => setFarcasterMode(false)}
                     className={`
-                      relative px-3 py-1.5 rounded-md transition-all duration-200 flex items-center gap-1.5 
-                      min-w-[90px] justify-center font-medium text-sm
+                      relative px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-1 
+                      min-w-[85px] justify-center font-medium text-sm min-h-[40px]
                       ${!farcasterMode 
                         ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25' 
                         : 'text-white/70 hover:text-white hover:bg-gray-700/50'
@@ -395,8 +395,8 @@ export function WalletScanner() {
                   <button
                     onClick={() => setFarcasterMode(true)}
                     className={`
-                      relative px-3 py-1.5 rounded-md transition-all duration-200 flex items-center gap-1.5 
-                      min-w-[90px] justify-center font-medium text-sm
+                      relative px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-1 
+                      min-w-[85px] justify-center font-medium text-sm min-h-[40px]
                       ${farcasterMode 
                         ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25' 
                         : 'text-white/70 hover:text-white hover:bg-gray-700/50'
@@ -415,10 +415,10 @@ export function WalletScanner() {
               </div>
             </div>
             
-            {/* Subtle Farcaster Beta Notice */}
+            {/* Optimized Farcaster Beta Notice */}
             {farcasterMode && (
-              <div className="flex justify-center mb-4">
-                <div className="flex items-center gap-2 px-3 py-1.5 backdrop-blur-md bg-blue-900/15 border border-blue-500/20 rounded-xl text-blue-200/80 text-xs">
+              <div className="flex justify-center mb-3">
+                <div className="flex items-center gap-2 px-3 py-1 backdrop-blur-md bg-blue-900/15 border border-blue-500/20 rounded-xl text-blue-200/80 text-xs">
                   <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></span>
                   <span>Experimental feature</span>
                 </div>
@@ -439,11 +439,11 @@ export function WalletScanner() {
             </div>
           )}
           
-          {/* Auto-detection component space */}
-          <div className="h-20"></div>
+          {/* Optimized auto-detection component space */}
+          <div className="h-16"></div>
 
-          {/* Built On Ethos Network text at very bottom edge */}
-          <div className="absolute bottom-3 left-6 right-6">
+          {/* Built On Ethos Network text at bottom edge */}
+          <div className="absolute bottom-2 left-6 right-6">
             <div className="flex items-center justify-center gap-2 text-white/60 text-sm">
               <span>Built On Ethos Network</span>
               <img 

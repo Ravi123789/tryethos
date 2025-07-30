@@ -236,7 +236,7 @@ export function WalletScanner() {
   return (
     <>
       <div className="w-full">
-        <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-700 rounded-2xl p-6 md:p-6 p-4 hover:bg-gray-700/50 transition-all duration-500 w-full pb-10 shadow-2xl shadow-black/25 dark:shadow-black/80">
+        <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-700 rounded-2xl p-6 md:p-6 px-4 hover:bg-gray-800/50 transition-all duration-500 w-full pb-10 shadow-2xl shadow-black/25 dark:shadow-black/80 space-y-6">
           {/* Floating background elements */}
           <div className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 dark:from-gray-600/10 dark:to-gray-700/10 rounded-full blur-xl animate-pulse"></div>
           <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-gradient-to-br from-purple-400/10 to-pink-400/10 dark:from-gray-500/10 dark:to-gray-600/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
@@ -247,14 +247,14 @@ export function WalletScanner() {
               {/* Main search container with enhanced glassmorphism + Farcaster mode */}
               <div className={`
                 relative backdrop-blur-xl bg-white/10 dark:bg-white/5
-                border border-gray-700 rounded-2xl overflow-hidden 
-                transition-all duration-500 ease-out
+                border border-gray-600 rounded-2xl overflow-hidden 
+                transition-all duration-200 ease-out
                 shadow-2xl shadow-black/25 dark:shadow-black/80
                 ${farcasterMode 
                   ? 'border-purple-500/70 shadow-lg shadow-purple-500/20 bg-gradient-to-r from-purple-900/30 via-purple-800/15 to-purple-900/30' + 
                     (showFarcasterAnimation ? ' shadow-xl shadow-purple-500/30' : '')
                   : isFocused 
-                    ? 'border-gray-600 bg-gray-700/20' 
+                    ? 'border-blue-500 ring-1 ring-blue-500 bg-gray-700/20' 
                     : 'hover:border-gray-600 hover:bg-gray-700/30'
                 }
               `}>
@@ -286,16 +286,16 @@ export function WalletScanner() {
                       textShadow: '1px 1px 3px rgba(0,0,0,0.7)'
                     }}
                     className={`
-                      w-full px-6 py-5 md:px-6 md:py-5 px-4 py-4 pr-12 md:pr-12 pr-10 border-none 
-                      text-white text-lg md:text-lg text-base font-semibold
-                      placeholder:font-medium placeholder:text-white/90
+                      w-full px-4 py-3 pr-12 border-none 
+                      text-white text-lg font-semibold
+                      placeholder:font-medium placeholder-gray-400
                       focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none
-                      transition-all duration-300 rounded-2xl min-h-[44px]
+                      transition-all duration-200 rounded-2xl min-h-[44px]
                       ${farcasterMode 
                         ? 'placeholder:text-purple-200/90' 
-                        : 'placeholder:text-white/90'
+                        : 'placeholder-gray-400'
                       }
-                      ${isFocused ? 'placeholder:text-white/95' : ''}
+                      ${isFocused ? 'placeholder:text-gray-300' : ''}
                     `}
                   />
                   
@@ -369,13 +369,41 @@ export function WalletScanner() {
               )}
             </div>
             
-            {/* Farcaster Search Toggle Button */}
-            <div className="flex justify-center mt-4 mb-2">
+            {/* Search Button */}
+            <div className="flex justify-center mt-6 mb-4">
+              <button
+                onClick={handleSearch}
+                disabled={!query.trim() || searchMutation.isPending}
+                className={`
+                  group relative px-6 py-3 rounded-2xl backdrop-blur-xl 
+                  border transition-all duration-200 hover:scale-105
+                  shadow-2xl shadow-black/25 dark:shadow-black/80 min-h-[44px]
+                  ${!query.trim() || searchMutation.isPending
+                    ? 'bg-gray-600/50 border-gray-600 text-gray-400 cursor-not-allowed'
+                    : 'bg-blue-600 hover:bg-blue-700 border-blue-500 text-white'
+                  }
+                `}
+              >
+                <div className="flex items-center gap-3">
+                  {searchMutation.isPending ? (
+                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                  ) : (
+                    <Search className="w-5 h-5" />
+                  )}
+                  <span className="text-base font-semibold">
+                    {searchMutation.isPending ? 'Searching...' : 'Search Trust Score'}
+                  </span>
+                </div>
+              </button>
+            </div>
+
+            {/* Farcaster Mode Toggle - moved below search button */}
+            <div className="flex justify-center mb-2">
               <button
                 onClick={toggleFarcasterMode}
                 className={`
                   group relative px-6 py-3 rounded-2xl backdrop-blur-xl 
-                  border border-gray-700 transition-all duration-300 hover:scale-105
+                  border border-gray-700 transition-all duration-200 hover:scale-105
                   shadow-2xl shadow-black/25 dark:shadow-black/80 min-h-[44px]
                   ${farcasterMode 
                     ? 'bg-purple-500/20 border-purple-500/50 text-purple-100 shadow-lg shadow-purple-500/20' +
@@ -467,6 +495,9 @@ export function WalletScanner() {
             </div>
           )}
           
+          {/* Auto-detection component space */}
+          <div className="h-20"></div>
+
           {/* Built On Ethos Network text at very bottom edge */}
           <div className="absolute bottom-3 left-6 right-6">
             <div className="flex items-center justify-center gap-2 text-white/60 text-sm">

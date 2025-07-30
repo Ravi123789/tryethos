@@ -30,9 +30,9 @@ export default function Home() {
         if (context?.user) {
           setDetectedUser({
             fid: context.user.fid,
-            username: context.user.username,
-            displayName: context.user.displayName,
-            pfpUrl: context.user.pfpUrl
+            username: context.user.username || '',
+            displayName: context.user.displayName || '',
+            pfpUrl: context.user.pfpUrl || ''
           });
         }
       } catch (error) {
@@ -147,33 +147,33 @@ export default function Home() {
         {detectedUser && (
           <div className="w-full mx-auto mb-6 px-4">
             <div className="max-w-7xl mx-auto">
-              <div className="backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/15 shadow-2xl shadow-black/25 dark:shadow-black/80 rounded-xl p-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
+              <div className="backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/15 shadow-2xl shadow-black/25 dark:shadow-black/80 rounded-lg p-3 flex items-center justify-between mb-6">
+                <div className="flex items-center gap-2">
                   {detectedUser.pfpUrl ? (
                     <img 
                       src={detectedUser.pfpUrl} 
                       alt={detectedUser.displayName || 'Profile'}
-                      className="w-12 h-12 rounded-full border-2 border-white/20 object-cover"
+                      className="w-10 h-10 rounded-full border-2 border-white/20 object-cover"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
                       }}
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full border-2 border-white/20 bg-gray-600 flex items-center justify-center text-white text-xl font-bold">
+                    <div className="w-10 h-10 rounded-full border-2 border-white/20 bg-gray-600 flex items-center justify-center text-white text-lg font-bold">
                       {detectedUser.displayName ? detectedUser.displayName[0].toUpperCase() : '?'}
                     </div>
                   )}
                   <div>
-                    <p className="text-white font-semibold">{detectedUser.displayName || 'Farcaster User'}</p>
-                    <p className="text-white/60 text-sm">@{detectedUser.username} • Your Profile</p>
+                    <p className="text-white text-base font-medium">{detectedUser.displayName || 'Farcaster User'}</p>
+                    <p className="text-gray-400 text-xs">@{detectedUser.username} • Your Profile</p>
                   </div>
                 </div>
                 <button 
                   onClick={() => handleViewProfile(detectedUser.username)}
-                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg flex items-center gap-2 text-white font-medium transition-colors duration-200 min-h-[44px]"
+                  className="bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md text-sm flex items-center gap-1 text-white transition-colors duration-200 min-h-[44px]"
                 >
-                  View Profile →
+                  View →
                 </button>
               </div>
             </div>

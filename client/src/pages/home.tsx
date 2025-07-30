@@ -89,7 +89,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query: username })
+        body: JSON.stringify({ farcasterUsername: username })
       });
 
       if (response.ok) {
@@ -101,7 +101,11 @@ export default function Home() {
             _isFarcasterEnhanced: true
           };
           setUser(userData, 'farcaster');
+        } else {
+          console.error('Failed to get user data:', result.error);
         }
+      } else {
+        console.error('API request failed:', response.status);
       }
     } catch (error) {
       console.error('Failed to search for Farcaster user:', error);

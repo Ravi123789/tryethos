@@ -651,24 +651,27 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                       <span className="text-sm text-white font-medium">Weekly Momentum</span>
                     </div>
                     
-                    <div className="w-full min-h-[60px] px-4 py-3 overflow-hidden">
-                      <div className="grid grid-cols-3 gap-2 items-center">
+                    <div className="w-full min-h-[70px] px-2 py-3 overflow-hidden">
+                      <div className="grid grid-cols-3 gap-1 items-center">
                         {/* Streak Days */}
-                        <div className="flex flex-col items-center text-center">
-                          <div className="loading-shimmer loading-pulse-soft h-6 w-12 rounded-lg mb-2 loading-glow bg-gradient-to-r from-white/10 to-white/5"></div>
-                          <div className="text-xs sm:text-sm text-white/60 font-medium">🔥 Streak</div>
+                        <div className="flex flex-col items-center text-center px-1">
+                          <div className="loading-shimmer loading-pulse-soft h-5 w-10 rounded-lg mb-2 loading-glow bg-gradient-to-r from-white/10 to-white/5"></div>
+                          <div className="text-xs text-white/60 font-medium">🔥 Streak</div>
                         </div>
                         
                         {/* Score Change */}
-                        <div className="flex flex-col items-center text-center">
-                          <div className="loading-shimmer loading-pulse-soft h-6 w-16 rounded-lg mb-2 loading-glow bg-gradient-to-r from-white/10 to-white/5"></div>
-                          <div className="text-xs sm:text-sm text-white/60 font-medium">📈 Score</div>
+                        <div className="flex flex-col items-center text-center px-1">
+                          <div className="space-y-1">
+                            <div className="loading-shimmer loading-pulse-soft h-4 w-12 rounded-lg loading-glow bg-gradient-to-r from-white/10 to-white/5"></div>
+                            <div className="loading-shimmer loading-pulse-soft h-3 w-8 rounded-lg loading-glow bg-gradient-to-r from-white/10 to-white/5 mx-auto"></div>
+                          </div>
+                          <div className="text-xs text-white/60 font-medium mt-2">📈 Score</div>
                         </div>
                         
                         {/* XP Gained */}
-                        <div className="flex flex-col items-center text-center">
-                          <div className="loading-shimmer loading-pulse-soft h-6 w-12 rounded-lg mb-2 loading-glow bg-gradient-to-r from-white/10 to-white/5"></div>
-                          <div className="text-xs sm:text-sm text-white/60 font-medium">⚡ XP</div>
+                        <div className="flex flex-col items-center text-center px-1">
+                          <div className="loading-shimmer loading-pulse-soft h-5 w-12 rounded-lg mb-2 loading-glow bg-gradient-to-r from-white/10 to-white/5"></div>
+                          <div className="text-xs text-white/60 font-medium">⚡ XP</div>
                         </div>
                       </div>
                     </div>
@@ -702,41 +705,48 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                             <span className="text-sm text-white font-semibold">Weekly Momentum</span>
                           </div>
                           
-                          <div className="w-full min-h-[60px] px-4 py-3 overflow-hidden">
-                            <div className="grid grid-cols-3 gap-2 items-center">
+                          <div className="w-full min-h-[70px] px-2 py-3 overflow-hidden">
+                            <div className="grid grid-cols-3 gap-1 items-center">
                               {/* Streak Days */}
-                              <div className="flex flex-col items-center text-center">
-                                <div className="text-lg sm:text-xl font-bold text-white whitespace-nowrap">
+                              <div className="flex flex-col items-center text-center px-1">
+                                <div className="text-base sm:text-lg font-bold text-white whitespace-nowrap">
                                   {displayStreakDays}d
                                 </div>
-                                <div className="text-xs sm:text-sm text-white/60 font-medium">🔥 Streak</div>
+                                <div className="text-xs text-white/60 font-medium">🔥 Streak</div>
                               </div>
                               
                               {/* Score Change */}
-                              <div className="flex flex-col items-center text-center">
-                                <div className="flex items-center justify-center gap-1 text-sm sm:text-base font-bold whitespace-nowrap">
+                              <div className="flex flex-col items-center text-center px-1">
+                                <div className="flex flex-col items-center gap-0.5 text-xs sm:text-sm font-bold">
                                   {summary?.scoreChange > 0 ? (
                                     <>
-                                      <ArrowUp className="w-3 h-3 text-green-400 flex-shrink-0" />
-                                      <span className="text-green-400">+{summary.scoreChange}</span>
-                                      <span className="text-xs text-white/60">(+{((summary.scoreChange / (user.score || 1)) * 100).toFixed(1)}%)</span>
+                                      <div className="flex items-center gap-1">
+                                        <ArrowUp className="w-2.5 h-2.5 text-green-400 flex-shrink-0" />
+                                        <span className="text-green-400">+{summary.scoreChange}</span>
+                                      </div>
+                                      <span className="text-[10px] text-white/60">(+{((summary.scoreChange / (user.score || 1)) * 100).toFixed(1)}%)</span>
                                     </>
                                   ) : summary?.scoreChange < 0 ? (
                                     <>
-                                      <ArrowDown className="w-3 h-3 text-red-400 flex-shrink-0" />
-                                      <span className="text-red-400">{summary.scoreChange}</span>
-                                      <span className="text-xs text-white/60">({Math.abs((summary.scoreChange / (user.score || 1)) * 100).toFixed(1)}%)</span>
+                                      <div className="flex items-center gap-1">
+                                        <ArrowDown className="w-2.5 h-2.5 text-red-400 flex-shrink-0" />
+                                        <span className="text-red-400">{summary.scoreChange}</span>
+                                      </div>
+                                      <span className="text-[10px] text-white/60">({Math.abs((summary.scoreChange / (user.score || 1)) * 100).toFixed(1)}%)</span>
                                     </>
                                   ) : (
-                                    <span className="text-white">0 <span className="text-xs text-white/60">(0.0%)</span></span>
+                                    <>
+                                      <span className="text-white">0</span>
+                                      <span className="text-[10px] text-white/60">(0.0%)</span>
+                                    </>
                                   )}
                                 </div>
-                                <div className="text-xs sm:text-sm text-white/60 font-medium">📈 Score</div>
+                                <div className="text-xs text-white/60 font-medium">📈 Score</div>
                               </div>
                               
                               {/* XP Gained */}
-                              <div className="flex flex-col items-center text-center">
-                                <div className="text-lg sm:text-xl font-bold text-white whitespace-nowrap">
+                              <div className="flex flex-col items-center text-center px-1">
+                                <div className="text-base sm:text-lg font-bold text-white whitespace-nowrap">
                                   {(() => {
                                     const xp = displayXpGain;
                                     if (xp >= 1000) {
@@ -745,7 +755,7 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                                     return `+${xp}`;
                                   })()}
                                 </div>
-                                <div className="text-xs sm:text-sm text-white/60 font-medium">⚡ XP</div>
+                                <div className="text-xs text-white/60 font-medium">⚡ XP</div>
                               </div>
                             </div>
                           </div>

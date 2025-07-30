@@ -22,10 +22,28 @@ export function formatXP(xp: number): string {
 }
 
 /**
- * Format currency values with $ prefix
+ * Format currency values with $ prefix and proper rounding
  */
 export function formatCurrency(amount: number): string {
-  return '$' + formatNumber(amount);
+  // Round to 2 decimal places to fix floating point precision issues
+  const rounded = Math.round(amount * 100) / 100;
+  
+  if (rounded >= 1_000_000_000) {
+    return '$' + (rounded / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
+  }
+  if (rounded >= 1_000_000) {
+    return '$' + (rounded / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+  }
+  if (rounded >= 1_000) {
+    return '$' + (rounded / 1_000).toFixed(1).replace(/\.0$/, '') + 'K';
+  }
+  if (rounded >= 100) {
+    return '$' + rounded.toFixed(0);
+  }
+  if (rounded >= 10) {
+    return '$' + rounded.toFixed(1);
+  }
+  return '$' + rounded.toFixed(2);
 }
 
 /**

@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User, Crown, Sparkles } from 'lucide-react';
+import { User, Crown, Sparkles, Shield, Hash } from 'lucide-react';
+import { SiFarcaster } from 'react-icons/si';
 // Theme provider removed - dark mode only
 
 interface SearchSuggestion {
@@ -118,7 +119,7 @@ export function SearchSuggestionsBelow({
       ref={dropdownRef}
       className={`search-suggestions-dropdown absolute top-full left-0 right-0 mt-2 rounded-2xl overflow-hidden shadow-2xl border border-gray-700 shadow-2xl shadow-black/40 ${isMobile() ? 'below-search-mobile' : 'below-search-desktop'}`}
       style={{
-        maxHeight: isMobile() ? '280px' : '320px',
+        maxHeight: isMobile() ? '400px' : '500px',
         transform: 'translate3d(0,0,0)',
         backdropFilter: 'blur(60px) saturate(200%)',
         WebkitBackdropFilter: 'blur(60px) saturate(200%)',
@@ -176,7 +177,7 @@ export function SearchSuggestionsBelow({
       )}
 
       {!isLoading && !error && suggestions.length > 0 && (
-        <div className={`relative overflow-y-auto ${isMobile() ? 'max-h-[240px]' : 'max-h-[280px]'}`}>
+        <div className={`relative overflow-y-auto ${isMobile() ? 'max-h-[320px]' : 'max-h-[400px]'}`}>
           {suggestions.map((suggestion: SearchSuggestion, index: number) => {
             const { tier, animation: tierAnimation } = getTierInfo(suggestion.score);
             
@@ -184,100 +185,116 @@ export function SearchSuggestionsBelow({
               <div 
                 key={`${suggestion.userkey}-${index}`}
                 onClick={() => handleSelect(suggestion)}
-                className={`relative flex items-center cursor-pointer transition-all duration-200 group border-b border-gray-700/50 last:border-b-0 ${
-                  isMobile() ? 'px-4 py-3' : 'px-4 py-3'
-                } ${
-                  farcasterMode 
-                    ? 'hover:bg-purple-500/20 active:bg-purple-500/30 hover:backdrop-blur-md'
-                    : 'hover:bg-gray-700/50 active:bg-gray-700/70 hover:backdrop-blur-md'
-                } ${
-                  tierAnimation === 'excellent' ? 'tier-excellent' : 
-                  tierAnimation === 'good' ? 'tier-good' : ''
-                }`}
+                className={`
+                  relative flex items-center cursor-pointer transition-all duration-300 group 
+                  min-h-[70px] p-4 border-b border-gray-700/30 last:border-b-0
+                  hover:bg-gray-700/40 hover:border-gray-600/50 active:bg-gray-700/60
+                  ${farcasterMode ? 'hover:bg-blue-600/20 active:bg-blue-600/30' : ''}
+                  ${tierAnimation === 'excellent' ? 'tier-excellent' : 
+                    tierAnimation === 'good' ? 'tier-good' : ''
+                  }
+                `}
                 style={{ 
-                  touchAction: 'manipulation', 
-                  minHeight: '48px'
+                  touchAction: 'manipulation'
                 }}
               >
-                {/* Background blur overlay for text readability */}
-                <div className="absolute inset-0 bg-black/10 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                {/* Enhanced hover overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
-                {/* Avatar */}
-                <Avatar className={`${isMobile() ? 'h-10 w-10' : 'h-10 w-10'} ring-2 transition-all duration-200 flex-shrink-0 mr-3 ${
-                  farcasterMode
-                    ? 'ring-blue-500/30 dark:ring-blue-400/20 group-hover:ring-blue-400/50 dark:group-hover:ring-blue-300/40'
-                    : 'ring-gray-300/30 dark:ring-gray-500/20 group-hover:ring-gray-400/50 dark:group-hover:ring-gray-400/40'
-                } ${
-                  tierAnimation === 'excellent' ? 'ring-amber-500/60 group-hover:ring-amber-400/70' :
-                  tierAnimation === 'good' ? 'ring-emerald-500/50 group-hover:ring-emerald-400/60' : ''
-                }`}>
-                  <AvatarImage 
-                    src={suggestion.avatarUrl && suggestion.avatarUrl.includes('pbs.twimg.com') 
-                      ? `/api/avatar-proxy?url=${encodeURIComponent(suggestion.avatarUrl)}`
-                      : suggestion.avatarUrl
-                    } 
-                    alt={suggestion.displayName || suggestion.username}
-                    crossOrigin="anonymous"
-                  />
-                  <AvatarFallback className={`text-white flex items-center justify-center ${
-                    isMobile() ? 'text-sm' : 'text-xs'
-                  } font-bold transition-all duration-200 ${
+                {/* Larger Avatar with platform indicator */}
+                <div className="relative flex-shrink-0 mr-4">
+                  <Avatar className={`h-12 w-12 ring-2 transition-all duration-300 ${
                     farcasterMode
-                      ? 'bg-gradient-to-br from-gray-500/80 to-gray-700/70 border border-white/30 dark:border-white/20'
-                      : 'bg-gradient-to-br from-gray-500/80 to-gray-700/70 border border-white/30 dark:border-white/20'
+                      ? 'ring-blue-500/40 group-hover:ring-blue-400/60'
+                      : 'ring-gray-400/30 group-hover:ring-gray-300/50'
+                  } ${
+                    tierAnimation === 'excellent' ? 'ring-amber-500/60 group-hover:ring-amber-400/80' :
+                    tierAnimation === 'good' ? 'ring-emerald-500/50 group-hover:ring-emerald-400/70' : ''
                   }`}>
-                    {suggestion.displayName ? 
-                      suggestion.displayName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2) :
-                      suggestion.username ? 
-                        suggestion.username.slice(0, 2).toUpperCase() :
-                        <User className={`${isMobile() ? 'h-4 w-4' : 'h-3 w-3'} text-white/80`} />
-                    }
-                  </AvatarFallback>
-                </Avatar>
+                    <AvatarImage 
+                      src={suggestion.avatarUrl && suggestion.avatarUrl.includes('pbs.twimg.com') 
+                        ? `/api/avatar-proxy?url=${encodeURIComponent(suggestion.avatarUrl)}`
+                        : suggestion.avatarUrl
+                      } 
+                      alt={suggestion.displayName || suggestion.username}
+                      crossOrigin="anonymous"
+                    />
+                    <AvatarFallback className="text-white flex items-center justify-center text-lg font-bold bg-gradient-to-br from-gray-600/80 to-gray-800/70 border border-white/20">
+                      {suggestion.displayName ? 
+                        suggestion.displayName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2) :
+                        suggestion.username ? 
+                          suggestion.username.slice(0, 2).toUpperCase() :
+                          <User className="h-5 w-5 text-white/80" />
+                      }
+                    </AvatarFallback>
+                  </Avatar>
+                  
+                  {/* Platform indicator */}
+                  <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border-2 border-gray-800 ${
+                    farcasterMode ? 'bg-blue-600' : 'bg-gray-600'
+                  }`}>
+                    {farcasterMode ? (
+                      <SiFarcaster className="w-3 h-3 text-white" />
+                    ) : (
+                      <Shield className="w-3 h-3 text-white" />
+                    )}
+                  </div>
+                </div>
 
-                {/* Compact User Info */}
+                {/* Enhanced User Info with better hierarchy */}
                 <div className="flex-1 min-w-0 relative z-10">
-                  <div className="flex items-center gap-1.5 mb-0.5">
-                    <h4 className={`font-bold transition-colors truncate ${
-                      isMobile() ? 'text-sm' : 'text-sm'
-                    } text-white dark:text-white drop-shadow-lg`}>
+                  {/* Display name with tier indicators */}
+                  <div className="flex items-center gap-2 mb-1">
+                    <h4 className="font-bold text-lg text-white drop-shadow-lg truncate group-hover:text-white transition-colors">
                       {suggestion.displayName || suggestion.username}
                     </h4>
                     {tierAnimation === 'excellent' && (
-                      <Crown className="h-2.5 w-2.5 text-amber-300 dark:text-amber-200 animate-pulse flex-shrink-0 drop-shadow-lg group-hover:text-amber-200 dark:group-hover:text-amber-100" />
+                      <Crown className="h-4 w-4 text-amber-300 animate-pulse flex-shrink-0 drop-shadow-lg" />
                     )}
                     {tierAnimation === 'good' && (
-                      <Sparkles className="h-2.5 w-2.5 text-emerald-300 dark:text-emerald-200 flex-shrink-0 drop-shadow-lg group-hover:text-emerald-200 dark:group-hover:text-emerald-100" />
+                      <Sparkles className="h-4 w-4 text-emerald-300 flex-shrink-0 drop-shadow-lg" />
                     )}
                   </div>
-                  <p className={`${isMobile() ? 'text-xs' : 'text-xs'} font-medium transition-colors truncate text-white/80 dark:text-white/80 drop-shadow-md`}>
+                  
+                  {/* Username handle */}
+                  <p className="text-sm font-medium text-white/70 drop-shadow-sm mb-2 truncate">
                     @{suggestion.username}
                   </p>
+                  
+                  {/* Trust score with context and icon */}
+                  <div className="flex items-center gap-2">
+                    <Hash className="w-4 h-4 text-white/60" />
+                    <span className="text-sm font-semibold text-white/80">
+                      Trust Score: 
+                    </span>
+                    <span className={`text-sm font-bold ${
+                      tierAnimation === 'excellent' 
+                        ? 'text-amber-300' 
+                        : tierAnimation === 'good' 
+                          ? 'text-emerald-300'
+                          : farcasterMode 
+                            ? 'text-blue-300' 
+                            : 'text-blue-300'
+                    }`}>
+                      {suggestion.score}
+                    </span>
+                  </div>
                 </div>
 
-                {/* Compact Score display */}
-                <div className="text-right flex-shrink-0 ml-2 relative z-10">
-                  <div className={`${isMobile() ? 'text-lg' : 'text-lg'} font-black transition-all duration-200 leading-none ${
+                {/* Enhanced tier badge */}
+                <div className="text-right flex-shrink-0 ml-4 relative z-10">
+                  <div className={`px-3 py-1.5 rounded-lg border transition-all duration-300 ${
                     tierAnimation === 'excellent' 
-                      ? 'text-amber-300 dark:text-amber-200 drop-shadow-lg group-hover:text-amber-200 dark:group-hover:text-amber-100 group-hover:drop-shadow-xl' 
+                      ? 'bg-amber-500/20 border-amber-400/40 text-amber-200 group-hover:bg-amber-500/30' 
                       : tierAnimation === 'good' 
-                        ? 'text-emerald-300 dark:text-emerald-200 drop-shadow-lg group-hover:text-emerald-200 dark:group-hover:text-emerald-100 group-hover:drop-shadow-xl'
+                        ? 'bg-emerald-500/20 border-emerald-400/40 text-emerald-200 group-hover:bg-emerald-500/30'
                         : farcasterMode 
-                          ? 'text-purple-300 dark:text-purple-200 drop-shadow-lg group-hover:text-purple-200 dark:group-hover:text-purple-100 group-hover:drop-shadow-xl' 
-                          : 'text-blue-300 dark:text-blue-200 drop-shadow-lg group-hover:text-blue-200 dark:group-hover:text-blue-100 group-hover:drop-shadow-xl'
+                          ? 'bg-blue-500/20 border-blue-400/40 text-blue-200 group-hover:bg-blue-500/30' 
+                          : 'bg-gray-500/20 border-gray-400/40 text-gray-200 group-hover:bg-gray-500/30'
                   }`}>
-                    {suggestion.score}
-                  </div>
-                  <div className={`text-xs uppercase tracking-wider font-bold transition-colors leading-none ${
-                    tierAnimation === 'excellent' 
-                      ? 'text-amber-200/90 dark:text-amber-300/90 drop-shadow-md group-hover:text-amber-100 dark:group-hover:text-amber-200'
-                      : tierAnimation === 'good' 
-                        ? 'text-emerald-200/90 dark:text-emerald-300/90 drop-shadow-md group-hover:text-emerald-100 dark:group-hover:text-emerald-200'
-                        : farcasterMode 
-                          ? 'text-purple-200/90 dark:text-purple-300/90 drop-shadow-md group-hover:text-purple-100 dark:group-hover:text-purple-200' 
-                          : 'text-blue-200/90 dark:text-blue-300/90 drop-shadow-md group-hover:text-blue-100 dark:group-hover:text-blue-200'
-                  }`}>
-                    {tier === 'excellent' ? 'EXC' : tier === 'good' ? 'REP' : 'NEU'}
+                    <div className="text-xs font-bold uppercase tracking-wider leading-none">
+                      {tier === 'excellent' ? 'Exemplary' : tier === 'good' ? 'Reputable' : 'Neutral'}
+                    </div>
                   </div>
                 </div>
               </div>

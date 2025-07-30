@@ -105,36 +105,45 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
         {/* Compact Glassmorphism Container */}
         <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-xl overflow-hidden">
           
-          {/* Compact Header */}
-          <div className="relative p-4 pb-3 border-b border-white/10">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+          {/* Mobile Optimized Header */}
+          <div className="relative flex items-start justify-between w-full p-4 border-b border-white/10">
+            {/* Left Content with Space for Close Button */}
+            <div className="flex-1 pr-12">
+              {/* Title Row with Risk Badge */}
+              <div className="flex items-center gap-3 mb-2">
                 <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
                   <span className="text-white text-sm font-bold">📝</span>
                 </div>
                 <span className="text-base font-semibold text-white/95">Review Patterns</span>
+                <div className="bg-orange-600 px-3 py-1 rounded-full text-sm font-medium text-white">
+                  {analysis.r4rScore?.toFixed(0) || 0}% Risk
+                </div>
               </div>
               
-              <div className={`px-3 py-1.5 rounded-lg text-sm font-semibold backdrop-blur-sm border ${getRiskColor(analysis.r4rScore || 0)}`}>
-                {analysis.r4rScore?.toFixed(0) || 0}% {getRiskLabel(analysis.r4rScore || 0)}
+              {/* Summary Text Below */}
+              <div className="text-gray-400 text-sm">
+                <span className="text-cyan-300 font-bold">{analysis.allReviews?.length || 0}</span> total reviews
+                {analysis.reciprocalReviews > 0 && (
+                  <span> • <span className="text-amber-300 font-bold">{analysis.reciprocalReviews}</span> reciprocal</span>
+                )}
+                {analysis.quickReciprocalCount > 0 && (
+                  <span> • <span className="text-orange-300 font-bold">{analysis.quickReciprocalCount}</span> quick</span>
+                )}
               </div>
             </div>
+            
+            {/* Close Button - Absolute Positioned */}
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 w-8 h-8 min-h-[44px] min-w-[44px] rounded-full hover:bg-gray-700 flex items-center justify-center transition-colors duration-200"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            </button>
           </div>
 
           {/* Compact Content */}
           <div className="relative p-4">
-            {/* Compact Summary */}
-            <div className="mb-4 text-center">
-              <div className="text-sm text-white/85 font-medium">
-                <span className="text-cyan-300 font-bold text-lg">{analysis.allReviews?.length || 0}</span> total reviews
-                {analysis.reciprocalReviews > 0 && (
-                  <span className="text-amber-300"> • <span className="font-bold">{analysis.reciprocalReviews}</span> reciprocal</span>
-                )}
-                {analysis.quickReciprocalCount > 0 && (
-                  <span className="text-orange-300"> • <span className="font-bold">{analysis.quickReciprocalCount}</span> quick</span>
-                )}
-              </div>
-            </div>
 
             {/* Compact Reviews Display */}
             <div className="space-y-2 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">

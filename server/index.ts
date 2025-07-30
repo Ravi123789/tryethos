@@ -46,7 +46,7 @@ app.use((req, res, next) => {
     const message = err.message || "Internal Server Error";
 
     res.status(status).json({ message });
-    console.error('Server error:', err);
+    // Server error handled
     // Don't re-throw the error to prevent crashes
   });
 

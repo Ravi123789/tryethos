@@ -35,7 +35,7 @@ router.get('/frame/:userkey', async (req, res) => {
       }
     }
   } catch (error) {
-    console.error('Error fetching user for frame:', error);
+    // Error fetching user for frame handled
   }
 
   const html = `
@@ -74,7 +74,7 @@ router.get('/frame/:userkey', async (req, res) => {
 router.get('/card/:userkey', async (req, res) => {
   const { userkey } = req.params;
   
-  console.log('🎨 Generating Farcaster card for:', userkey);
+  // Generate Farcaster card for user
 
   try {
     // Create canvas with proper dimensions for Farcaster (1.91:1 aspect ratio)
@@ -98,7 +98,7 @@ router.get('/card/:userkey', async (req, res) => {
         }
       }
     } catch (error) {
-      console.error('Error fetching user:', error);
+      // Error handled silently
     }
 
     // Get dashboard review data
@@ -108,7 +108,7 @@ router.get('/card/:userkey', async (req, res) => {
         dashboardData = await dashboardResponse.json();
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      // Error handled silently
     }
 
     // Extract data with fallbacks - use displayName as shown in profile
@@ -123,7 +123,7 @@ router.get('/card/:userkey', async (req, res) => {
     // Background image path validation
     const ethosCardBgPath = path.resolve(process.cwd(), 'public', 'ethos-card-bg.jpg');
     if (!fs.existsSync(ethosCardBgPath)) {
-      console.warn('Background image not found:', ethosCardBgPath);
+      // Background image not found, using fallback
     }
 
     // Create optimized glassmorphism background
@@ -259,7 +259,7 @@ router.get('/card/:userkey', async (req, res) => {
         
         // Error handler for background image - create monochrome fallback
         backgroundImg.onerror = () => {
-          console.warn('⚠️ Background image failed to load, using monochrome fallback');
+          // Background image failed to load, using monochrome fallback
           
           // Create transparent monochrome gradient fallback background
           const fallbackGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -460,7 +460,7 @@ router.get('/card/:userkey', async (req, res) => {
         
         nameStartX = avatarX + (avatarRadius * 2) + 12;
       } catch (error) {
-        console.error('Error loading avatar:', error);
+        // Error loading avatar handled
       }
     } else {
       // Default avatar with status ring - EXACT COPY

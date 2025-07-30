@@ -264,7 +264,7 @@ export class EthosApiClient {
           (user as any)._isFarcasterEnhanced = true;
           (user as any)._fid = fid;
           
-          console.log(`✅ Enhanced Farcaster Profile: ${farcasterUsername} (FID: ${fid}) with stats:`, user.stats);
+          // Enhanced Farcaster Profile retrieved
         }
       }
       
@@ -277,7 +277,7 @@ export class EthosApiClient {
             connectedAccounts = attestationResult.data.filter((att: any) => att.attestation?.service);
           }
         } catch (error) {
-          console.log('Could not fetch attestations for Farcaster user:', error);
+          // Could not fetch attestations for Farcaster user
         }
       }
       
@@ -319,13 +319,7 @@ export class EthosApiClient {
 
       const userData: EthosUser = await response.json();
       
-      // Log the actual data to debug
-      console.log(`FID API Response for ${fid}:`, {
-        xpTotal: userData.xpTotal,
-        xpStreakDays: userData.xpStreakDays,
-        score: userData.score,
-        displayName: userData.displayName
-      });
+      // FID API Response retrieved
       
       return {
         success: true,
@@ -641,7 +635,7 @@ export class EthosApiClient {
         data: scoreData
       };
     } catch (error) {
-      console.error('V1 Score fetch error:', error);
+      // V1 Score fetch error
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -675,7 +669,7 @@ export class EthosApiClient {
         data: historyData.data
       };
     } catch (error) {
-      console.error('V1 Score history fetch error:', error);
+      // V1 Score history fetch error
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -854,7 +848,7 @@ export class EthosApiClient {
         }
       };
     } catch (error) {
-      console.error('Error fetching user network data:', error);
+      // Error fetching user network data
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -1113,7 +1107,7 @@ export class EthosApiClient {
         }
       };
     } catch (error) {
-      console.error('Error fetching vouch activities:', error);
+      // Error fetching vouch activities
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Failed to fetch vouch activities'
@@ -1185,7 +1179,7 @@ export class EthosApiClient {
       }
       return null;
     } catch (error) {
-      console.error('Error fetching leaderboard position:', error);
+      // Error fetching leaderboard position
       return null;
     }
   }

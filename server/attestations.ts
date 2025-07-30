@@ -48,7 +48,7 @@ export async function getAttestations(profileId: number): Promise<Attestation[]>
     
     return [];
   } catch (error) {
-    console.error('Error fetching attestations:', error);
+    // Error fetching attestations handled
     return [];
   }
 }
@@ -77,7 +77,7 @@ export async function getExtendedAttestations(profileId: number): Promise<Extend
     
     return [];
   } catch (error) {
-    console.error('Error fetching extended attestations:', error);
+    // Error fetching extended attestations handled
     return [];
   }
 }

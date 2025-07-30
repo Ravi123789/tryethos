@@ -216,7 +216,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       return res.json({ success: true, data: [] });
     } catch (error) {
-      console.error("Error fetching from Ethos API:", error);
+      // Error fetching from Ethos API
       return res.json({ 
         success: false, 
         error: "Failed to fetch from Ethos API" 
@@ -269,12 +269,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           if (response.ok) {
             const data = await response.json();
             
-            // Log the API response for debugging
-            console.log(`🔍 Farcaster API Response for "${username}":`, {
-              users: data.users?.length || 0,
-              notFoundUsernames: data.notFoundUsernames || [],
-              errorUsernames: data.errorUsernames || []
-            });
+            // Farcaster API Response logged
             
             if (data.users && data.users.length > 0) {
               const userResult = data.users[0];
@@ -351,7 +346,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       return res.json({ success: true, data: suggestions });
     } catch (error) {
-      console.error("Error in Farcaster suggestions endpoint:", error);
+      // Error in Farcaster suggestions endpoint
       return res.json({ 
         success: false, 
         error: "Failed to fetch Farcaster suggestions" 
@@ -366,14 +361,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         farcasterUsername: z.string().min(1),
       }).parse(req.body);
 
-      console.log(`🔍 Farcaster Search with Global Fallback: ${farcasterUsername}`);
+      // Farcaster Search with Global Fallback
 
       // Step 1: Try to get FID from Farcaster username API
       const usernameResult = await ethosApi.getUserByFarcasterUsername(farcasterUsername);
       
       if (!usernameResult.success) {
         // Fallback to global search if no Farcaster user found
-        console.log(`🔍 No pure Farcaster user found for "${farcasterUsername}", trying global search fallback`);
+        // No pure Farcaster user found, trying global search fallback
         
         try {
           const globalSearchResult = await ethosApi.searchUsersV1(farcasterUsername, 10);
@@ -404,11 +399,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
               _originalQuery: farcasterUsername
             };
             
-            console.log(`✅ Found global search result for "${farcasterUsername}": ${bestMatch.name} (${bestMatch.score})`);
+            // Found global search result
             return res.json({ success: true, data: globalUser });
           }
         } catch (globalError) {
-          console.error('Global search fallback error:', globalError);
+          // Global search fallback error
         }
         
         return res.status(404).json({
@@ -435,7 +430,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const fid = farcasterKey.split(':')[2];
-      console.log(`🆔 Extracted FID: ${fid} for ${farcasterUsername}`);
+      // Extracted FID for user
 
       // Step 3: Get complete profile data using FID API endpoint
       const fidResult = await ethosApi.getUserByFarcasterFid(fid);
@@ -447,7 +442,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      console.log(`✨ Pure Farcaster Profile Retrieved for FID: ${fid}`);
+      // Pure Farcaster Profile Retrieved for FID
 
       // Return pure Farcaster profile data
       const enhancedUser = {
@@ -459,7 +454,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({ success: true, data: enhancedUser });
     } catch (error) {
-      console.error('Pure Farcaster search error:', error);
+      // Pure Farcaster search error
       res.status(500).json({ 
         success: false, 
         error: error instanceof Error ? error.message : 'Internal server error' 
@@ -487,7 +482,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         res.status(404).json(result);
       }
     } catch (error) {
-      console.error('Farcaster FID search error:', error);
+      // Farcaster FID search error
       res.status(500).json({ 
         success: false, 
         error: 'Failed to fetch Farcaster user by FID' 
@@ -816,7 +811,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Enhanced fallback: If no V2 API result, try V1 API and convert
       if (!userResult) {
-        console.log(`⚡ No V2 API result for ${userkey}, trying V1 fallback for enhanced profile`);
+        // No V2 API result, trying V1 fallback for enhanced profile
         
         try {
           const v1SearchResult = await ethosApi.searchUsersV1(userkey, 5);
@@ -844,7 +839,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
                   enhancedStatus = enhancedData.status;
                 }
               } catch (enhanceError) {
-                console.log(`Could not enhance V1 user data for ${userkey}:`, enhanceError);
+                // Could not enhance V1 user data
               }
             }
             
@@ -867,10 +862,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
               stats: null
             };
             
-            console.log(`✅ Enhanced V1 fallback result for ${userkey}: ${v1User.name} (score: ${v1User.score})`);
+            // Enhanced V1 fallback result
           }
         } catch (v1Error) {
-          console.error('V1 fallback error for enhanced profile:', v1Error);
+          // V1 fallback error for enhanced profile
         }
       }
 
@@ -1027,7 +1022,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         data: formattedAttestations
       });
     } catch (error) {
-      console.error('Error fetching attestations:', error);
+      // Error fetching attestations
       res.status(500).json({
         success: false,
         error: error instanceof Error ? error.message : 'Internal server error'
@@ -1194,13 +1189,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const userkey = decodeURIComponent(req.params.userkey);
     
     try {
-      console.log(`⚡ Dashboard Reviews API - Fetching for: ${userkey}`);
+      // Dashboard Reviews API - Fetching for user
       
       // Get user data with accurate review stats (not limited by pagination)
       const userResult = await ethosApi.getRealUserData(userkey);
       
       if (!userResult.success || !userResult.data?.stats?.review?.received) {
-        console.log(`❌ Dashboard Reviews API - No review stats for ${userkey}`);
+        // Dashboard Reviews API - No review stats for user
         return res.json({
           success: true,
           data: {
@@ -1224,7 +1219,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const positivePercentage = nonNeutralReviews > 0 ? 
         Math.round((positiveReviews / nonNeutralReviews) * 100) : 0;
       
-      console.log(`✅ Dashboard Reviews API - ${userkey}: ${totalReviews} total (${positiveReviews}+/${neutralReviews}~/${negativeReviews}-), ${positivePercentage}% positive (${positiveReviews}/${nonNeutralReviews} non-neutral)`);
+      // Dashboard Reviews API - successful response
       
       res.json({
         success: true,
@@ -1965,7 +1960,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json({ success: true, data: summary });
     } catch (error) {
-      console.error('Fast review summary error:', error);
+      // Fast review summary error
       res.json({
         success: true,
         data: { totalReviews: 0, positivePercentage: 0 }
@@ -2037,7 +2032,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         data: summary
       });
     } catch (error) {
-      console.error('R4R Summary error:', error);
+      // R4R Summary error
       res.status(500).json({
         success: false,
         error: error instanceof Error ? error.message : 'Internal server error'
@@ -2085,7 +2080,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         data: analysis
       });
     } catch (error) {
-      console.error('R4R Analysis error:', error);
+      // R4R Analysis error
       res.status(500).json({
         success: false,
         error: error instanceof Error ? error.message : 'Internal server error'
@@ -2150,7 +2145,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       });
     } catch (error) {
-      console.error('R4R Network Analysis error:', error);
+      // R4R Network Analysis error
       res.status(500).json({
         success: false,
         error: error instanceof Error ? error.message : 'Internal server error'
@@ -2197,7 +2192,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const buffer = Buffer.from(await response.arrayBuffer());
       res.send(buffer);
     } catch (error) {
-      console.error('Avatar proxy error:', error);
+      // Avatar proxy error
       res.status(500).json({ error: 'Internal server error' });
     }
   });

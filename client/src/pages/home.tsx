@@ -97,13 +97,13 @@ export default function Home() {
           // Use the same profile view as regular search - no special handling needed
           setUser(result.data, 'farcaster');
         } else {
-          console.error('Failed to get user data:', result.error);
+          // Handle error silently in production
         }
       } else {
-        console.error('API request failed:', response.status);
+        // Handle error silently in production
       }
     } catch (error) {
-      console.error('Failed to search for Farcaster user:', error);
+      // Handle error silently in production
     }
   };
 

@@ -399,36 +399,38 @@ export function WalletScanner() {
 
             {/* Modern Glassmorphism Toggle */}
             <div className="flex justify-center mb-6">
-              <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-600 rounded-2xl p-2 shadow-2xl shadow-black/25 dark:shadow-black/80">
-                <div className="flex items-center">
+              <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-600 rounded-2xl p-1.5 shadow-2xl shadow-black/25 dark:shadow-black/80">
+                <div className="flex items-center gap-2">
                   {/* Global Search Option */}
                   <button
                     onClick={() => !farcasterMode || toggleFarcasterMode()}
                     className={`
-                      relative px-4 py-2 rounded-xl transition-all duration-300 flex items-center gap-2 min-w-[120px] justify-center
+                      relative px-4 py-2.5 rounded-lg transition-all duration-200 flex items-center gap-2 
+                      min-w-[130px] min-h-[44px] justify-center font-semibold text-sm
                       ${!farcasterMode 
                         ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25' 
-                        : 'text-white/70 hover:text-white hover:bg-white/5'
+                        : 'bg-gray-700 text-white/80 hover:text-white hover:bg-gray-600'
                       }
                     `}
                   >
-                    <Search className="w-4 h-4" />
-                    <span className="text-sm font-semibold">Global</span>
+                    <span className="text-base">🌐</span>
+                    <span>Global</span>
                   </button>
                   
                   {/* Farcaster Option */}
                   <button
                     onClick={() => farcasterMode || toggleFarcasterMode()}
                     className={`
-                      relative px-4 py-2 rounded-xl transition-all duration-300 flex items-center gap-2 min-w-[120px] justify-center
+                      relative px-4 py-2.5 rounded-lg transition-all duration-200 flex items-center gap-2 
+                      min-w-[130px] min-h-[44px] justify-center font-semibold text-sm
                       ${farcasterMode 
                         ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25' 
-                        : 'text-white/70 hover:text-white hover:bg-white/5'
+                        : 'bg-gray-700 text-white/80 hover:text-white hover:bg-gray-600'
                       }
                     `}
                   >
                     <SiFarcaster className="w-4 h-4" />
-                    <span className="text-sm font-semibold">Farcaster</span>
+                    <span>Farcaster</span>
                     {farcasterMode && (
                       <span className="text-[9px] font-bold px-1 py-0.5 bg-white/20 text-white/90 rounded-md">
                         β

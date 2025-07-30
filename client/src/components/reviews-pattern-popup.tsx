@@ -100,7 +100,7 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
       <DialogTrigger asChild>
         {trigger || defaultTrigger}
       </DialogTrigger>
-      <DialogContent className="max-w-md max-h-[90vh] overflow-hidden p-0 border-0 bg-transparent">
+      <DialogContent className="max-w-md max-h-[90vh] overflow-hidden p-0 border-0 bg-transparent [&>button]:hidden">
         <DialogTitle className="sr-only">Review Patterns Analysis</DialogTitle>
         {/* Compact Glassmorphism Container */}
         <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-xl overflow-hidden">

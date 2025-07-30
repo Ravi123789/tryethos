@@ -8,6 +8,7 @@
 - **✅ Responsive Design**: Each section uses flex-col items-center text-center with responsive text sizes (text-xs sm:text-sm for labels)
 - **✅ Clean Layout Structure**: Left: "38d" with "🔥 Streak", Center: "+13 (+0.6%)" with "📈 Score", Right: "+28.2K" with "⚡ XP"
 - **✅ Loading State Consistency**: Updated skeleton animations to match new 3-column grid layout with proper responsive spacing
+- **✅ Review Patterns Modal Double Close Button Fix**: Fixed duplicate X buttons by hiding automatic DialogContent close button with [&>button]:hidden CSS selector
 - **✅ Flex Button Text Update**: Changed "Flex" button text to "Flex Your Card" in FarcasterShareButton component with proper state management
 - **✅ Component State Fixes**: Added missing useState hooks for isOpen, copied states and copyFrameUrl function to resolve LSP diagnostics
 - **✅ Tab Navigation Mobile Fix**: Fixed dashboard tab overflow by implementing proper mobile container with px-4 padding, flex justify-between layout, and responsive text (hidden sm:inline)

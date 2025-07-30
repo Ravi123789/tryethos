@@ -651,25 +651,24 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                       <span className="text-sm text-white font-medium">Weekly Momentum</span>
                     </div>
                     
-                    <div className="flex gap-6">
-                      {/* Streak Days - Prominent Left Position */}
-                      <div className="flex-shrink-0">
-                        <div className="loading-shimmer loading-pulse-soft h-8 w-16 rounded-lg mb-2 loading-glow bg-gradient-to-r from-white/10 to-white/5"></div>
-                        <div className="text-xs text-white/60 font-medium">🔥 Streak</div>
-                      </div>
-                      
-                      {/* Score Change and XP - Right Side Grid */}
-                      <div className="flex-1 grid grid-cols-2 gap-4">
-                        <div className="text-center">
-                          <div className="loading-shimmer loading-pulse-soft h-7 w-16 rounded-lg mb-2 loading-glow mx-auto bg-gradient-to-r from-white/10 to-white/5"></div>
-                          <div className="flex items-center justify-center gap-1 text-xs text-white/60 font-medium">
-                            <TrendingUp className="w-3 h-3" />
-                            <span>Score</span>
-                          </div>
+                    <div className="w-full min-h-[60px] px-4 py-3 overflow-hidden">
+                      <div className="grid grid-cols-3 gap-2 items-center">
+                        {/* Streak Days */}
+                        <div className="flex flex-col items-center text-center">
+                          <div className="loading-shimmer loading-pulse-soft h-6 w-12 rounded-lg mb-2 loading-glow bg-gradient-to-r from-white/10 to-white/5"></div>
+                          <div className="text-xs sm:text-sm text-white/60 font-medium">🔥 Streak</div>
                         </div>
-                        <div className="text-center">
-                          <div className="loading-shimmer loading-pulse-soft h-7 w-12 rounded-lg mb-2 loading-glow mx-auto bg-gradient-to-r from-white/10 to-white/5"></div>
-                          <div className="text-xs text-white/60 font-medium">⚡ XP</div>
+                        
+                        {/* Score Change */}
+                        <div className="flex flex-col items-center text-center">
+                          <div className="loading-shimmer loading-pulse-soft h-6 w-16 rounded-lg mb-2 loading-glow bg-gradient-to-r from-white/10 to-white/5"></div>
+                          <div className="text-xs sm:text-sm text-white/60 font-medium">📈 Score</div>
+                        </div>
+                        
+                        {/* XP Gained */}
+                        <div className="flex flex-col items-center text-center">
+                          <div className="loading-shimmer loading-pulse-soft h-6 w-12 rounded-lg mb-2 loading-glow bg-gradient-to-r from-white/10 to-white/5"></div>
+                          <div className="text-xs sm:text-sm text-white/60 font-medium">⚡ XP</div>
                         </div>
                       </div>
                     </div>
@@ -703,48 +702,50 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                             <span className="text-sm text-white font-semibold">Weekly Momentum</span>
                           </div>
                           
-                          <div className="flex gap-6">
-                            {/* Streak Days - Prominent Left Position */}
-                            <div className="flex-shrink-0">
-                              <div className="text-2xl font-bold text-white mb-1">
-                                {displayStreakDays}d
+                          <div className="w-full min-h-[60px] px-4 py-3 overflow-hidden">
+                            <div className="grid grid-cols-3 gap-2 items-center">
+                              {/* Streak Days */}
+                              <div className="flex flex-col items-center text-center">
+                                <div className="text-lg sm:text-xl font-bold text-white whitespace-nowrap">
+                                  {displayStreakDays}d
+                                </div>
+                                <div className="text-xs sm:text-sm text-white/60 font-medium">🔥 Streak</div>
                               </div>
-                              <div className="text-xs text-white/60 font-medium">🔥 Streak</div>
-                            </div>
-                            
-                            {/* Score Change and XP - Right Side Grid */}
-                            <div className="flex-1 grid grid-cols-2 gap-4">
-                              {/* Score Change (from weekly activities API) */}
-                              <div className="text-center">
-                                <div className="flex items-center justify-center gap-1 text-xl font-bold mb-1">
+                              
+                              {/* Score Change */}
+                              <div className="flex flex-col items-center text-center">
+                                <div className="flex items-center justify-center gap-1 text-sm sm:text-base font-bold whitespace-nowrap">
                                   {summary?.scoreChange > 0 ? (
                                     <>
-                                      <ArrowUp className="w-4 h-4 text-green-400 flex-shrink-0" />
+                                      <ArrowUp className="w-3 h-3 text-green-400 flex-shrink-0" />
                                       <span className="text-green-400">+{summary.scoreChange}</span>
-                                      <span className="text-sm text-white/60 ml-1">(+{((summary.scoreChange / (user.score || 1)) * 100).toFixed(1)}%)</span>
+                                      <span className="text-xs text-white/60">(+{((summary.scoreChange / (user.score || 1)) * 100).toFixed(1)}%)</span>
                                     </>
                                   ) : summary?.scoreChange < 0 ? (
                                     <>
-                                      <ArrowDown className="w-4 h-4 text-red-400 flex-shrink-0" />
+                                      <ArrowDown className="w-3 h-3 text-red-400 flex-shrink-0" />
                                       <span className="text-red-400">{summary.scoreChange}</span>
-                                      <span className="text-sm text-white/60 ml-1">({Math.abs((summary.scoreChange / (user.score || 1)) * 100).toFixed(1)}%)</span>
+                                      <span className="text-xs text-white/60">({Math.abs((summary.scoreChange / (user.score || 1)) * 100).toFixed(1)}%)</span>
                                     </>
                                   ) : (
-                                    <span className="text-white">0 <span className="text-sm text-white/60">(0.0%)</span></span>
+                                    <span className="text-white">0 <span className="text-xs text-white/60">(0.0%)</span></span>
                                   )}
                                 </div>
-                                <div className="flex items-center justify-center gap-1 text-xs text-white/60 font-medium">
-                                  <TrendingUp className="w-3 h-3" />
-                                  <span>Score</span>
-                                </div>
+                                <div className="text-xs sm:text-sm text-white/60 font-medium">📈 Score</div>
                               </div>
                               
                               {/* XP Gained */}
-                              <div className="text-center">
-                                <div className="text-xl font-bold text-white mb-1">
-                                  {formatWeeklyGain(displayXpGain)}
+                              <div className="flex flex-col items-center text-center">
+                                <div className="text-lg sm:text-xl font-bold text-white whitespace-nowrap">
+                                  {(() => {
+                                    const xp = displayXpGain;
+                                    if (xp >= 1000) {
+                                      return `+${(xp / 1000).toFixed(1)}K`;
+                                    }
+                                    return `+${xp}`;
+                                  })()}
                                 </div>
-                                <div className="text-xs text-white/60 font-medium">⚡ XP</div>
+                                <div className="text-xs sm:text-sm text-white/60 font-medium">⚡ XP</div>
                               </div>
                             </div>
                           </div>

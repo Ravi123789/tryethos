@@ -1,0 +1,28 @@
+node_modules
+dist
+.DS_Store
+server/public
+vite.config.ts.*
+*.tar.gz
+
+# Large assets
+attached_assets/
+public/ethos-bg.jpg
+public/ethos-card-bg.jpg
+client/public/light-bg.png
+client/public/dark-bg.png
+client/public/ethos-card-bg.jpg
+
+# Pack files
+*.pack
+
+# Logs
+logs
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

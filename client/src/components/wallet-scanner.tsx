@@ -251,8 +251,8 @@ export function WalletScanner() {
                 transition-all duration-200 ease-out
                 shadow-2xl shadow-black/25 dark:shadow-black/80
                 ${farcasterMode 
-                  ? 'border-purple-500/70 shadow-lg shadow-purple-500/20 bg-gradient-to-r from-purple-900/30 via-purple-800/15 to-purple-900/30' + 
-                    (showFarcasterAnimation ? ' shadow-xl shadow-purple-500/30' : '')
+                  ? 'border-blue-500/70 shadow-lg shadow-blue-500/20 bg-gradient-to-r from-blue-900/30 via-blue-800/15 to-blue-900/30' + 
+                    (showFarcasterAnimation ? ' shadow-xl shadow-blue-500/30' : '')
                   : isFocused 
                     ? 'border-blue-500 ring-1 ring-blue-500 bg-gray-700/20' 
                     : 'hover:border-gray-600 hover:bg-gray-700/30'
@@ -292,7 +292,7 @@ export function WalletScanner() {
                       focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none
                       transition-all duration-200 rounded-2xl min-h-[44px]
                       ${farcasterMode 
-                        ? 'placeholder:text-purple-200/90' 
+                        ? 'placeholder:text-blue-200/90' 
                         : 'placeholder-gray-400'
                       }
                       ${isFocused ? 'placeholder:text-gray-300' : ''}
@@ -304,7 +304,7 @@ export function WalletScanner() {
                     <div className="absolute right-4 md:right-4 right-3 top-1/2 transform -translate-y-1/2">
                       <div className={`w-5 h-5 md:w-5 md:h-5 w-4 h-4 border-2 rounded-full animate-spin ${
                         farcasterMode 
-                          ? 'border-purple-400/20 border-t-purple-300/80 dark:border-purple-600/20 dark:border-t-purple-400/80' 
+                          ? 'border-blue-400/20 border-t-blue-300/80 dark:border-blue-600/20 dark:border-t-blue-400/80' 
                           : 'border-white/20 border-t-white/80 dark:border-gray-600/20 dark:border-t-gray-400/80'
                       }`}></div>
                     </div>
@@ -326,7 +326,7 @@ export function WalletScanner() {
                     >
                       <Zap className={`w-3.5 h-3.5 md:w-3.5 md:h-3.5 w-3 h-3 transition-all duration-300 ${
                         farcasterMode 
-                          ? 'text-purple-200/60 hover:text-purple-100/80' 
+                          ? 'text-blue-200/60 hover:text-blue-100/80' 
                           : 'text-gray-300/60 dark:text-white/40 hover:text-gray-200/80 dark:hover:text-white/60'
                       }`} />
                     </button>
@@ -357,15 +357,15 @@ export function WalletScanner() {
               
               {/* Floating particles for enhanced aesthetics */}
               <div className={`absolute -top-2 -right-2 w-3 h-3 rounded-full blur-sm animate-pulse opacity-60 ${
-                farcasterMode ? 'bg-purple-400/30 dark:bg-purple-300/25' : 'bg-white/20'
+                farcasterMode ? 'bg-blue-400/30 dark:bg-blue-300/25' : 'bg-white/20'
               }`}></div>
               <div className={`absolute -bottom-2 -left-2 w-2 h-2 rounded-full blur-sm animate-pulse opacity-40 ${
-                farcasterMode ? 'bg-purple-300/25 dark:bg-purple-200/20' : 'bg-white/20'
+                farcasterMode ? 'bg-blue-300/25 dark:bg-blue-200/20' : 'bg-white/20'
               }`} style={{ animationDelay: '1s' }}></div>
               
               {/* Farcaster activation - subtle glow ring */}
               {showFarcasterAnimation && (
-                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-purple-500/20 via-purple-400/10 to-purple-500/20 dark:from-purple-400/15 dark:via-purple-300/8 dark:to-purple-400/15 animate-pulse opacity-60"></div>
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-500/20 via-blue-400/10 to-blue-500/20 dark:from-blue-400/15 dark:via-blue-300/8 dark:to-blue-400/15 animate-pulse opacity-60"></div>
               )}
             </div>
             
@@ -397,86 +397,60 @@ export function WalletScanner() {
               </button>
             </div>
 
-            {/* Farcaster Mode Toggle - moved below search button */}
-            <div className="flex justify-center mb-2">
-              <button
-                onClick={toggleFarcasterMode}
-                className={`
-                  group relative px-6 py-3 rounded-2xl backdrop-blur-xl 
-                  border border-gray-700 transition-all duration-200 hover:scale-105
-                  shadow-2xl shadow-black/25 dark:shadow-black/80 min-h-[44px]
-                  ${farcasterMode 
-                    ? 'bg-purple-500/20 border-purple-500/50 text-purple-100 shadow-lg shadow-purple-500/20' +
-                      (showFarcasterAnimation ? ' shadow-xl shadow-purple-500/30' : '')
-                    : 'bg-white/10 hover:bg-gray-700/50 hover:border-gray-600 text-white'
-                  }
-                `}
-              >
-                <div className="flex items-center gap-3">
-                  <SiFarcaster className={`w-5 h-5 transition-all duration-300 ${farcasterMode ? 'text-purple-300' : 'text-white/80'}`} />
-                  <span className="text-base font-semibold transition-all duration-300" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.6)' }}>
-                    {farcasterMode ? 'Farcaster Mode' : 'Search via Farcaster'}
-                  </span>
-                  {farcasterMode && (
-                    <>
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 bg-purple-500/20 dark:bg-purple-400/20 text-purple-300 dark:text-purple-200 rounded-full border border-purple-400/30 dark:border-purple-300/30">
-                        BETA
+            {/* Modern Glassmorphism Toggle */}
+            <div className="flex justify-center mb-6">
+              <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-600 rounded-2xl p-2 shadow-2xl shadow-black/25 dark:shadow-black/80">
+                <div className="flex items-center">
+                  {/* Global Search Option */}
+                  <button
+                    onClick={() => !farcasterMode || toggleFarcasterMode()}
+                    className={`
+                      relative px-4 py-2 rounded-xl transition-all duration-300 flex items-center gap-2 min-w-[120px] justify-center
+                      ${!farcasterMode 
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25' 
+                        : 'text-white/70 hover:text-white hover:bg-white/5'
+                      }
+                    `}
+                  >
+                    <Search className="w-4 h-4" />
+                    <span className="text-sm font-semibold">Global</span>
+                  </button>
+                  
+                  {/* Farcaster Option */}
+                  <button
+                    onClick={() => farcasterMode || toggleFarcasterMode()}
+                    className={`
+                      relative px-4 py-2 rounded-xl transition-all duration-300 flex items-center gap-2 min-w-[120px] justify-center
+                      ${farcasterMode 
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25' 
+                        : 'text-white/70 hover:text-white hover:bg-white/5'
+                      }
+                    `}
+                  >
+                    <SiFarcaster className="w-4 h-4" />
+                    <span className="text-sm font-semibold">Farcaster</span>
+                    {farcasterMode && (
+                      <span className="text-[9px] font-bold px-1 py-0.5 bg-white/20 text-white/90 rounded-md">
+                        β
                       </span>
-                      <div className={`w-2 h-2 bg-purple-400 dark:bg-purple-300 rounded-full ml-1 animate-pulse ${
-                        showFarcasterAnimation ? 'opacity-100' : 'opacity-70'
-                      }`}></div>
-                    </>
-                  )}
+                    )}
+                  </button>
                 </div>
                 
-                {/* Subtle hover glow effect */}
+                {/* Subtle glow effect */}
                 <div className={`
-                  absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300
-                  ${farcasterMode ? 'bg-purple-500/10' : 'bg-white/5'}
+                  absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300
+                  ${farcasterMode ? 'opacity-30 bg-blue-500/10' : 'opacity-20 bg-blue-400/5'}
                 `}></div>
-              </button>
+              </div>
             </div>
             
-            {/* Farcaster Beta Warning - Cool Wavy Design */}
+            {/* Subtle Farcaster Beta Notice */}
             {farcasterMode && (
-              <div className="relative mt-4 mb-2">
-                <div className="relative backdrop-blur-md bg-gradient-to-r from-purple-900/20 via-purple-800/15 to-purple-900/20 dark:from-purple-800/15 dark:via-purple-700/10 dark:to-purple-800/15 border border-purple-500/30 dark:border-purple-400/25 rounded-2xl px-4 py-3 overflow-hidden">
-                  {/* Wavy Background Pattern */}
-                  <div className="absolute inset-0 opacity-20">
-                    <svg viewBox="0 0 400 40" className="w-full h-full">
-                      <path 
-                        d="M0,20 Q100,10 200,20 T400,20 V40 H0 Z" 
-                        fill="url(#purple-wave)" 
-                        className="animate-pulse"
-                      />
-                      <defs>
-                        <linearGradient id="purple-wave" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="rgb(168, 85, 247)" stopOpacity="0.3"/>
-                          <stop offset="50%" stopColor="rgb(147, 51, 234)" stopOpacity="0.5"/>
-                          <stop offset="100%" stopColor="rgb(168, 85, 247)" stopOpacity="0.3"/>
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
-                  
-                  {/* Content */}
-                  <div className="relative z-10 flex items-center gap-3">
-                    <div className="flex-shrink-0">
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-400/30 to-purple-600/30 flex items-center justify-center border border-purple-400/40">
-                        <span className="text-purple-300 dark:text-purple-200 text-xs font-bold">β</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex-1">
-                      <p className="text-purple-300 dark:text-purple-200 text-xs leading-relaxed">
-                        <span className="font-semibold">Beta Feature:</span> Farcaster mode is experimental and results may vary or be incomplete :)
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {/* Floating Particles */}
-                  <div className="absolute top-1 right-4 w-1 h-1 bg-purple-400/60 rounded-full animate-ping"></div>
-                  <div className="absolute bottom-2 right-8 w-1.5 h-1.5 bg-purple-300/40 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+              <div className="flex justify-center mb-4">
+                <div className="flex items-center gap-2 px-3 py-1.5 backdrop-blur-md bg-blue-900/15 border border-blue-500/20 rounded-xl text-blue-200/80 text-xs">
+                  <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></span>
+                  <span>Experimental feature</span>
                 </div>
               </div>
             )}

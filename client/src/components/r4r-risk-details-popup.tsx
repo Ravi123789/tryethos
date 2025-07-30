@@ -12,7 +12,8 @@ import {
   Users,
   Target,
   Eye,
-  Info
+  Info,
+  X
 } from "lucide-react";
 
 interface R4RRiskDetailsPopupProps {

@@ -142,7 +142,7 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                 analysis.allReviews.map((reviewItem: any, index: number) => {
                   
                   return (
-                    <div key={index} className="py-2 border-b border-white/5 last:border-b-0">
+                    <div key={index} className="py-3 border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors duration-200">
                       
                       {/* Compact Review Layout */}
                       <div className="flex items-center justify-between gap-3">
@@ -173,7 +173,11 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                               </>
                             )}
                           </Avatar>
-                          <span className="text-sm text-white/90 font-medium">
+                          <span className={`text-sm font-medium ${
+                            reviewItem.type === 'given' 
+                              ? 'text-blue-300 bg-blue-500/20 px-2 py-1 rounded text-xs font-bold'
+                              : 'text-white/90'
+                          }`}>
                             {reviewItem.type === 'received' 
                               ? (reviewItem.otherUser?.displayName || reviewItem.otherUser?.username || 'Anonymous')
                               : 'You'
@@ -194,9 +198,9 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                               </span>
                               
                               {reviewItem.isReciprocal ? (
-                                <span className="text-white/80 text-xl font-bold">⇄</span>
+                                <span className="text-orange-300 text-xl font-bold px-1">⇄</span>
                               ) : (
-                                <span className="text-white/80 text-xl font-bold">→</span>
+                                <span className="text-white/80 text-xl font-bold px-1">→</span>
                               )}
                               
                               {/* Reciprocal review sentiment (your response) */}
@@ -224,7 +228,11 @@ export function ReviewsPatternPopup({ analysis, trigger, currentUser }: ReviewsP
                         
                         {/* Right User - Shows who received the review */}
                         <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
-                          <span className="text-sm text-white/90 text-right font-medium max-w-[100px] overflow-hidden whitespace-nowrap text-ellipsis">
+                          <span className={`text-sm text-right font-medium max-w-[100px] overflow-hidden whitespace-nowrap text-ellipsis ${
+                            reviewItem.type === 'received' 
+                              ? 'text-blue-300 bg-blue-500/20 px-2 py-1 rounded text-xs font-bold'
+                              : 'text-white/90'
+                          }`}>
                             {reviewItem.type === 'received' 
                               ? 'You'
                               : (reviewItem.otherUser?.displayName || reviewItem.otherUser?.username || 'Anonymous')

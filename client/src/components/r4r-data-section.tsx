@@ -95,19 +95,33 @@ export function R4RDataSection({ userkey, userProfile: passedUserProfile }: R4RD
         </div>
       </div>
       
-      {/* R4R Score */}
-      <div className="mb-4 p-4 rounded-lg bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-400/20">
+      {/* Enhanced R4R Score with Prominent Risk Indicators */}
+      <div className={`mb-4 p-4 rounded-lg border-2 ${
+        r4rAnalysis.r4rScore >= 75 ? 'bg-gradient-to-r from-red-500/20 to-red-600/20 border-red-400/40' :
+        r4rAnalysis.r4rScore >= 50 ? 'bg-gradient-to-r from-orange-500/20 to-yellow-500/20 border-orange-400/40' :
+        'bg-gradient-to-r from-purple-500/10 to-blue-500/10 border-purple-400/20'
+      }`}>
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-2xl font-bold text-white">{r4rAnalysis.r4rScore.toFixed(1)}%</div>
-            <div className="text-xs text-white/60">R4R Risk Score</div>
+            <div className={`text-3xl font-black ${
+              r4rAnalysis.r4rScore >= 75 ? 'text-red-300' :
+              r4rAnalysis.r4rScore >= 50 ? 'text-orange-300' :
+              'text-white'
+            }`}>
+              {r4rAnalysis.r4rScore.toFixed(1)}%
+            </div>
+            <div className="text-xs text-white/60 font-medium">R4R Risk Score</div>
           </div>
           <div className="text-right">
-            <div className="text-lg font-semibold text-purple-300 flex items-center">
-              <TrendingUp className="w-4 h-4 mr-1" />
+            <div className={`text-xl font-bold flex items-center ${
+              r4rAnalysis.reciprocalPercentage >= 75 ? 'text-red-300' :
+              r4rAnalysis.reciprocalPercentage >= 50 ? 'text-orange-300' :
+              'text-purple-300'
+            }`}>
+              <TrendingUp className="w-5 h-5 mr-1" />
               {r4rAnalysis.reciprocalPercentage.toFixed(1)}%
             </div>
-            <div className="text-xs text-white/60">Reciprocal Rate</div>
+            <div className="text-xs text-white/60 font-medium">Reciprocal Rate</div>
           </div>
         </div>
       </div>
@@ -146,35 +160,65 @@ export function R4RDataSection({ userkey, userProfile: passedUserProfile }: R4RD
         <ReviewsPatternPopup 
           analysis={r4rAnalysis} 
           currentUser={{
-            displayName: passedUserProfile?.displayName || userProfile?.displayName || userStats?.displayName || r4rAnalysis?.displayName,
-            username: passedUserProfile?.username || userProfile?.username || userStats?.username,
-            avatarUrl: passedUserProfile?.avatarUrl || passedUserProfile?.avatar || userProfile?.avatarUrl || userStats?.avatarUrl || userStats?.avatar
+            displayName: passedUserProfile?.displayName || (userProfile as any)?.displayName || (userStats as any)?.displayName || r4rAnalysis?.displayName,
+            username: passedUserProfile?.username || (userProfile as any)?.username || (userStats as any)?.username,
+            avatarUrl: passedUserProfile?.avatarUrl || passedUserProfile?.avatar || (userProfile as any)?.avatarUrl || (userStats as any)?.avatarUrl || (userStats as any)?.avatar
           }}
         />
       </div>
 
 
 
-      {/* High R4R Rate Reviewers (matches ethos-r4r.deno.dev) */}
+      {/* Enhanced Coordinated Activity Warning */}
+      {r4rAnalysis.r4rScore >= 50 && (
+        <div className={`mb-4 p-3 rounded-xl border-2 ${
+          r4rAnalysis.r4rScore >= 75 ? 'bg-red-500/15 border-red-400/50' :
+          'bg-orange-500/15 border-orange-400/50'
+        }`}>
+          <div className="flex items-center gap-3">
+            <div className={`p-2 rounded-lg ${
+              r4rAnalysis.r4rScore >= 75 ? 'bg-red-500/20' : 'bg-orange-500/20'
+            }`}>
+              <AlertTriangle className={`w-5 h-5 ${
+                r4rAnalysis.r4rScore >= 75 ? 'text-red-300' : 'text-orange-300'
+              }`} />
+            </div>
+            <div className="flex-1">
+              <div className={`text-sm font-bold ${
+                r4rAnalysis.r4rScore >= 75 ? 'text-red-300' : 'text-orange-300'
+              }`}>
+                {r4rAnalysis.r4rScore >= 75 ? 'High Risk: Coordinated Review Activity Detected' : 'Warning: Suspicious Review Patterns'}
+              </div>
+              <div className="text-xs text-white/60 mt-1">
+                {r4rAnalysis.r4rScore >= 75 
+                  ? 'Strong indicators of reputation farming behavior' 
+                  : 'Elevated mutual review activity detected'}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* High R4R Rate Reviewers (Enhanced) */}
       {r4rAnalysis.highR4RReviewers && r4rAnalysis.highR4RReviewers.length > 0 && (
-        <div className="mt-4 pt-3 border-t border-white/10">
-          <div className="flex items-center gap-2 mb-2">
-            <AlertTriangle className="w-3 h-3 text-red-400" />
-            <span className="text-xs text-white/50">High R4R Rate Reviewers (≥70%)</span>
-            <span className="bg-red-500/20 text-red-300 text-xs px-1.5 py-0.5 rounded-full">
+        <div className="mt-4 pt-4 border-t border-white/10">
+          <div className="flex items-center gap-2 mb-3">
+            <AlertTriangle className="w-4 h-4 text-red-400" />
+            <span className="text-sm font-semibold text-white">High R4R Rate Reviewers (≥70%)</span>
+            <span className="bg-red-500/20 text-red-300 text-xs px-2 py-1 rounded-full font-medium">
               {r4rAnalysis.highR4RReviewers.length}
             </span>
           </div>
           {(showAllHighRisk ? r4rAnalysis.highR4RReviewers : r4rAnalysis.highR4RReviewers.slice(0, 3)).map((reviewer, index) => (
-            <div key={reviewer.userkey} className="flex items-center justify-between py-1.5 px-2 rounded bg-red-500/5 border border-red-400/10 mb-1">
-              <div className="text-xs text-white/70 truncate max-w-[100px]">
+            <div key={reviewer.userkey} className="flex items-center justify-between py-2 px-3 rounded-lg bg-red-500/10 border border-red-400/20 mb-2 hover:bg-red-500/15 transition-all duration-200">
+              <div className="text-sm text-white/90 truncate max-w-[120px] font-medium">
                 {reviewer.displayName || 'Unknown User'}
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-red-300">
+              <div className="flex items-center gap-3">
+                <span className="text-lg font-black text-red-300">
                   {reviewer.r4rScore.toFixed(0)}%
                 </span>
-                <span className="text-xs text-red-400">
+                <span className="text-xs font-medium text-red-400 bg-red-500/20 px-2 py-1 rounded">
                   {reviewer.riskLevel}
                 </span>
               </div>
@@ -187,16 +231,16 @@ export function R4RDataSection({ userkey, userProfile: passedUserProfile }: R4RD
                 e.stopPropagation();
                 setShowAllHighRisk(!showAllHighRisk);
               }}
-              className="flex items-center gap-1 text-xs text-white/40 hover:text-white/60 cursor-pointer w-full justify-center mt-1 py-1 rounded transition-colors"
+              className="flex items-center gap-1 text-sm text-white/50 hover:text-white/80 cursor-pointer w-full justify-center mt-2 py-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
             >
               {showAllHighRisk ? (
                 <>
-                  <ChevronUp className="w-3 h-3" />
+                  <ChevronUp className="w-4 h-4" />
                   Show less
                 </>
               ) : (
                 <>
-                  <ChevronDown className="w-3 h-3" />
+                  <ChevronDown className="w-4 h-4" />
                   +{r4rAnalysis.highR4RReviewers.length - 3} more high risk
                 </>
               )}
@@ -205,16 +249,20 @@ export function R4RDataSection({ userkey, userProfile: passedUserProfile }: R4RD
         </div>
       )}
 
-      {/* Top Connections Preview */}
+      {/* Enhanced Top Connections Preview */}
       {r4rAnalysis.networkConnections.length > 0 && (
-        <div className="mt-4 pt-3 border-t border-white/10">
-          <div className="text-xs text-white/50 mb-2">Top Network Connections</div>
+        <div className="mt-4 pt-4 border-t border-white/10">
+          <div className="text-sm font-semibold text-white mb-3">Top Network Connections</div>
           {(showAllConnections ? r4rAnalysis.networkConnections : r4rAnalysis.networkConnections.slice(0, 2)).map((connection, index) => (
-            <div key={connection.userkey} className="flex items-center justify-between py-1">
-              <div className="text-xs text-white/70 truncate max-w-[120px]">
+            <div key={connection.userkey} className="flex items-center justify-between py-2 px-3 rounded-lg bg-white/5 border border-white/10 mb-2 hover:bg-white/10 transition-all duration-200">
+              <div className="text-sm text-white/80 truncate max-w-[140px] font-medium">
                 {connection.displayName || 'Unknown User'}
               </div>
-              <div className="text-xs text-orange-300">
+              <div className={`text-sm font-bold ${
+                connection.suspiciousScore >= 70 ? 'text-red-300' :
+                connection.suspiciousScore >= 40 ? 'text-orange-300' :
+                'text-yellow-300'
+              }`}>
                 {connection.suspiciousScore.toFixed(0)}% risk
               </div>
             </div>
@@ -226,16 +274,16 @@ export function R4RDataSection({ userkey, userProfile: passedUserProfile }: R4RD
                 e.stopPropagation();
                 setShowAllConnections(!showAllConnections);
               }}
-              className="flex items-center gap-1 text-xs text-white/40 hover:text-white/60 cursor-pointer w-full justify-center mt-1 py-1 rounded transition-colors"
+              className="flex items-center gap-1 text-sm text-white/50 hover:text-white/80 cursor-pointer w-full justify-center mt-2 py-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
             >
               {showAllConnections ? (
                 <>
-                  <ChevronUp className="w-3 h-3" />
+                  <ChevronUp className="w-4 h-4" />
                   Show less
                 </>
               ) : (
                 <>
-                  <ChevronDown className="w-3 h-3" />
+                  <ChevronDown className="w-4 h-4" />
                   +{r4rAnalysis.networkConnections.length - 2} more connections
                 </>
               )}

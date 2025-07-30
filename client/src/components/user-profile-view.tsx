@@ -991,13 +991,13 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
 
                 {/* Recent Vouches Received */}
                 {vouchData?.success && vouchData.data.received?.length > 0 && (
-                  <div className="bg-gray-900/15 dark:bg-gray-800/40 backdrop-blur-sm rounded-xl p-4 shadow-lg shadow-emerald-400/10">
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-4">
+                  <div className="bg-gray-900/15 dark:bg-gray-800/40 backdrop-blur-sm rounded-xl p-4 shadow-lg shadow-emerald-400/10 mb-6">
+                    {/* Enhanced Header with Divider */}
+                    <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center gap-3">
-                        <ArrowDownLeft className="w-5 h-5 text-emerald-400" />
+                        <ArrowDownLeft className="w-6 h-6 text-emerald-400" />
                         <div>
-                          <h3 className="text-base font-semibold text-white">Recent Vouches Received</h3>
+                          <h3 className="text-lg font-bold text-white">Recent Vouches Received</h3>
                           <span className="px-2 py-0.5 bg-emerald-500/20 rounded-full text-xs font-medium text-emerald-300">
                             {vouchData.data.received.length} total
                           </span>
@@ -1005,11 +1005,14 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                       </div>
                       <button 
                         onClick={() => setShowVouchModal({ type: 'received' })}
-                        className="text-xs text-white/50 hover:text-white/80 transition-colors font-medium"
+                        className="px-3 py-2 text-sm font-medium text-emerald-300 hover:text-emerald-200 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 hover:border-emerald-500/30 rounded-lg transition-all duration-200"
                       >
                         View All →
                       </button>
                     </div>
+                    
+                    {/* Divider Line */}
+                    <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent mb-4"></div>
                     
                     {/* Compact Vouches List */}
                     <div className="space-y-2">
@@ -1030,7 +1033,7 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                         const ethAmount = parseFloat(vouch.amountEth || '0.010');
 
                         return (
-                          <div key={vouch.id || index} className="flex items-center justify-between p-3 bg-white/3 dark:bg-gray-700/20 rounded-lg hover:bg-white/8 dark:hover:bg-gray-700/30 transition-colors group">
+                          <div key={vouch.id || index} className="flex items-center justify-between p-4 bg-white/3 dark:bg-gray-700/20 rounded-lg hover:bg-gray-700/30 transition-all duration-200 group">
                             <div className="flex items-center gap-3 flex-1 min-w-0">
                               <ArrowDownLeft className="w-4 h-4 text-emerald-400" />
                               <div className="flex-1 min-w-0">
@@ -1050,9 +1053,9 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                               </div>
                             </div>
                             <div className="flex flex-col items-end">
-                              <div className="flex items-center gap-1 text-emerald-400 font-semibold">
-                                <span className="text-sm">Ξ</span>
-                                <span className="text-sm">+{ethAmount.toFixed(3)}</span>
+                              <div className="flex items-center gap-1 text-emerald-400 font-bold text-base">
+                                <span className="text-sm">≡</span>
+                                <span>{ethAmount.toFixed(3)}</span>
                               </div>
                               <div className="text-xs text-white/40">
                                 {formatCurrency(ethAmount * 3870)}
@@ -1079,13 +1082,13 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
 
                 {/* Recent Vouches Given */}
                 {vouchData?.success && vouchData.data.given?.length > 0 && (
-                  <div className="bg-gray-900/15 dark:bg-gray-800/40 backdrop-blur-sm rounded-xl p-4 shadow-lg shadow-emerald-400/10">
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-4">
+                  <div className="bg-gray-900/15 dark:bg-gray-800/40 backdrop-blur-sm rounded-xl p-4 shadow-lg shadow-emerald-400/10 mb-6">
+                    {/* Enhanced Header with Divider */}
+                    <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center gap-3">
-                        <ArrowUpRight className="w-5 h-5 text-red-400" />
+                        <ArrowUpRight className="w-6 h-6 text-red-400" />
                         <div>
-                          <h3 className="text-base font-semibold text-white">Recent Vouches Given</h3>
+                          <h3 className="text-lg font-bold text-white">Recent Vouches Given</h3>
                           <span className="px-2 py-0.5 bg-red-500/20 rounded-full text-xs font-medium text-red-300">
                             {vouchData.data.given.length} total
                           </span>
@@ -1093,11 +1096,14 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                       </div>
                       <button 
                         onClick={() => setShowVouchModal({ type: 'given' })}
-                        className="text-xs text-white/50 hover:text-white/80 transition-colors font-medium"
+                        className="px-3 py-2 text-sm font-medium text-red-300 hover:text-red-200 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/30 rounded-lg transition-all duration-200"
                       >
                         View All →
                       </button>
                     </div>
+                    
+                    {/* Divider Line */}
+                    <div className="h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent mb-4"></div>
                     
                     {/* Compact Vouches List */}
                     <div className="space-y-2">
@@ -1118,7 +1124,7 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                         const ethAmount = parseFloat(vouch.amountEth || '0.010');
 
                         return (
-                          <div key={vouch.id || index} className="flex items-center justify-between p-3 bg-white/3 dark:bg-gray-700/20 rounded-lg hover:bg-white/8 dark:hover:bg-gray-700/30 transition-colors group">
+                          <div key={vouch.id || index} className="flex items-center justify-between p-4 bg-white/3 dark:bg-gray-700/20 rounded-lg hover:bg-gray-700/30 transition-all duration-200 group">
                             <div className="flex items-center gap-3 flex-1 min-w-0">
                               <ArrowUpRight className="w-4 h-4 text-red-400" />
                               <div className="flex-1 min-w-0">
@@ -1138,9 +1144,9 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
                               </div>
                             </div>
                             <div className="flex flex-col items-end">
-                              <div className="flex items-center gap-1 text-red-400 font-semibold">
-                                <span className="text-sm">Ξ</span>
-                                <span className="text-sm">+{ethAmount.toFixed(3)}</span>
+                              <div className="flex items-center gap-1 text-red-400 font-bold text-base">
+                                <span className="text-sm">≡</span>
+                                <span>{ethAmount.toFixed(3)}</span>
                               </div>
                               <div className="text-xs text-white/40">
                                 {formatCurrency(ethAmount * 3870)}

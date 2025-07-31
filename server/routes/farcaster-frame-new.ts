@@ -64,7 +64,7 @@ router.get('/frame/:userkey', async (req, res) => {
         <meta property="og:title" content="${frameTitle}">
         <meta property="og:description" content="${frameDescription}">
         <meta property="og:image" content="${cardImageUrl}">
-        <meta property="og:image:width" content="480">
+        <meta property="og:image:width" content="460">
         <meta property="og:image:height" content="320">
         
         <!-- Mini App Embed tags -->
@@ -96,8 +96,8 @@ router.get('/card/:userkey', async (req, res) => {
   // Generate Farcaster card for user
 
   try {
-    // Create canvas with narrower dimensions for better embed fit (1.5:1 aspect ratio)
-    const canvas = createCanvas(480, 320);
+    // Create canvas with slightly narrower dimensions for better embed fit
+    const canvas = createCanvas(460, 320);
     const ctx = canvas.getContext('2d');
 
     // STEP 1: Resolve userkey if it's a username format
@@ -178,217 +178,81 @@ router.get('/card/:userkey', async (req, res) => {
       // Background image not found, using fallback
     }
 
-    // Create optimized glassmorphism background
+    // Create simple gradient background (no image)
     const createGlassmorphismBackground = async () => {
       return new Promise<void>((resolve) => {
-        const backgroundImg = new Image();
-        backgroundImg.onload = () => {
+        // Create clean gradient background
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, '#f8fafc');    // Light gray-blue
+        gradient.addColorStop(0.5, '#e2e8f0');  // Medium gray
+        gradient.addColorStop(1, '#cbd5e1');    // Darker gray
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
           
-          // Draw background image
-          ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+        // Add subtle decorative elements
+        const addSubtleElements = () => {
+          // Simple subtle elements for visual interest
           
-          // Apply optimized color blend - 60% monochrome / 40% color
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-          
-          for (let i = 0; i < data.length; i += 4) {
-            const r = data[i];
-            const g = data[i + 1];
-            const b = data[i + 2];
-            
-            // Convert to grayscale using luminance formula
-            const gray = 0.299 * r + 0.587 * g + 0.114 * b;
-            
-            // Apply 60% monochrome / 40% color blend
-            data[i] = gray * 0.6 + r * 0.4;     // Red: 60% gray + 40% original
-            data[i + 1] = gray * 0.6 + g * 0.4; // Green: 60% gray + 40% original
-            data[i + 2] = gray * 0.6 + b * 0.4; // Blue: 60% gray + 40% original
-          }
-          
-          // Color blend applied
-          ctx.putImageData(imageData, 0, 0);
-          
-          // Add subtle blur-like effect with multiple monochrome floating elements
-          const addBlurredMonochromeElements = () => {
-            // Create blur-like effect by adding multiple layers of soft elements
-            
-            // Large soft gray orb (top-left) with blur effect
-            const grayGradient1 = ctx.createRadialGradient(150, 100, 0, 150, 100, 80);
-            grayGradient1.addColorStop(0, 'rgba(255, 255, 255, 0.15)');  // bright center
-            grayGradient1.addColorStop(0.3, 'rgba(200, 200, 200, 0.1)'); // mid
-            grayGradient1.addColorStop(0.7, 'rgba(150, 150, 150, 0.05)'); // edge
-            grayGradient1.addColorStop(1, 'rgba(100, 100, 100, 0.02)');   // outer
-            ctx.fillStyle = grayGradient1;
-            ctx.beginPath();
-            ctx.arc(150, 100, 80, 0, 2 * Math.PI);
-            ctx.fill();
-            
-            // Large soft gray orb (top-right) - adjusted for narrower canvas
-            const grayGradient2 = ctx.createRadialGradient(380, 80, 0, 380, 80, 60);
-            grayGradient2.addColorStop(0, 'rgba(240, 240, 240, 0.12)');
-            grayGradient2.addColorStop(0.4, 'rgba(180, 180, 180, 0.08)');
-            grayGradient2.addColorStop(1, 'rgba(120, 120, 120, 0.03)');
-            ctx.fillStyle = grayGradient2;
-            ctx.beginPath();
-            ctx.arc(380, 80, 60, 0, 2 * Math.PI);
-            ctx.fill();
-            
-            // Large soft gray orb (bottom-left)
-            const grayGradient3 = ctx.createRadialGradient(100, 260, 0, 100, 260, 70);
-            grayGradient3.addColorStop(0, 'rgba(220, 220, 220, 0.18)');
-            grayGradient3.addColorStop(0.3, 'rgba(160, 160, 160, 0.12)');
-            grayGradient3.addColorStop(0.7, 'rgba(120, 120, 120, 0.06)');
-            grayGradient3.addColorStop(1, 'rgba(80, 80, 80, 0.02)');
-            ctx.fillStyle = grayGradient3;
-            ctx.beginPath();
-            ctx.arc(100, 260, 70, 0, 2 * Math.PI);
-            ctx.fill();
-            
-            // Medium soft gray orb (bottom-right) - adjusted position
-            const grayGradient4 = ctx.createRadialGradient(400, 240, 0, 400, 240, 45);
-            grayGradient4.addColorStop(0, 'rgba(200, 200, 200, 0.14)');
-            grayGradient4.addColorStop(0.5, 'rgba(140, 140, 140, 0.08)');
-            grayGradient4.addColorStop(1, 'rgba(100, 100, 100, 0.03)');
-            ctx.fillStyle = grayGradient4;
-            ctx.beginPath();
-            ctx.arc(400, 240, 45, 0, 2 * Math.PI);
-            ctx.fill();
-          };
-          
-          // Add blur elements
-          addBlurredMonochromeElements();
-          
-          // Create stronger blur effect with multiple offset layers
-          ctx.globalAlpha = 0.6;
-          addBlurredMonochromeElements();
-          ctx.globalAlpha = 0.4;
-          ctx.save();
-          ctx.translate(2, 2);
-          addBlurredMonochromeElements();
-          ctx.restore();
-          ctx.globalAlpha = 0.3;
-          ctx.save();
-          ctx.translate(-2, -2);
-          addBlurredMonochromeElements();
-          ctx.restore();
-          ctx.globalAlpha = 0.2;
-          ctx.save();
-          ctx.translate(4, 4);
-          addBlurredMonochromeElements();
-          ctx.restore();
-          ctx.globalAlpha = 1.0;
-          // Blur effect complete
-          
-          // Very light overlay to maintain background visibility
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          
-          const cardX = 30;
-          const cardY = 30;
-          const cardWidth = canvas.width - 60;
-          const cardHeight = canvas.height - 60;
-          const borderRadius = 20;
-          
-          // Visible glassmorphism card for testing
-          const glassGradient = ctx.createLinearGradient(cardX, cardY, cardX + cardWidth, cardY + cardHeight);
-          glassGradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)'); // More visible
-          glassGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.2)'); // Medium transparency
-          glassGradient.addColorStop(1, 'rgba(255, 255, 255, 0.15)'); // Still transparent but visible
-          
-          // Draw glassmorphism card
-          ctx.fillStyle = glassGradient;
+          // Top-left soft element - adjusted for narrower canvas
+          const gradient1 = ctx.createRadialGradient(120, 80, 0, 120, 80, 50);
+          gradient1.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
+          gradient1.addColorStop(0.5, 'rgba(200, 200, 200, 0.04)');
+          gradient1.addColorStop(1, 'rgba(150, 150, 150, 0.01)');
+          ctx.fillStyle = gradient1;
           ctx.beginPath();
-          ctx.roundRect(cardX, cardY, cardWidth, cardHeight, borderRadius);
+          ctx.arc(120, 80, 50, 0, 2 * Math.PI);
           ctx.fill();
           
-          // Subtle glassmorphism border
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-          ctx.lineWidth = 1;
-          ctx.stroke();
-          
-          resolve();
-        };
-        
-        // Error handler for background image - create monochrome fallback
-        backgroundImg.onerror = () => {
-          // Background image failed to load, using monochrome fallback
-          
-          // Create transparent monochrome gradient fallback background
-          const fallbackGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-          fallbackGradient.addColorStop(0, 'rgba(120, 120, 120, 0.3)');    // Transparent dark gray
-          fallbackGradient.addColorStop(0.5, 'rgba(160, 160, 160, 0.4)');  // Transparent medium gray
-          fallbackGradient.addColorStop(1, 'rgba(100, 100, 100, 0.2)');    // Transparent darker gray
-          
-          ctx.fillStyle = fallbackGradient;
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          
-          const cardX = 30;
-          const cardY = 30;
-          const cardWidth = canvas.width - 60;
-          const cardHeight = canvas.height - 60;
-          const borderRadius = 20;
-          
-          // Add monochrome floating elements for fallback
-          const addMonochromeElements = () => {
-            // Subtle gray floating orb (top-left)
-            const grayGradient1 = ctx.createRadialGradient(120, 80, 0, 120, 80, 40);
-            grayGradient1.addColorStop(0, 'rgba(200, 200, 200, 0.15)');
-            grayGradient1.addColorStop(0.5, 'rgba(180, 180, 180, 0.1)');
-            grayGradient1.addColorStop(1, 'rgba(160, 160, 160, 0.05)');
-            ctx.fillStyle = grayGradient1;
-            ctx.beginPath();
-            ctx.arc(120, 80, 40, 0, 2 * Math.PI);
-            ctx.fill();
-            
-            // Subtle gray floating orb (top-right)
-            const grayGradient2 = ctx.createRadialGradient(480, 90, 0, 480, 90, 35);
-            grayGradient2.addColorStop(0, 'rgba(180, 180, 180, 0.15)');
-            grayGradient2.addColorStop(0.5, 'rgba(160, 160, 160, 0.1)');
-            grayGradient2.addColorStop(1, 'rgba(140, 140, 140, 0.05)');
-            ctx.fillStyle = grayGradient2;
-            ctx.beginPath();
-            ctx.arc(480, 90, 35, 0, 2 * Math.PI);
-            ctx.fill();
-            
-            // Subtle gray floating orb (bottom-left)
-            const grayGradient3 = ctx.createRadialGradient(100, 280, 0, 100, 280, 45);
-            grayGradient3.addColorStop(0, 'rgba(220, 220, 220, 0.15)');
-            grayGradient3.addColorStop(0.5, 'rgba(200, 200, 200, 0.1)');
-            grayGradient3.addColorStop(1, 'rgba(180, 180, 180, 0.05)');
-            ctx.fillStyle = grayGradient3;
-            ctx.beginPath();
-            ctx.arc(100, 280, 45, 0, 2 * Math.PI);
-            ctx.fill();
-          };
-          
-          addMonochromeElements();
-          
-          // Add very light overlay to maintain background visibility
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          
-          // Visible glassmorphism card for testing (same as main path)
-          const fallbackGlassGradient = ctx.createLinearGradient(cardX, cardY, cardX + cardWidth, cardY + cardHeight);
-          fallbackGlassGradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)'); // More visible
-          fallbackGlassGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.2)'); // Medium transparency
-          fallbackGlassGradient.addColorStop(1, 'rgba(255, 255, 255, 0.15)'); // Still transparent but visible
-          
-          // Draw glassmorphism card
-          ctx.fillStyle = fallbackGlassGradient;
+          // Top-right soft element - adjusted for narrower canvas
+          const gradient2 = ctx.createRadialGradient(340, 70, 0, 340, 70, 40);
+          gradient2.addColorStop(0, 'rgba(240, 240, 240, 0.06)');
+          gradient2.addColorStop(0.5, 'rgba(180, 180, 180, 0.03)');
+          gradient2.addColorStop(1, 'rgba(120, 120, 120, 0.01)');
+          ctx.fillStyle = gradient2;
           ctx.beginPath();
-          ctx.roundRect(cardX, cardY, cardWidth, cardHeight, borderRadius);
+          ctx.arc(340, 70, 40, 0, 2 * Math.PI);
           ctx.fill();
           
-          // Subtle glassmorphism border
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-          ctx.lineWidth = 1;
-          ctx.stroke();
-          
-          resolve();
+          // Bottom-left soft element
+          const gradient3 = ctx.createRadialGradient(80, 240, 0, 80, 240, 45);
+          gradient3.addColorStop(0, 'rgba(220, 220, 220, 0.07)');
+          gradient3.addColorStop(0.5, 'rgba(160, 160, 160, 0.04)');
+          gradient3.addColorStop(1, 'rgba(100, 100, 100, 0.01)');
+          ctx.fillStyle = gradient3;
+          ctx.beginPath();
+          ctx.arc(80, 240, 45, 0, 2 * Math.PI);
+          ctx.fill();
         };
         
-        // Load background image
-        backgroundImg.src = ethosCardBgPath;
+        // Add subtle elements
+        addSubtleElements();
+        
+        // Draw card container
+        const cardX = 30;
+        const cardY = 30;
+        const cardWidth = canvas.width - 60;
+        const cardHeight = canvas.height - 60;
+        const borderRadius = 20;
+        
+        // Clean card background
+        const cardGradient = ctx.createLinearGradient(cardX, cardY, cardX + cardWidth, cardY + cardHeight);
+        cardGradient.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+        cardGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.9)');
+        cardGradient.addColorStop(1, 'rgba(255, 255, 255, 0.85)');
+        
+        // Draw card
+        ctx.fillStyle = cardGradient;
+        ctx.beginPath();
+        ctx.roundRect(cardX, cardY, cardWidth, cardHeight, borderRadius);
+        ctx.fill();
+        
+        // Subtle card border
+        ctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        resolve();
       });
     };
 

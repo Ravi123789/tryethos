@@ -53,7 +53,8 @@
 - **✅ Layout Adjustments**: Repositioned content elements for narrower canvas - level text, accent line, floating orbs, and attribution positioning optimized
 - **✅ Content Spacing**: Reduced spacing between elements while maintaining readability and proper touch targets for social media sharing
 - **✅ Splash Image Removed**: Completely removed splash screen image and background color from Mini App configuration per user request for cleaner launch experience
-- **✅ New Ethos Background**: Updated card background to use beautiful Ethos cloud sky image (ETHOSBG_1753920128056.jpg) with proper 60% monochrome/40% color blend
+- **✅ Background Removed**: Removed background image and switched to clean gradient background per user request
+- **✅ Card Width Reduced**: Adjusted card dimensions from 480x320 to 460x320 for slightly narrower appearance
 
 ### Farcaster Auto-Detect Card Optimization - July 30, 2025
 **✅ FARCASTER AUTO-DETECT CARD OPTIMIZATION COMPLETE**: Successfully optimized auto-detect card with compact sizing and improved navigation spacing

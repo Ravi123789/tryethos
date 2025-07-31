@@ -49,6 +49,9 @@
 - **✅ Card Data Fix**: Fixed Farcaster card generation to use correct API endpoints for vouches and reviews data display
 - **✅ Username Resolution Bug Fix**: Fixed critical bug where usernames weren't resolved to proper userkeys, causing 0 vouch/review display instead of actual data
 - **✅ Mini App Embed Fix**: Fixed Farcaster Mini App embed configuration with proper version="1", imageUrl, and launch_miniapp action type for embedded card previews
+- **✅ Card Size Optimization**: Adjusted card dimensions from 600x315 to 480x320 (1.5:1 aspect ratio) for better mobile embed display
+- **✅ Layout Adjustments**: Repositioned content elements for narrower canvas - level text, accent line, floating orbs, and attribution positioning optimized
+- **✅ Content Spacing**: Reduced spacing between elements while maintaining readability and proper touch targets for social media sharing
 
 ### Farcaster Auto-Detect Card Optimization - July 30, 2025
 **✅ FARCASTER AUTO-DETECT CARD OPTIMIZATION COMPLETE**: Successfully optimized auto-detect card with compact sizing and improved navigation spacing

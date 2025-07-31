@@ -64,8 +64,8 @@ router.get('/frame/:userkey', async (req, res) => {
         <meta property="og:title" content="${frameTitle}">
         <meta property="og:description" content="${frameDescription}">
         <meta property="og:image" content="${cardImageUrl}">
-        <meta property="og:image:width" content="600">
-        <meta property="og:image:height" content="315">
+        <meta property="og:image:width" content="480">
+        <meta property="og:image:height" content="320">
         
         <!-- Mini App Embed tags -->
         <meta name="fc:frame" content='{"version":"1","imageUrl":"${cardImageUrl}","button":{"title":"Scan Your Trust Score","action":{"type":"launch_miniapp","name":"EthosRadar","url":"${baseUrl}/","splashImageUrl":"${baseUrl}/splash.png","splashBackgroundColor":"#0F172A"}}}'>
@@ -96,8 +96,8 @@ router.get('/card/:userkey', async (req, res) => {
   // Generate Farcaster card for user
 
   try {
-    // Create canvas with proper dimensions for Farcaster (1.91:1 aspect ratio)
-    const canvas = createCanvas(600, 315);
+    // Create canvas with narrower dimensions for better embed fit (1.5:1 aspect ratio)
+    const canvas = createCanvas(480, 320);
     const ctx = canvas.getContext('2d');
 
     // STEP 1: Resolve userkey if it's a username format
@@ -223,35 +223,35 @@ router.get('/card/:userkey', async (req, res) => {
             ctx.arc(150, 100, 80, 0, 2 * Math.PI);
             ctx.fill();
             
-            // Large soft gray orb (top-right) 
-            const grayGradient2 = ctx.createRadialGradient(450, 80, 0, 450, 80, 60);
+            // Large soft gray orb (top-right) - adjusted for narrower canvas
+            const grayGradient2 = ctx.createRadialGradient(380, 80, 0, 380, 80, 60);
             grayGradient2.addColorStop(0, 'rgba(240, 240, 240, 0.12)');
             grayGradient2.addColorStop(0.4, 'rgba(180, 180, 180, 0.08)');
             grayGradient2.addColorStop(1, 'rgba(120, 120, 120, 0.03)');
             ctx.fillStyle = grayGradient2;
             ctx.beginPath();
-            ctx.arc(450, 80, 60, 0, 2 * Math.PI);
+            ctx.arc(380, 80, 60, 0, 2 * Math.PI);
             ctx.fill();
             
             // Large soft gray orb (bottom-left)
-            const grayGradient3 = ctx.createRadialGradient(120, 280, 0, 120, 280, 90);
+            const grayGradient3 = ctx.createRadialGradient(100, 260, 0, 100, 260, 70);
             grayGradient3.addColorStop(0, 'rgba(220, 220, 220, 0.18)');
             grayGradient3.addColorStop(0.3, 'rgba(160, 160, 160, 0.12)');
             grayGradient3.addColorStop(0.7, 'rgba(120, 120, 120, 0.06)');
             grayGradient3.addColorStop(1, 'rgba(80, 80, 80, 0.02)');
             ctx.fillStyle = grayGradient3;
             ctx.beginPath();
-            ctx.arc(120, 280, 90, 0, 2 * Math.PI);
+            ctx.arc(100, 260, 70, 0, 2 * Math.PI);
             ctx.fill();
             
-            // Medium soft gray orb (bottom-right)
-            const grayGradient4 = ctx.createRadialGradient(470, 260, 0, 470, 260, 50);
+            // Medium soft gray orb (bottom-right) - adjusted position
+            const grayGradient4 = ctx.createRadialGradient(400, 240, 0, 400, 240, 45);
             grayGradient4.addColorStop(0, 'rgba(200, 200, 200, 0.14)');
             grayGradient4.addColorStop(0.5, 'rgba(140, 140, 140, 0.08)');
             grayGradient4.addColorStop(1, 'rgba(100, 100, 100, 0.03)');
             ctx.fillStyle = grayGradient4;
             ctx.beginPath();
-            ctx.arc(470, 260, 50, 0, 2 * Math.PI);
+            ctx.arc(400, 240, 45, 0, 2 * Math.PI);
             ctx.fill();
           };
           
@@ -635,20 +635,20 @@ router.get('/card/:userkey', async (req, res) => {
 
     // Background logo removed per user request
 
-    // Level positioned at top-right corner - moved lower
+    // Level positioned at top-right corner - adjusted for narrower canvas
     const levelText = `${levelName}`;
     const levelColor = getLevelColor();
     ctx.fillStyle = levelColor;
     ctx.font = '20px serif';
     ctx.textAlign = 'right';
-    ctx.fillText(levelText, canvas.width - 70, 65);
+    ctx.fillText(levelText, canvas.width - 50, 65);
 
-    // Vertical accent line with increased height - moved lower
+    // Vertical accent line with increased height - adjusted position
     ctx.strokeStyle = levelColor;
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(canvas.width - 65, 45);
-    ctx.lineTo(canvas.width - 65, 75);
+    ctx.moveTo(canvas.width - 45, 45);
+    ctx.lineTo(canvas.width - 45, 75);
     ctx.stroke();
 
     // Enhanced darker and more noticeable glow effect around card border
@@ -730,9 +730,9 @@ router.get('/card/:userkey', async (req, res) => {
     ctx.fillText(dollarText, 60 + vouchWidth + 5, statsY);
     const dollarWidth = ctx.measureText(dollarText).width;
     
-    // Calculate dynamic reviews position based on vouch section width
+    // Calculate dynamic reviews position based on vouch section width - adjusted for narrower canvas
     const vouchSectionWidth = vouchWidth + dollarWidth + 10; // vouches + dollar + spacing
-    const reviewsX = Math.max(180, 60 + vouchSectionWidth + 20); // Ensure minimum gap of 20px
+    const reviewsX = Math.max(150, 60 + vouchSectionWidth + 15); // Reduced spacing for narrower canvas
     
     // Draw reviews - positioned dynamically to avoid overlap
     ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
@@ -752,14 +752,14 @@ router.get('/card/:userkey', async (req, res) => {
     ctx.font = '12px Arial'; // Same size as vouches/reviews
     ctx.textAlign = 'right';
     
-    // EthosRadar text - positioned more to the left within card border
-    ctx.fillText('EthosRadar', canvas.width - 50, 250);
+    // EthosRadar text - positioned for narrower canvas
+    ctx.fillText('EthosRadar', canvas.width - 40, 250);
     
     // Username handle below EthosRadar - positioned to match reference
     ctx.fillStyle = 'rgba(0, 0, 0, 0.6)'; // Same opacity as dollar amount/percentage
     ctx.font = '12px Arial'; // Same size for consistency
     const userHandle = user?.username || enhancedProfile?.username || 'user';
-    ctx.fillText(`@${userHandle}`, canvas.width - 50, 263);
+    ctx.fillText(`@${userHandle}`, canvas.width - 40, 263);
     ctx.restore();
     
     // Bottom center attribution - positioned well outside card border

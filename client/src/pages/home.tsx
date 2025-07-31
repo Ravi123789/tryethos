@@ -123,16 +123,9 @@ export default function Home() {
         <div className="absolute bottom-40 left-20 w-40 h-40 bg-gradient-to-br from-orange-400/8 to-yellow-400/8 rounded-full blur-xl hidden md:block md:animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-6">
-        {/* Hero Tagline */}
-        <HeroTagline />
-
-        {/* Large Search Section */}
-        <div className="w-full mx-auto mb-6 px-4">
-          <div className="max-w-7xl mx-auto">
-            <ModernWalletScanner />
-          </div>
-        </div>
+      <div className="relative z-10">
+        {/* Modern Search Interface - Clean and centered */}
+        <ModernWalletScanner />
 
         {/* Farcaster Auto-Detect Component */}
         {detectedUser && (

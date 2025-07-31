@@ -204,48 +204,39 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 py-6">
-        {/* Header with Back button and Review button */}
+        {/* Header with Back button */}
         <div className="mb-6 flex items-center justify-between">
           {/* Left side - Back button */}
           <button
             onClick={onBackToSearch}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl backdrop-blur-xl bg-white/10 dark:bg-white/5 hover:bg-white/15 dark:hover:bg-white/8 border border-white/20 dark:border-white/15 text-white/80 hover:text-white transition-all duration-300 text-sm group shadow-2xl shadow-black/25 dark:shadow-black/80"
+            className="clay-button flex items-center gap-2 px-4 py-3 text-sm group"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             <span>Back to Search</span>
           </button>
           
-          {/* Right side - Farcaster indicator and Review button */}
+          {/* Right side - Farcaster indicator */}
           <div className="flex items-center gap-3">
             {/* Search via Farcaster indicator - only show if search mode is farcaster */}
             {searchMode === 'farcaster' && (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/15 text-purple-300 text-xs font-medium shadow-2xl shadow-black/25 dark:shadow-black/80">
+              <div className="clay-card-inset flex items-center gap-2 px-4 py-2 border-[#8a63d2]/30 text-[#8a63d2] text-xs font-medium">
                 <SiFarcaster className="w-3 h-3" />
                 <span>Search via Farcaster</span>
                 {/* Show FID if available */}
                 {user.fid && (
                   <>
-                    <span className="text-purple-400/60">•</span>
-                    <span className="text-purple-200">FID {user.fid}</span>
+                    <span className="text-[#8a63d2]/60">•</span>
+                    <span className="text-[#8a63d2]/80">FID {user.fid}</span>
                   </>
                 )}
               </div>
             )}
-            
-
           </div>
         </div>
 
-        {/* Modern Compact Profile Card */}
-        <div className="relative backdrop-blur-2xl bg-gradient-to-br from-gray-900/20 via-gray-800/15 to-gray-700/10 rounded-3xl overflow-hidden shadow-2xl shadow-blue-400/10">
-          {/* Floating orbs for visual interest */}
-          <div className="absolute top-4 right-6 w-3 h-3 bg-gradient-to-r from-emerald-400/40 to-teal-400/30 rounded-full animate-pulse"></div>
-          <div className="absolute bottom-6 left-8 w-2 h-2 bg-gradient-to-r from-blue-400/40 to-cyan-400/30 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-          
-          {/* Gradient overlay for depth */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/8 via-transparent to-white/4 pointer-events-none rounded-3xl"></div>
-          
-          <div className="relative p-8">
+        {/* Clay Profile Card */}
+        <div className="clay-card overflow-hidden">
+          <div className="relative p-6">
             {/* Header Section - More compact */}
             <div className="flex items-center gap-4 mb-6">
               {/* Avatar with status-colored ring and tier badge */}

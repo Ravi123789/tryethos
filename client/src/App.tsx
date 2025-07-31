@@ -28,13 +28,16 @@ import NotFound from "@/pages/not-found";
 function AppHeader() {
   return (
     <header className="relative">
-      <div className="max-w-6xl mx-auto px-3 py-2">
-        <div className="flex items-center justify-between bg-gray-800/90 border border-gray-600/50 rounded-xl px-6 py-3 shadow-lg">
+      <div className="max-w-6xl mx-auto px-4 py-3">
+        <div className="clay-card flex items-center justify-between px-6 py-4">
           <div className="flex items-center space-x-3">
-            <SimpleRadarLogo className="w-6 h-6 text-white" />
-            <h1 className="text-xl font-bold text-white">
+            <SimpleRadarLogo className="w-7 h-7 text-white" />
+            <h1 className="text-xl font-bold text-white tracking-tight">
               EthosRadar
             </h1>
+          </div>
+          <div className="text-xs font-medium text-white/60 hidden sm:block">
+            Base Mini App
           </div>
         </div>
       </div>
@@ -82,9 +85,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div className="min-h-screen bg-gray-900">
+        <div className="min-h-screen min-h-[100dvh] bg-gradient-to-br from-[#0f1419] via-[#1a1f2e] to-[#0f1419]">
           <AppHeader />
-          <main>
+          <main className="pb-safe-bottom">
             <Router />
           </main>
           <Toaster />

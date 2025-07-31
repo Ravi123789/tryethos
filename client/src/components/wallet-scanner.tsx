@@ -169,21 +169,17 @@ export function WalletScanner() {
     }
   };
 
-  // Compact glass search bar for when user is loaded
+  // Compact clay search bar for when user is loaded
   if (isCompactMode) {
     return (
       <>
-        <div className="glass-compact-search relative">
-          {/* Floating orbs for compact search */}
-          <div className="absolute top-1 right-2 w-4 h-4 bg-gradient-to-r from-emerald-400/30 to-teal-400/20 dark:from-gray-400/30 dark:to-gray-500/20 rounded-full floating-orb floating-orb-1"></div>
-          <div className="absolute bottom-1 left-16 w-3 h-3 bg-gradient-to-r from-rose-400/25 to-pink-400/15 dark:from-gray-500/25 dark:to-gray-600/15 rounded-full floating-orb floating-orb-2"></div>
-          
-          <div className="glass-search-wrapper">
-            <div className="glass-search-icon">
+        <div className="clay-compact-search relative">
+          <div className="clay-search-wrapper">
+            <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
               {searchMutation.isPending ? (
-                <div className="glass-spinner"></div>
+                <div className="w-5 h-5 border-2 border-[#8a63d2]/30 border-t-[#8a63d2] rounded-full animate-spin"></div>
               ) : (
-                <Search className="w-4 h-4 text-white/70" />
+                <Search className="w-5 h-5 text-white/70" />
               )}
             </div>
             
@@ -196,20 +192,15 @@ export function WalletScanner() {
               onKeyPress={handleKeyPress}
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
-              style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)'
-              }}
-              className="glass-search-input flex-1 border-none text-white/90 placeholder:text-white/50 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-xl"
+              className="clay-search-input flex-1 border-none text-white/90 placeholder:text-white/50 focus-visible:ring-0 focus-visible:ring-offset-0"
             />
             
             <button
               onClick={handleSearch}
               disabled={!query.trim() || searchMutation.isPending}
-              className="glass-search-button"
+              className="clay-search-button clay-button-base"
             >
-              <Zap className="w-3.5 h-3.5" />
+              <Zap className="w-4 h-4" />
             </button>
           </div>
           
@@ -232,30 +223,26 @@ export function WalletScanner() {
     );
   }
 
-  // Full modern search interface for initial state
+  // Full claymorphism search interface for initial state
   return (
     <>
       <div className="w-full">
-        <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-700 rounded-2xl p-6 md:p-6 px-4 hover:bg-gray-800/50 transition-all duration-500 w-full pb-8 shadow-2xl shadow-black/25 dark:shadow-black/80 space-y-4">
-          {/* Floating background elements */}
-          <div className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 dark:from-gray-600/10 dark:to-gray-700/10 rounded-full blur-xl animate-pulse"></div>
-          <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-gradient-to-br from-purple-400/10 to-pink-400/10 dark:from-gray-500/10 dark:to-gray-600/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="clay-card p-6 md:p-6 px-4 w-full pb-8 space-y-4 relative overflow-hidden">
+          {/* Subtle floating elements removed for clean clay aesthetic */}
             
           {/* Redesigned Search Bar */}
           <div className="relative mb-4 z-[100]">
             <div className="group relative">
-              {/* Main search container with enhanced glassmorphism + Farcaster mode */}
+              {/* Main search container with claymorphism + Farcaster/Base mode */}
               <div className={`
-                relative backdrop-blur-xl bg-white/10 dark:bg-white/5
-                border border-gray-600 rounded-2xl overflow-hidden 
-                transition-all duration-200 ease-out
-                shadow-2xl shadow-black/25 dark:shadow-black/80
+                clay-card-inset relative overflow-hidden
+                transition-all duration-300 cubic-bezier(0.4, 0, 0.2, 1)
                 ${farcasterMode 
-                  ? 'border-blue-500/70 shadow-lg shadow-blue-500/20 bg-gradient-to-r from-blue-900/30 via-blue-800/15 to-blue-900/30' + 
-                    (showFarcasterAnimation ? ' shadow-xl shadow-blue-500/30' : '')
+                  ? 'border-[#8a63d2]/30 shadow-[#8a63d2]/20' + 
+                    (showFarcasterAnimation ? ' shadow-xl shadow-[#8a63d2]/40' : '')
                   : isFocused 
-                    ? 'border-blue-500 ring-1 ring-blue-500 bg-gray-700/20' 
-                    : 'hover:border-gray-600 hover:bg-gray-700/30'
+                    ? 'border-[#0052ff]/50 shadow-[#0052ff]/20' 
+                    : ''
                 }
               `}>
                 
@@ -371,19 +358,19 @@ export function WalletScanner() {
             
 
 
-            {/* Optimized Compact Toggle */}
-            <div className="flex justify-center mb-3">
-              <div className="relative backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-gray-600 rounded-lg p-1 shadow-lg">
+            {/* Clay Toggle */}
+            <div className="flex justify-center mb-4">
+              <div className="clay-card-inset p-1">
                 <div className="flex items-center gap-1">
                   {/* Global Search Option */}
                   <button
                     onClick={() => setFarcasterMode(false)}
                     className={`
-                      relative px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-1 
-                      min-w-[85px] justify-center font-medium text-sm min-h-[40px]
+                      clay-button px-4 py-2 transition-all duration-300 flex items-center gap-2 
+                      min-w-[90px] justify-center font-semibold text-sm min-h-[44px]
                       ${!farcasterMode 
-                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25' 
-                        : 'text-white/70 hover:text-white hover:bg-gray-700/50'
+                        ? 'clay-button-base' 
+                        : 'hover:bg-white/5'
                       }
                     `}
                   >
@@ -395,11 +382,11 @@ export function WalletScanner() {
                   <button
                     onClick={() => setFarcasterMode(true)}
                     className={`
-                      relative px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-1 
-                      min-w-[85px] justify-center font-medium text-sm min-h-[40px]
+                      clay-button px-4 py-2 transition-all duration-300 flex items-center gap-2 
+                      min-w-[90px] justify-center font-semibold text-sm min-h-[44px]
                       ${farcasterMode 
-                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25' 
-                        : 'text-white/70 hover:text-white hover:bg-gray-700/50'
+                        ? 'clay-button-farcaster' 
+                        : 'hover:bg-white/5'
                       }
                     `}
                   >
@@ -415,12 +402,12 @@ export function WalletScanner() {
               </div>
             </div>
             
-            {/* Optimized Farcaster Beta Notice */}
+            {/* Clay Farcaster Beta Notice */}
             {farcasterMode && (
-              <div className="flex justify-center mb-3">
-                <div className="flex items-center gap-2 px-3 py-1 backdrop-blur-md bg-blue-900/15 border border-blue-500/20 rounded-xl text-blue-200/80 text-xs">
-                  <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></span>
-                  <span>Experimental feature</span>
+              <div className="flex justify-center mb-4">
+                <div className="flex items-center gap-2 px-4 py-2 clay-card-inset border-[#8a63d2]/30 text-[#8a63d2] text-xs font-medium">
+                  <span className="w-1.5 h-1.5 bg-[#8a63d2] rounded-full animate-pulse"></span>
+                  <span>Experimental Farcaster mode</span>
                 </div>
               </div>
             )}
@@ -434,7 +421,7 @@ export function WalletScanner() {
 
 
           {searchMutation.error && (
-            <div className="glass-error-message">
+            <div className="clay-card-inset p-4 border-red-500/30 text-red-300 text-sm">
               {searchMutation.error.message}
             </div>
           )}
@@ -443,16 +430,16 @@ export function WalletScanner() {
           <div className="h-16"></div>
 
           {/* Built On Ethos Network text at bottom edge */}
-          <div className="absolute bottom-2 left-6 right-6">
-            <div className="flex items-center justify-center gap-2 text-white/60 text-sm">
+          <div className="absolute bottom-3 left-6 right-6">
+            <div className="flex items-center justify-center gap-2 text-white/50 text-sm font-medium">
               <span>Built On Ethos Network</span>
               <img 
                 src="/ethos-logo.png" 
                 alt="Ethos Logo" 
-                className="w-5 h-5 opacity-60 rounded-full"
+                className="w-5 h-5 opacity-50 rounded-full"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  target.outerHTML = '<div class="w-5 h-5 bg-gradient-to-br from-orange-400 to-teal-500 rounded-full opacity-60"></div>';
+                  target.outerHTML = '<div class="w-5 h-5 bg-gradient-to-br from-orange-400 to-teal-500 rounded-full opacity-50"></div>';
                 }}
               />
             </div>

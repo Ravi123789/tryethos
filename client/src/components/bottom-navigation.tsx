@@ -51,17 +51,18 @@ ${frameUrl}`;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 pb-safe">
-      <div className="flex items-center justify-center p-3">
-        {/* Enhanced Glassmorphism Container - Better Dark Theme */}
-        <div className="relative flex items-center gap-1 p-1.5 rounded-2xl backdrop-blur-xl bg-white/10 border border-gray-700 shadow-2xl shadow-black/25 hover:bg-gray-700/50 transition-all duration-300">
-          {/* Flowing liquid background for active item */}
+      <div className="flex items-center justify-center p-4">
+        {/* Clay Navigation Container */}
+        <div className="relative flex items-center gap-2 clay-card p-2">
+          {/* Active item indicator with clay pressed effect */}
           <div 
-            className="absolute top-2 bottom-2 bg-gradient-to-r from-white/25 to-white/20 rounded-2xl backdrop-blur-xl border border-gray-600 shadow-lg transition-all duration-500 ease-out"
+            className="absolute top-2 bottom-2 clay-card-inset border border-[#0052ff]/30 transition-all duration-500 ease-out"
             style={{
-              left: activeTab === 'home' ? '6px' : 
-                    activeTab === 'favorites' ? '58px' : 
-                    activeTab === 'trends' ? '110px' : '162px',
-              width: activeTab === 'home' ? '72px' : '44px'
+              left: activeTab === 'home' ? '8px' : 
+                    activeTab === 'favorites' ? '64px' : 
+                    activeTab === 'trends' ? '120px' : '176px',
+              width: activeTab === 'home' ? '76px' : '48px',
+              borderRadius: 'var(--radius)'
             }}
           />
           
@@ -79,50 +80,39 @@ ${frameUrl}`;
                   }
                 }}
                 disabled={item.disabled}
-                className={`relative flex items-center gap-1.5 px-3 py-2 rounded-2xl transition-all duration-300 z-10 min-h-[44px] ${
+                className={`clay-nav-button relative flex items-center gap-2 px-4 py-3 transition-all duration-300 z-10 min-h-[48px] min-w-[48px] ${
                   item.disabled 
-                    ? 'cursor-not-allowed'
+                    ? 'cursor-not-allowed opacity-40'
                     : 'hover:scale-105 active:scale-95'
                 }`}
               >
-                <div className="relative">
-                  <Icon className={`w-4 h-4 transition-colors duration-300 ${
-                    isActive 
-                      ? 'text-gray-800 dark:text-white' 
-                      : item.disabled 
-                        ? 'text-white/30 dark:text-gray-600' 
-                        : 'text-white/70 dark:text-gray-400 hover:text-white/90 dark:hover:text-gray-200'
-                  }`} />
-                  
-                  {/* Icon glow effect - Monochrome theme */}
-                  {isActive && (
-                    <div className="absolute inset-0 bg-white/15 dark:bg-gray-300/20 blur-sm rounded-full animate-pulse"></div>
-                  )}
-                </div>
+                <Icon className={`w-5 h-5 transition-colors duration-300 ${
+                  isActive 
+                    ? 'text-white' 
+                    : item.disabled 
+                      ? 'text-white/30' 
+                      : 'text-white/70 hover:text-white/90'
+                }`} />
                 
-                {/* Active label only - Monochrome theme */}
+                {/* Active label with claymorphism styling */}
                 {isActive && (
-                  <span className="text-xs font-semibold text-white dark:text-white whitespace-nowrap" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
+                  <span className="text-sm font-semibold text-white whitespace-nowrap">
                     {item.label}
                   </span>
                 )}
                 
-                {/* Small "Soon" label for disabled items - Monochrome theme */}
+                {/* Small "Soon" label for disabled items */}
                 {item.disabled && (
-                  <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 text-[9px] text-white/40 dark:text-gray-600 whitespace-nowrap">
+                  <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 text-[9px] text-white/40 whitespace-nowrap">
                     Soon
                   </span>
                 )}
-                
-                {/* Ripple effect on hover - Monochrome theme */}
-                <div className="absolute inset-0 rounded-full bg-white/8 dark:bg-gray-300/10 opacity-0 hover:opacity-100 transition-opacity duration-300 scale-0 hover:scale-100"></div>
               </button>
             );
           })}
           
-          {/* Liquid glass edge highlights - Monochrome theme */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-t from-white/5 via-transparent to-white/10 dark:from-gray-800/30 dark:via-transparent dark:to-gray-600/20 pointer-events-none"></div>
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/8 to-transparent dark:via-gray-700/30 pointer-events-none"></div>
+          {/* Clay edge highlights */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/5 via-transparent to-white/5 pointer-events-none"></div>
         </div>
       </div>
     </div>

@@ -44,19 +44,23 @@
   animation: glow-pulse 2s ease-in-out infinite;
 }
 
-/* Dark mode only - Clean solid background */
+/* Dark Claymorphism Base - Mobile Optimized */
 body {
-  background: linear-gradient(135deg, #111827 0%, #1f2937 50%, #111827 100%);
+  background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 35%, #0f1419 100%);
   background-attachment: fixed;
   min-height: 100vh;
   min-height: 100dvh;
   margin: 0;
   padding: 0;
-  color: white;
+  color: #f8fafc;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+  /* Mobile touch optimizations */
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Remove overlay - solid background only */
@@ -140,55 +144,75 @@ body::before {
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* Dark mode only - Solid card design */
+/* Dark Claymorphism Design System */
 :root {
-  --background: #111827;
-  --foreground: #ffffff;
-  --card: #1f2937;
-  --card-foreground: #ffffff;
-  --popover: #374151;
-  --popover-foreground: #ffffff;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --secondary: #374151;
-  --secondary-foreground: #ffffff;
-  --muted: #4b5563;
-  --muted-foreground: #d1d5db;
-  --accent: #4b5563;
-  --accent-foreground: #ffffff;
+  --background: #0f1419;
+  --foreground: #f8fafc;
+  --card: #1a1f2e;
+  --card-foreground: #f8fafc;
+  --popover: #252b3a;
+  --popover-foreground: #f8fafc;
+  --primary: #0052ff; /* Base blue */
+  --primary-foreground: #f8fafc;
+  --secondary: #8a63d2; /* Farcaster purple */
+  --secondary-foreground: #f8fafc;
+  --muted: #374151;
+  --muted-foreground: #94a3b8;
+  --accent: #8a63d2;
+  --accent-foreground: #f8fafc;
   --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #4b5563;
-  --input: #374151;
-  --ring: #3b82f6;
-  --radius: 0.75rem;
+  --destructive-foreground: #f8fafc;
+  --border: #374151;
+  --input: #252b3a;
+  --ring: #8a63d2;
+  --radius: 1rem; /* 16px organic rounded corners */
   
-  /* Solid card design - no blur effects */
-  --glass-bg: rgba(31, 41, 55, 0.9);
-  --glass-bg-strong: rgba(55, 65, 81, 0.9);
-  --glass-border: rgba(75, 85, 99, 0.5);
-  --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  /* Claymorphism shadows and effects */
+  --clay-shadow-inset: inset 4px 4px 12px rgba(0, 0, 0, 0.3), inset -4px -4px 12px rgba(255, 255, 255, 0.02);
+  --clay-shadow-raised: 8px 8px 24px rgba(0, 0, 0, 0.4), -4px -4px 16px rgba(255, 255, 255, 0.01);
+  --clay-shadow-pressed: inset 6px 6px 16px rgba(0, 0, 0, 0.4), inset -2px -2px 8px rgba(255, 255, 255, 0.01);
+  
+  /* Clay backgrounds */
+  --clay-base: #1a1f2e;
+  --clay-raised: #252b3a;
+  --clay-pressed: #151923;
+  
+  /* Mobile touch feedback */
+  --clay-active-scale: 0.98;
+  --clay-hover-scale: 1.02;
 }
 
-/* Solid card components - no blur effects */
-.liquid-glass {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  border-radius: 12px;
+/* Clay Components - Mobile First Design */
+.clay-card {
+  background: var(--clay-raised);
+  border-radius: var(--radius);
+  box-shadow: var(--clay-shadow-raised);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  min-height: 44px; /* Mobile touch target */
 }
 
-.liquid-glass::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(75, 85, 99, 0.3);
-  z-index: 1;
+.clay-card:hover {
+  transform: scale(var(--clay-hover-scale));
+  box-shadow: 
+    12px 12px 32px rgba(0, 0, 0, 0.5), 
+    -6px -6px 20px rgba(255, 255, 255, 0.02);
+}
+
+.clay-card:active {
+  transform: scale(var(--clay-active-scale));
+  box-shadow: var(--clay-shadow-pressed);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clay-card-inset {
+  background: var(--clay-pressed);
+  border-radius: var(--radius);
+  box-shadow: var(--clay-shadow-inset);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 
 .glass-mobile-card {
@@ -209,21 +233,39 @@ body::before {
 
 /* Mobile-specific styles for compact search */
 @media (max-width: 768px) {
-  .glass-compact-search {
-    padding: 0 0.5rem;
-    margin-bottom: 1rem;
+  .clay-compact-search {
+    padding: 0 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Enhanced touch feedback for mobile */
+  .clay-card {
+    min-height: 48px;
+  }
+  
+  /* Organic mobile corners */
+  .clay-card {
+    border-radius: 1.5rem; /* 24px for mobile */
   }
 }
 
-.glass-search-wrapper {
+.clay-search-wrapper {
   position: relative;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  box-shadow: var(--glass-shadow);
+  background: var(--clay-raised);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius);
+  box-shadow: var(--clay-shadow-raised);
   display: flex;
   align-items: center;
   min-height: 76px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clay-search-wrapper:focus-within {
+  box-shadow: 
+    var(--clay-shadow-raised),
+    0 0 0 2px rgba(138, 99, 210, 0.3); /* Farcaster purple ring */
+  transform: scale(1.01);
 }
 
 /* Mobile-specific wrapper adjustments */
@@ -251,46 +293,102 @@ body::before {
   }
 }
 
-.glass-search-input {
+.clay-search-input {
   width: 100%;
   padding: 20px 60px 20px 52px;
   background: transparent;
   border: none;
   outline: none;
-  color: white;
+  color: var(--foreground);
   font-size: 16px;
-  border-radius: 12px;
+  font-weight: 500;
+  border-radius: var(--radius);
   min-height: 64px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Mobile-specific input adjustments */
 @media (max-width: 768px) {
-  .glass-search-input {
+  .clay-search-input {
     padding: 28px 80px 28px 60px;
     font-size: 18px;
     min-height: 80px;
-    border-radius: 14px;
+    border-radius: 1.5rem; /* 24px mobile corners */
   }
 }
 
-.glass-search-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+.clay-search-input::placeholder {
+  color: rgba(248, 250, 252, 0.4);
+  font-weight: 400;
 }
 
-.glass-button {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  transition: all 0.15s ease;
+.clay-search-input:focus::placeholder {
+  color: rgba(138, 99, 210, 0.5); /* Farcaster purple placeholder on focus */
+}
+
+.clay-button {
+  background: var(--clay-raised);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--foreground);
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.95rem;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   cursor: pointer;
-  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--clay-shadow-raised);
+  position: relative;
+  overflow: hidden;
 }
 
-.glass-button:hover {
-  background: var(--glass-bg-strong);
-  transform: translateY(-1px);
+.clay-button:hover {
+  transform: scale(var(--clay-hover-scale));
+  box-shadow: 
+    12px 12px 32px rgba(0, 0, 0, 0.6), 
+    -6px -6px 20px rgba(255, 255, 255, 0.03);
+}
+
+.clay-button:active {
+  transform: scale(var(--clay-active-scale));
+  box-shadow: var(--clay-shadow-pressed);
+}
+
+/* Farcaster Purple Button */
+.clay-button-farcaster {
+  background: linear-gradient(135deg, #8a63d2 0%, #7c3aed 100%);
+  border: 1px solid rgba(138, 99, 210, 0.3);
+  box-shadow: 
+    var(--clay-shadow-raised),
+    0 0 20px rgba(138, 99, 210, 0.2);
+}
+
+.clay-button-farcaster:hover {
+  box-shadow: 
+    12px 12px 32px rgba(0, 0, 0, 0.6), 
+    -6px -6px 20px rgba(255, 255, 255, 0.03),
+    0 0 30px rgba(138, 99, 210, 0.4);
+}
+
+/* Base Blue Button */
+.clay-button-base {
+  background: linear-gradient(135deg, #0052ff 0%, #0041cc 100%);
+  border: 1px solid rgba(0, 82, 255, 0.3);
+  box-shadow: 
+    var(--clay-shadow-raised),
+    0 0 20px rgba(0, 82, 255, 0.2);
+}
+
+.clay-button-base:hover {
+  box-shadow: 
+    12px 12px 32px rgba(0, 0, 0, 0.6), 
+    -6px -6px 20px rgba(255, 255, 255, 0.03),
+    0 0 30px rgba(0, 82, 255, 0.4);
 }
 
 .glass-simple-header {
@@ -621,34 +719,58 @@ body::before {
   }
 }
 
-/* Button and search enhancements */
-.glass-search-button {
+/* Clay Search Button with Haptic Feedback */
+.clay-search-button {
   position: absolute;
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  border: none;
-  background: rgba(100, 100, 100, 0.2);
-  backdrop-filter: blur(8px);
-  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(0, 82, 255, 0.3);
+  background: linear-gradient(135deg, #0052ff 0%, #0041cc 100%);
+  color: var(--foreground);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 
+    var(--clay-shadow-raised),
+    0 0 20px rgba(0, 82, 255, 0.3);
+  font-weight: 600;
+}
+
+.clay-search-button:hover {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 
+    12px 12px 32px rgba(0, 0, 0, 0.6), 
+    -6px -6px 20px rgba(255, 255, 255, 0.03),
+    0 0 30px rgba(0, 82, 255, 0.5);
+}
+
+.clay-search-button:active {
+  transform: translateY(-50%) scale(0.95);
+  box-shadow: var(--clay-shadow-pressed);
 }
 
 /* Mobile-specific button adjustments for better touch targets */
 @media (max-width: 768px) {
-  .glass-search-button {
+  .clay-search-button {
     right: 12px;
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
+    width: 56px;
+    height: 56px;
+    border-radius: 1.5rem; /* 24px mobile corners */
+  }
+  
+  /* Mobile navigation buttons */
+  .clay-nav-button {
+    min-height: 56px;
+    min-width: 56px;
+    border-radius: 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 700;
   }
 }
 

@@ -172,7 +172,7 @@ router.get('/card/:userkey', async (req, res) => {
 
     // Generate frame card with optimized rendering
 
-    // Background image path validation
+    // Updated background image path validation
     const ethosCardBgPath = path.resolve(process.cwd(), 'public', 'ethos-card-bg.jpg');
     if (!fs.existsSync(ethosCardBgPath)) {
       // Background image not found, using fallback

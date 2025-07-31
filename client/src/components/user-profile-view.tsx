@@ -458,46 +458,7 @@ export function UserProfileView({ user, onBackToSearch, onUserSearch, searchMode
 
 
 
-            {/* Enhanced Dashboard Navigation Tabs - Mobile Optimized */}
-            <div className="px-4 mb-6">
-              <div className="w-full max-w-full">
-                <div className="flex justify-between gap-1 backdrop-blur-xl bg-white/8 border border-white/20 rounded-2xl p-2 shadow-xl">
-                  <button
-                    onClick={() => setActiveView('overview')}
-                    className={`flex items-center justify-center gap-1 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap min-h-[44px] flex-1 max-w-[30%] ${
-                      activeView === 'overview'
-                        ? 'bg-white/15 text-white shadow-lg shadow-white/10 scale-105'
-                        : 'text-white/70 hover:text-white hover:bg-white/8 hover:scale-102'
-                    }`}
-                  >
-                    <BarChart3 className="w-4 h-4 flex-shrink-0" />
-                    <span className="hidden sm:inline">Overview</span>
-                  </button>
-                  <button
-                    onClick={() => setActiveView('activity')}
-                    className={`flex items-center justify-center gap-1 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap min-h-[44px] flex-1 max-w-[30%] ${
-                      activeView === 'activity'
-                        ? 'bg-white/15 text-white shadow-lg shadow-white/10 scale-105'
-                        : 'text-white/70 hover:text-white hover:bg-white/8 hover:scale-102'
-                    }`}
-                  >
-                    <Activity className="w-4 h-4 flex-shrink-0" />
-                    <span className="hidden sm:inline">Vouch Intel</span>
-                  </button>
-                  <button
-                    onClick={() => setActiveView('network')}
-                    className={`flex items-center justify-center gap-1 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap min-h-[44px] flex-1 max-w-[30%] ${
-                      activeView === 'network'
-                        ? 'bg-white/15 text-white shadow-lg shadow-white/10 scale-105'
-                        : 'text-white/70 hover:text-white hover:bg-white/8 hover:scale-102'
-                    }`}
-                  >
-                    <Network className="w-4 h-4 flex-shrink-0" />
-                    <span className="hidden sm:inline">R4R Analysis</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+
                 
                 {/* Dynamic Content Based on Active View */}
                 {activeView === 'overview' && (

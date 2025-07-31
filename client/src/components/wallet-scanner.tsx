@@ -223,60 +223,54 @@ export function WalletScanner() {
     );
   }
 
-  // Full claymorphism search interface for initial state
+  // Modern mobile-first interface for Farcaster/Base
   return (
-    <>
-      <div className="w-full">
-        <div className="clay-card p-6 md:p-6 px-4 w-full pb-8 space-y-4 relative overflow-hidden">
-          {/* Subtle floating elements removed for clean clay aesthetic */}
+    <div className="min-h-screen bg-gradient-to-br from-[#0f1419] via-[#1a1f2e] to-[#0f1419] flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="clay-card p-6 space-y-6">
+          {/* Modern Logo Header */}
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-lg">E</span>
+              </div>
+              <h1 className="text-2xl font-bold text-white tracking-tight">EthosRadar</h1>
+            </div>
             
-          {/* Redesigned Search Bar */}
-          <div className="relative mb-4 z-[100]">
-            <div className="group relative">
-              {/* Main search container with claymorphism + Farcaster/Base mode */}
-              <div className={`
-                clay-card-inset relative overflow-hidden
-                transition-all duration-300 cubic-bezier(0.4, 0, 0.2, 1)
-                ${farcasterMode 
-                  ? 'border-[#8a63d2]/30 shadow-[#8a63d2]/20' + 
-                    (showFarcasterAnimation ? ' shadow-xl shadow-[#8a63d2]/40' : '')
-                  : isFocused 
-                    ? 'border-[#0052ff]/50 shadow-[#0052ff]/20' 
-                    : ''
-                }
-              `}>
-                
-                {/* Subtle gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-50"></div>
-                
-                {/* Input field */}
-                <div className="relative">
-                  <Input
-                    ref={inputRef}
-                    type="text"
-                    placeholder={farcasterMode ? "Enter Farcaster username (e.g., vitalik.eth)" : "Enter @username to search"}
-                    value={query}
-                    onChange={handleInputChange}
-                    onKeyPress={handleKeyPress}
-                    onFocus={handleInputFocus}
-                    onBlur={handleInputBlur}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck="false"
-                    style={{
-                      background: 'transparent',
-                      backdropFilter: 'blur(20px)',
-                      WebkitBackdropFilter: 'blur(20px)',
-                      textShadow: '1px 1px 3px rgba(0,0,0,0.7)'
-                    }}
-                    className={`
-                      w-full px-4 py-2.5 pr-12 border-none 
-                      text-white text-lg font-semibold
-                      placeholder:font-medium placeholder-gray-400
-                      focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none
+            <h2 className="text-3xl font-bold text-white mb-3 leading-tight tracking-tight">
+              Who's Who?
+            </h2>
+            <p className="text-lg text-white/70 mb-6 leading-relaxed">
+              The Network Knows.
+            </p>
+            
+            {/* Modern verification badge */}
+            <div className="flex items-center justify-center mb-6">
+              <div className="clay-card-inset flex items-center gap-2 px-4 py-2 border-emerald-500/30">
+                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                <span className="text-emerald-300 text-sm font-medium">Verified on Ethos</span>
+              </div>
+            </div>
+          </div>
+          {/* Modern Search Bar */}
+          <div className="relative mb-6">
+            <div className={`
+              clay-card-inset p-4 transition-all duration-300
+              ${farcasterMode 
+                ? 'border-[#8a63d2]/30' 
+                : 'border-[#0052ff]/30'
+              }
+            `}>
+              <Input
+                ref={inputRef}
+                type="text"
+                placeholder="Enter @username to search"
+                value={query}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
+                className="w-full bg-transparent border-0 text-white text-lg placeholder:text-white/50 focus:outline-none focus:ring-0"
                       transition-all duration-200 rounded-2xl min-h-[44px]
                       ${farcasterMode 
                         ? 'placeholder:text-blue-200/90' 
@@ -358,49 +352,29 @@ export function WalletScanner() {
             
 
 
-            {/* Clay Toggle */}
-            <div className="flex justify-center mb-4">
-              <div className="clay-card-inset p-1">
-                <div className="flex items-center gap-1">
-                  {/* Global Search Option */}
-                  <button
-                    onClick={() => setFarcasterMode(false)}
-                    className={`
-                      clay-button px-4 py-2 transition-all duration-300 flex items-center gap-2 
-                      min-w-[90px] justify-center font-semibold text-sm min-h-[44px]
-                      ${!farcasterMode 
-                        ? 'clay-button-base' 
-                        : 'hover:bg-white/5'
-                      }
-                    `}
-                  >
-                    <span className="text-sm">🌐</span>
-                    <span>Global</span>
-                  </button>
-                  
-                  {/* Farcaster Option */}
-                  <button
-                    onClick={() => setFarcasterMode(true)}
-                    className={`
-                      clay-button px-4 py-2 transition-all duration-300 flex items-center gap-2 
-                      min-w-[90px] justify-center font-semibold text-sm min-h-[44px]
-                      ${farcasterMode 
-                        ? 'clay-button-farcaster' 
-                        : 'hover:bg-white/5'
-                      }
-                    `}
-                  >
-                    <SiFarcaster className="w-3 h-3" />
-                    <span>Farcaster</span>
-                    {farcasterMode && (
-                      <span className="text-[8px] font-bold px-1 py-0.5 bg-white/20 text-white/90 rounded">
-                        β
-                      </span>
-                    )}
-                  </button>
-                </div>
-              </div>
-            </div>
+          {/* Modern Toggle Buttons */}
+          <div className="flex gap-2 mb-6">
+            <button
+              onClick={() => setFarcasterMode(false)}
+              className={`
+                flex-1 clay-button flex items-center justify-center gap-2 py-4 font-semibold
+                ${!farcasterMode ? 'clay-button-base' : ''}
+              `}
+            >
+              🌐 Global
+            </button>
+            
+            <button
+              onClick={() => setFarcasterMode(true)}
+              className={`
+                flex-1 clay-button flex items-center justify-center gap-2 py-4 font-semibold
+                ${farcasterMode ? 'clay-button-farcaster' : ''}
+              `}
+            >
+              <SiFarcaster className="w-4 h-4" />
+              Farcaster
+            </button>
+          </div>
             
             {/* Clay Farcaster Beta Notice */}
             {farcasterMode && (

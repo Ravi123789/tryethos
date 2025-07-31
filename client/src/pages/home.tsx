@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'wouter';
-import { WalletScanner } from '@/components/wallet-scanner';
+import { ModernWalletScanner } from '@/components/modern-wallet-scanner';
 import { UserProfileView } from '@/components/user-profile-view';
 
 import { HeroTagline } from '@/components/hero-tagline';
@@ -130,7 +130,7 @@ export default function Home() {
         {/* Large Search Section */}
         <div className="w-full mx-auto mb-6 px-4">
           <div className="max-w-7xl mx-auto">
-            <WalletScanner />
+            <ModernWalletScanner />
           </div>
         </div>
 

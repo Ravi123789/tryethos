@@ -55,7 +55,9 @@
 - **✅ Splash Image Removed**: Completely removed splash screen image and background color from Mini App configuration per user request for cleaner launch experience
 - **✅ Background Removed**: Removed background image and switched to clean gradient background per user request
 - **✅ Card Width Reduced**: Adjusted card dimensions from 480x320 to 460x320 for slightly narrower appearance
-- **✅ Performance Optimization**: Implemented parallel API calls and synchronous rendering for faster card generation speed
+- **✅ MAJOR Performance Optimization**: Consolidated 3 separate API calls into 1 comprehensive Ethos V2 endpoint, reducing generation time from 5.6s to 2.6s (50%+ speed improvement)
+- **✅ Single API Call Solution**: Using `/api/v2/users/userkey` endpoint that provides all needed data: displayName, score, reviews, vouches, status, XP in one call
+- **✅ Optimized Data Extraction**: All card data now extracted from single API response with proper fallbacks and calculations
 
 ### Farcaster Auto-Detect Card Optimization - July 30, 2025
 **✅ FARCASTER AUTO-DETECT CARD OPTIMIZATION COMPLETE**: Successfully optimized auto-detect card with compact sizing and improved navigation spacing

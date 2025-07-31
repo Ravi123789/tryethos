@@ -118,38 +118,52 @@ router.get('/card/:userkey', async (req, res) => {
       }
     }
 
-    // Step 2: Parallel API calls for maximum speed
-    const [profileResult, dashboardResult, vouchResult] = await Promise.allSettled([
-      fetch(`http://localhost:${process.env.PORT || 5000}/api/enhanced-profile/${encodeURIComponent(resolvedUserkey)}`).then(res => res.ok ? res.json() : null),
-      fetch(`http://localhost:${process.env.PORT || 5000}/api/dashboard-reviews/${encodeURIComponent(resolvedUserkey)}`).then(res => res.ok ? res.json() : null),
-      fetch(`http://localhost:${process.env.PORT || 5000}/api/user-vouch-activities/${encodeURIComponent(resolvedUserkey)}`).then(res => res.ok ? res.json() : null)
-    ]);
-
-    // Extract data from parallel results
+    // OPTIMIZED: Single API call using Ethos V2 comprehensive endpoint
     let user: any = null;
     let enhancedProfile: any = null;
-    let dashboardData: any = null;
-    let vouchData: any = null;
+    
+    try {
+      // Use the comprehensive V2 user endpoint that includes ALL data we need
+      const response = await fetch(`https://api.ethos.network/api/v2/users/userkey?userkey=${encodeURIComponent(resolvedUserkey)}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Ethos-Client': 'EthosRadar@1.0.0',
+        },
+      });
 
-    if (profileResult.status === 'fulfilled' && profileResult.value?.success) {
-      user = profileResult.value.data;
-      enhancedProfile = profileResult.value.data;
+      if (response.ok) {
+        const userData = await response.json();
+        user = userData;
+        enhancedProfile = userData;
+        
+        // This single endpoint provides:
+        // - displayName, username, avatarUrl, description
+        // - score (trust score)
+        // - status (ACTIVE/INACTIVE/UNINITIALIZED)
+        // - stats.review.received (positive/negative/neutral counts)
+        // - stats.vouch.received (count and total amount)
+        // - xpTotal, xpStreakDays
+        // - profileId, userkeys
+        // All data needed for card generation in one call!
+      }
+    } catch (error) {
+      // Single API call failed - use fallback
     }
 
-    if (dashboardResult.status === 'fulfilled' && dashboardResult.value?.success) {
-      dashboardData = dashboardResult.value;
-    }
-
-    if (vouchResult.status === 'fulfilled' && vouchResult.value?.success) {
-      vouchData = vouchResult.value.data;
-    }
-
-    // Extract data with fallbacks - use displayName as shown in profile
-    const displayName = user?.displayName || enhancedProfile?.displayName || user?.username || 'Unknown User';
-    const score = user?.score || enhancedProfile?.score || 0;
-    const totalReviews = dashboardData?.data?.totalReviews || 0;
-    const positivePercentage = dashboardData?.data?.positivePercentage || 0;
-    const vouchCount = vouchData?.received?.length || 0;
+    // OPTIMIZED: Extract all data from single API response
+    const displayName = user?.displayName || user?.username || 'Unknown User';
+    const score = user?.score || 0;
+    
+    // Calculate review data from stats.review.received
+    const reviewStats = user?.stats?.review?.received || { positive: 0, negative: 0, neutral: 0 };
+    const totalReviews = reviewStats.positive + reviewStats.negative + reviewStats.neutral;
+    const positivePercentage = totalReviews > 0 ? Math.round((reviewStats.positive / totalReviews) * 100) : 0;
+    
+    // Get vouch data from stats.vouch.received
+    const vouchStats = user?.stats?.vouch?.received || { count: 0, amountWeiTotal: 0 };
+    const vouchCount = vouchStats.count;
+    
+    // Dollar value will be calculated later in stats section
 
     // OPTIMIZED: Synchronous background rendering (no promises/async for simple gradients)
     
@@ -527,9 +541,8 @@ router.get('/card/:userkey', async (req, res) => {
     
     const statsY = 260;
     
-    // Calculate authentic dollar value from vouch data
-    const stakedEthWei = enhancedProfile?.stats?.vouch?.received?.amountWeiTotal || '0';
-    const stakedEth = parseFloat(stakedEthWei) / 1e18;
+    // OPTIMIZED: Calculate dollar value from single API stats
+    const stakedEth = vouchStats.amountWeiTotal / 1e18;
     const dollarValue = stakedEth * 3870;
     
     const vouchText = `${vouchCount} vouches`;

@@ -172,133 +172,53 @@ router.get('/card/:userkey', async (req, res) => {
 
     // Generate frame card with optimized rendering
 
-    // Updated background image path validation
-    const ethosCardBgPath = path.resolve(process.cwd(), 'public', 'ethos-card-bg.jpg');
-    if (!fs.existsSync(ethosCardBgPath)) {
-      // Background image not found, using fallback
-    }
+    // Background rendering removed - using simple gradient
 
-    // Create simple gradient background (no image)
-    const createGlassmorphismBackground = async () => {
-      return new Promise<void>((resolve) => {
-        // Create clean gradient background
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        gradient.addColorStop(0, '#f8fafc');    // Light gray-blue
-        gradient.addColorStop(0.5, '#e2e8f0');  // Medium gray
-        gradient.addColorStop(1, '#cbd5e1');    // Darker gray
-        
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-          
-        // Add subtle decorative elements
-        const addSubtleElements = () => {
-          // Simple subtle elements for visual interest
-          
-          // Top-left soft element - adjusted for narrower canvas
-          const gradient1 = ctx.createRadialGradient(120, 80, 0, 120, 80, 50);
-          gradient1.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
-          gradient1.addColorStop(0.5, 'rgba(200, 200, 200, 0.04)');
-          gradient1.addColorStop(1, 'rgba(150, 150, 150, 0.01)');
-          ctx.fillStyle = gradient1;
-          ctx.beginPath();
-          ctx.arc(120, 80, 50, 0, 2 * Math.PI);
-          ctx.fill();
-          
-          // Top-right soft element - adjusted for narrower canvas
-          const gradient2 = ctx.createRadialGradient(340, 70, 0, 340, 70, 40);
-          gradient2.addColorStop(0, 'rgba(240, 240, 240, 0.06)');
-          gradient2.addColorStop(0.5, 'rgba(180, 180, 180, 0.03)');
-          gradient2.addColorStop(1, 'rgba(120, 120, 120, 0.01)');
-          ctx.fillStyle = gradient2;
-          ctx.beginPath();
-          ctx.arc(340, 70, 40, 0, 2 * Math.PI);
-          ctx.fill();
-          
-          // Bottom-left soft element
-          const gradient3 = ctx.createRadialGradient(80, 240, 0, 80, 240, 45);
-          gradient3.addColorStop(0, 'rgba(220, 220, 220, 0.07)');
-          gradient3.addColorStop(0.5, 'rgba(160, 160, 160, 0.04)');
-          gradient3.addColorStop(1, 'rgba(100, 100, 100, 0.01)');
-          ctx.fillStyle = gradient3;
-          ctx.beginPath();
-          ctx.arc(80, 240, 45, 0, 2 * Math.PI);
-          ctx.fill();
-        };
-        
-        // Add subtle elements
-        addSubtleElements();
-        
-        // Draw card container
-        const cardX = 30;
-        const cardY = 30;
-        const cardWidth = canvas.width - 60;
-        const cardHeight = canvas.height - 60;
-        const borderRadius = 20;
-        
-        // Clean card background
-        const cardGradient = ctx.createLinearGradient(cardX, cardY, cardX + cardWidth, cardY + cardHeight);
-        cardGradient.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-        cardGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.9)');
-        cardGradient.addColorStop(1, 'rgba(255, 255, 255, 0.85)');
-        
-        // Draw card
-        ctx.fillStyle = cardGradient;
-        ctx.beginPath();
-        ctx.roundRect(cardX, cardY, cardWidth, cardHeight, borderRadius);
-        ctx.fill();
-        
-        // Subtle card border
-        ctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        
-        resolve();
-      });
-    };
-
-    // Lightweight glassmorphism border that preserves transparency
-    const drawGlassmorphismBorder = () => {
-      const cardX = 30;
-      const cardY = 30;
-      const cardWidth = canvas.width - 60;
-      const cardHeight = canvas.height - 60;
-      const borderRadius = 20;
+    // Optimized direct background rendering (no async promises)
+    const createBackground = () => {
+      // Simple gradient background
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      gradient.addColorStop(0, '#f8fafc');
+      gradient.addColorStop(0.5, '#e2e8f0');
+      gradient.addColorStop(1, '#cbd5e1');
       
-      // Get subtle monochrome glow color based on level
-      const getSubtleGlowColor = (score: number, status?: string) => {
-        if (score >= 2000) return 'rgba(255, 255, 255, 0.4)'; // Subtle white glow for Exemplary
-        if (score >= 1600) return 'rgba(220, 220, 220, 0.4)'; // Subtle light gray glow for Reputable
-        if (score >= 1200) return 'rgba(180, 180, 180, 0.4)'; // Subtle medium gray glow for Neutral
-        if (score >= 800) return 'rgba(140, 140, 140, 0.4)'; // Subtle dark gray glow for Questionable
-        if (score < 800) return 'rgba(100, 100, 100, 0.4)'; // Subtle darker gray glow for Untrusted
-        
-        // Status-based fallbacks also subtle
-        if (status === 'ACTIVE') return 'rgba(200, 200, 200, 0.4)'; // Subtle light gray glow
-        if (status === 'INACTIVE') return 'rgba(160, 160, 160, 0.4)'; // Subtle medium gray glow
-        if (status === 'UNINITIALIZED') return 'rgba(120, 120, 120, 0.4)'; // Subtle dark gray glow
-        return 'rgba(140, 140, 140, 0.4)'; // Default subtle gray glow
-      };
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      const subtleGlowColor = getSubtleGlowColor(score, enhancedProfile?.status || user?.status);
-      
-      // Single subtle glow effect that won't override glassmorphism
-      ctx.save();
-      ctx.shadowColor = subtleGlowColor;
-      ctx.shadowBlur = 15;
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = 0;
-      ctx.strokeStyle = subtleGlowColor;
-      ctx.lineWidth = 1;
+      // Single subtle background element
+      const bgGradient = ctx.createRadialGradient(230, 160, 0, 230, 160, 80);
+      bgGradient.addColorStop(0, 'rgba(255, 255, 255, 0.06)');
+      bgGradient.addColorStop(1, 'rgba(150, 150, 150, 0.01)');
+      ctx.fillStyle = bgGradient;
       ctx.beginPath();
-      ctx.roundRect(cardX, cardY, cardWidth, cardHeight, borderRadius);
+      ctx.arc(230, 160, 80, 0, 2 * Math.PI);
+      ctx.fill();
+      
+      // Card background
+      const cardX = 30, cardY = 30;
+      const cardWidth = canvas.width - 60, cardHeight = canvas.height - 60;
+      
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.beginPath();
+      ctx.roundRect(cardX, cardY, cardWidth, cardHeight, 20);
+      ctx.fill();
+      
+      ctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
+      ctx.lineWidth = 1;
       ctx.stroke();
-      ctx.restore();
     };
 
-    // Create glassmorphism background
-    await createGlassmorphismBackground();
-    // Background complete
-    drawGlassmorphismBorder();
+    // Simplified level color helper
+    const getLevelColor = () => {
+      if (score >= 2000) return '#8b5cf6'; // Purple
+      if (score >= 1600) return '#10b981'; // Emerald  
+      if (score >= 1200) return '#3b82f6'; // Blue
+      if (score >= 800) return '#f59e0b';  // Amber
+      return '#6b7280'; // Gray
+    };
+
+    // Create optimized background
+    createBackground();
     // Start text rendering
 
     // Single standardized quote for all cards
@@ -318,97 +238,64 @@ router.get('/card/:userkey', async (req, res) => {
     
     if (user?.avatarUrl) {
       try {
-        await new Promise<void>((resolve, reject) => {
-          const avatarImg = new Image();
-          (avatarImg as any).crossOrigin = 'anonymous';
-          avatarImg.onload = () => {
-            // Save context for clipping
-            ctx.save();
-            
-            // Create circular clipping path for avatar
-            ctx.beginPath();
-            ctx.arc(avatarX + avatarRadius, avatarY + avatarRadius, avatarRadius, 0, 2 * Math.PI);
-            ctx.clip();
-            
-            // Draw avatar image
-            ctx.drawImage(avatarImg, avatarX, avatarY, avatarRadius * 2, avatarRadius * 2);
-            
-            // Restore context
-            ctx.restore();
-            
-            // Add status ring around avatar based on user status
-            const getStatusRingColor = () => {
-              const status = enhancedProfile?.status || user?.status;
-              switch (status) {
-                case 'ACTIVE':
-                  return '#10b981'; // Green for active users
-                case 'INACTIVE':
-                  return '#eab308'; // Yellow/amber for inactive users
-                case 'UNINITIALIZED':
-                  return '#9333ea'; // Purple for uninitialized users
-                default:
-                  return '#6b7280'; // Gray for unknown status
-              }
-            };
-            
-            // Draw status ring with 3px width
-            const ringColor = getStatusRingColor();
-            ctx.strokeStyle = ringColor;
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(avatarX + avatarRadius, avatarY + avatarRadius, avatarRadius + 2, 0, 2 * Math.PI);
-            ctx.stroke();
-            
-            // Add inner subtle border around avatar for definition
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.arc(avatarX + avatarRadius, avatarY + avatarRadius, avatarRadius, 0, 2 * Math.PI);
-            ctx.stroke();
-            
-            resolve();
-          };
-          avatarImg.onerror = () => {
-            resolve();
-          };
+        // Simplified avatar loading without promises
+        const avatarImg = new Image();
+        (avatarImg as any).crossOrigin = 'anonymous';
+        
+        try {
           avatarImg.src = user.avatarUrl || '';
-        });
+          
+          // Draw avatar synchronously (may not load, but won't block)
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(avatarX + avatarRadius, avatarY + avatarRadius, avatarRadius, 0, 2 * Math.PI);
+          ctx.clip();
+          
+          if (avatarImg.complete) {
+            ctx.drawImage(avatarImg, avatarX, avatarY, avatarRadius * 2, avatarRadius * 2);
+          }
+          
+          ctx.restore();
+          
+          // Status ring
+          const status = enhancedProfile?.status || user?.status;
+          const ringColor = status === 'ACTIVE' ? '#10b981' : 
+                           status === 'INACTIVE' ? '#eab308' : 
+                           status === 'UNINITIALIZED' ? '#9333ea' : '#6b7280';
+          
+          ctx.strokeStyle = ringColor;
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(avatarX + avatarRadius, avatarY + avatarRadius, avatarRadius + 2, 0, 2 * Math.PI);
+          ctx.stroke();
+        } catch (error) {
+          // Avatar loading failed
+        }
         
         nameStartX = avatarX + (avatarRadius * 2) + 12;
       } catch (error) {
         // Error loading avatar handled
       }
     } else {
-      // Default avatar with status ring - EXACT COPY
-      const getStatusRingColor = () => {
-        const status = enhancedProfile?.status || user?.status;
-        switch (status) {
-          case 'ACTIVE':
-            return '#10b981';
-          case 'INACTIVE':
-            return '#eab308';
-          case 'UNINITIALIZED':
-            return '#9333ea';
-          default:
-            return '#6b7280';
-        }
-      };
-      
-      // Draw default avatar circle with gray background
+      // Simplified default avatar
       ctx.fillStyle = 'rgba(200, 200, 200, 0.3)';
       ctx.beginPath();
       ctx.arc(avatarX + avatarRadius, avatarY + avatarRadius, avatarRadius, 0, 2 * Math.PI);
       ctx.fill();
       
-      // Add status ring around default avatar
-      const ringColor = getStatusRingColor();
+      // Status ring
+      const status = enhancedProfile?.status || user?.status;
+      const ringColor = status === 'ACTIVE' ? '#10b981' : 
+                       status === 'INACTIVE' ? '#eab308' : 
+                       status === 'UNINITIALIZED' ? '#9333ea' : '#6b7280';
+      
       ctx.strokeStyle = ringColor;
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.arc(avatarX + avatarRadius, avatarY + avatarRadius, avatarRadius + 2, 0, 2 * Math.PI);
       ctx.stroke();
       
-      // Add user initial or default icon in center
+      // User initial
       ctx.fillStyle = 'rgba(100, 100, 100, 0.7)';
       ctx.font = '24px Arial';
       ctx.textAlign = 'center';
@@ -467,100 +354,28 @@ router.get('/card/:userkey', async (req, res) => {
     
     const levelName = getScoreLevel(score);
     
-    // Get color based on level - EXACT COPY
-    const getLevelColor = () => {
-      const status = enhancedProfile?.status || user?.status;
-      const level = getScoreLevel(score);
-      
-      switch (level) {
-        case 'Exemplary':
-          return '#8b5cf6'; // Purple-500
-        case 'Reputable':
-          return '#10b981'; // Emerald-500
-        case 'Neutral':
-          return '#3b82f6'; // Blue-500
-        case 'Questionable':
-          return '#f59e0b'; // Amber-500
-        case 'Untrusted':
-          return '#6b7280'; // Gray-500
-        default:
-          switch (status) {
-            case 'ACTIVE':
-              return '#10b981';
-            case 'INACTIVE':
-              return '#eab308';
-            case 'UNINITIALIZED':
-              return '#9333ea';
-            default:
-              return '#6b7280';
-          }
-      }
-    };
+
 
     // Background logo removed per user request
 
     // Level positioned at top-right corner - adjusted for narrower canvas
     const levelText = `${levelName}`;
-    const levelColor = getLevelColor();
-    ctx.fillStyle = levelColor;
+    const currentLevelColor = getLevelColor();
+    ctx.fillStyle = currentLevelColor;
     ctx.font = '20px serif';
     ctx.textAlign = 'right';
     ctx.fillText(levelText, canvas.width - 50, 65);
 
     // Vertical accent line with increased height - adjusted position
-    ctx.strokeStyle = levelColor;
+    ctx.strokeStyle = currentLevelColor;
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(canvas.width - 45, 45);
     ctx.lineTo(canvas.width - 45, 75);
     ctx.stroke();
 
-    // Enhanced darker and more noticeable glow effect around card border
-    const cardX = 30;
-    const cardY = 30;
-    const cardWidth = canvas.width - 60;
-    const cardHeight = canvas.height - 60;
-    const borderRadius = 20;
-    
-    // Create multiple darker glow layers for stronger, more noticeable effect
-    ctx.save();
-    
-    // Outer intense glow (largest blur) - much darker and more visible
-    ctx.shadowColor = levelColor;
-    ctx.shadowBlur = 40;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
-    ctx.strokeStyle = levelColor.replace(')', ', 0.6)').replace('rgb', 'rgba'); // Much darker
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.roundRect(cardX, cardY, cardWidth, cardHeight, borderRadius);
-    ctx.stroke();
-    
-    // Mid glow layer - darker
-    ctx.shadowBlur = 25;
-    ctx.strokeStyle = levelColor.replace(')', ', 0.8)').replace('rgb', 'rgba'); // Very dark
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.roundRect(cardX, cardY, cardWidth, cardHeight, borderRadius);
-    ctx.stroke();
-    
-    // Inner bright glow - maximum intensity
-    ctx.shadowBlur = 12;
-    ctx.strokeStyle = levelColor.replace(')', ', 1.0)').replace('rgb', 'rgba'); // Full opacity
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.roundRect(cardX, cardY, cardWidth, cardHeight, borderRadius);
-    ctx.stroke();
-    
-    // Additional inner rim for definition
-    ctx.shadowBlur = 5;
-    ctx.strokeStyle = levelColor.replace(')', ', 0.9)').replace('rgb', 'rgba'); // Very bright
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.roundRect(cardX + 1, cardY + 1, cardWidth - 2, cardHeight - 2, borderRadius - 1);
-    ctx.stroke();
-    
-    ctx.restore();
+    // Simple level-based border glow
+    drawLevelGlow(currentLevelColor);
 
     // Trust score below username - Cormorant Garamond font, moved up
     const displayScore = score.toString();
@@ -657,7 +472,7 @@ router.get('/card/:userkey', async (req, res) => {
     res.send(buffer);
 
   } catch (error) {
-    console.error('Farcaster frame generation error:', error);
+    // Error handled silently
     
     // Return proper PNG error image instead of JSON
     const errorCanvas = createCanvas(600, 315);

@@ -100,10 +100,10 @@ router.get('/card/:userkey', async (req, res) => {
     const canvas = createCanvas(460, 320);
     const ctx = canvas.getContext('2d');
 
-    // STEP 1: Resolve userkey if it's a username format
+    // OPTIMIZED: Parallel data fetching for speed
     let resolvedUserkey = decodeURIComponent(userkey);
     
-    // If userkey doesn't contain service format, try to resolve it as username
+    // Step 1: Resolve username if needed (keep this sequential as it affects other calls)
     if (!resolvedUserkey.includes('service:') && !resolvedUserkey.includes('address:') && !resolvedUserkey.includes('profileId:')) {
       try {
         const searchResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/search-suggestions?q=${encodeURIComponent(resolvedUserkey)}&limit=1`);
@@ -111,7 +111,6 @@ router.get('/card/:userkey', async (req, res) => {
           const searchResult = await searchResponse.json();
           if (searchResult.success && searchResult.data && searchResult.data.length > 0) {
             resolvedUserkey = searchResult.data[0].userkey;
-            // Resolved username to userkey
           }
         }
       } catch (error) {
@@ -119,48 +118,30 @@ router.get('/card/:userkey', async (req, res) => {
       }
     }
 
-    // Get user data and enhanced profile with error handling
+    // Step 2: Parallel API calls for maximum speed
+    const [profileResult, dashboardResult, vouchResult] = await Promise.allSettled([
+      fetch(`http://localhost:${process.env.PORT || 5000}/api/enhanced-profile/${encodeURIComponent(resolvedUserkey)}`).then(res => res.ok ? res.json() : null),
+      fetch(`http://localhost:${process.env.PORT || 5000}/api/dashboard-reviews/${encodeURIComponent(resolvedUserkey)}`).then(res => res.ok ? res.json() : null),
+      fetch(`http://localhost:${process.env.PORT || 5000}/api/user-vouch-activities/${encodeURIComponent(resolvedUserkey)}`).then(res => res.ok ? res.json() : null)
+    ]);
+
+    // Extract data from parallel results
     let user: any = null;
     let enhancedProfile: any = null;
     let dashboardData: any = null;
-
-    try {
-      const profileResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/enhanced-profile/${encodeURIComponent(resolvedUserkey)}`);
-      if (profileResponse.ok) {
-        const profileResult = await profileResponse.json();
-        // Profile data successfully loaded
-        
-        if (profileResult.success && profileResult.data) {
-          user = profileResult.data;
-          enhancedProfile = profileResult.data;
-        }
-      }
-    } catch (error) {
-      // Error handled silently
-    }
-
-    // Get dashboard review data
-    try {
-      const dashboardResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/dashboard-reviews/${encodeURIComponent(resolvedUserkey)}`);
-      if (dashboardResponse.ok) {
-        dashboardData = await dashboardResponse.json();
-      }
-    } catch (error) {
-      // Error handled silently
-    }
-
-    // Get vouch data using our API endpoint
     let vouchData: any = null;
-    try {
-      const vouchResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/user-vouch-activities/${encodeURIComponent(resolvedUserkey)}`);
-      if (vouchResponse.ok) {
-        const vouchResult = await vouchResponse.json();
-        if (vouchResult.success && vouchResult.data) {
-          vouchData = vouchResult.data;
-        }
-      }
-    } catch (error) {
-      // Error handled silently
+
+    if (profileResult.status === 'fulfilled' && profileResult.value?.success) {
+      user = profileResult.value.data;
+      enhancedProfile = profileResult.value.data;
+    }
+
+    if (dashboardResult.status === 'fulfilled' && dashboardResult.value?.success) {
+      dashboardData = dashboardResult.value;
+    }
+
+    if (vouchResult.status === 'fulfilled' && vouchResult.value?.success) {
+      vouchData = vouchResult.value.data;
     }
 
     // Extract data with fallbacks - use displayName as shown in profile
@@ -170,99 +151,75 @@ router.get('/card/:userkey', async (req, res) => {
     const positivePercentage = dashboardData?.data?.positivePercentage || 0;
     const vouchCount = vouchData?.received?.length || 0;
 
-    // Generate frame card with optimized rendering
-
-    // Updated background image path validation
-    const ethosCardBgPath = path.resolve(process.cwd(), 'public', 'ethos-card-bg.jpg');
-    if (!fs.existsSync(ethosCardBgPath)) {
-      // Background image not found, using fallback
-    }
-
-    // Create simple gradient background (no image)
-    const createGlassmorphismBackground = async () => {
-      return new Promise<void>((resolve) => {
-        // Create clean gradient background
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        gradient.addColorStop(0, '#f8fafc');    // Light gray-blue
-        gradient.addColorStop(0.5, '#e2e8f0');  // Medium gray
-        gradient.addColorStop(1, '#cbd5e1');    // Darker gray
-        
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-          
-        // Add subtle decorative elements
-        const addSubtleElements = () => {
-          // Simple subtle elements for visual interest
-          
-          // Top-left soft element - adjusted for narrower canvas
-          const gradient1 = ctx.createRadialGradient(120, 80, 0, 120, 80, 50);
-          gradient1.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
-          gradient1.addColorStop(0.5, 'rgba(200, 200, 200, 0.04)');
-          gradient1.addColorStop(1, 'rgba(150, 150, 150, 0.01)');
-          ctx.fillStyle = gradient1;
-          ctx.beginPath();
-          ctx.arc(120, 80, 50, 0, 2 * Math.PI);
-          ctx.fill();
-          
-          // Top-right soft element - adjusted for narrower canvas
-          const gradient2 = ctx.createRadialGradient(340, 70, 0, 340, 70, 40);
-          gradient2.addColorStop(0, 'rgba(240, 240, 240, 0.06)');
-          gradient2.addColorStop(0.5, 'rgba(180, 180, 180, 0.03)');
-          gradient2.addColorStop(1, 'rgba(120, 120, 120, 0.01)');
-          ctx.fillStyle = gradient2;
-          ctx.beginPath();
-          ctx.arc(340, 70, 40, 0, 2 * Math.PI);
-          ctx.fill();
-          
-          // Bottom-left soft element
-          const gradient3 = ctx.createRadialGradient(80, 240, 0, 80, 240, 45);
-          gradient3.addColorStop(0, 'rgba(220, 220, 220, 0.07)');
-          gradient3.addColorStop(0.5, 'rgba(160, 160, 160, 0.04)');
-          gradient3.addColorStop(1, 'rgba(100, 100, 100, 0.01)');
-          ctx.fillStyle = gradient3;
-          ctx.beginPath();
-          ctx.arc(80, 240, 45, 0, 2 * Math.PI);
-          ctx.fill();
-        };
-        
-        // Add subtle elements
-        addSubtleElements();
-        
-        // Draw card container
-        const cardX = 30;
-        const cardY = 30;
-        const cardWidth = canvas.width - 60;
-        const cardHeight = canvas.height - 60;
-        const borderRadius = 20;
-        
-        // Clean card background
-        const cardGradient = ctx.createLinearGradient(cardX, cardY, cardX + cardWidth, cardY + cardHeight);
-        cardGradient.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-        cardGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.9)');
-        cardGradient.addColorStop(1, 'rgba(255, 255, 255, 0.85)');
-        
-        // Draw card
-        ctx.fillStyle = cardGradient;
-        ctx.beginPath();
-        ctx.roundRect(cardX, cardY, cardWidth, cardHeight, borderRadius);
-        ctx.fill();
-        
-        // Subtle card border
-        ctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        
-        resolve();
-      });
-    };
+    // OPTIMIZED: Synchronous background rendering (no promises/async for simple gradients)
+    
+    // Create clean gradient background
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, '#f8fafc');    // Light gray-blue
+    gradient.addColorStop(0.5, '#e2e8f0');  // Medium gray
+    gradient.addColorStop(1, '#cbd5e1');    // Darker gray
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+    // Add subtle decorative elements (optimized)
+    // Top-left soft element - adjusted for narrower canvas
+    const gradient1 = ctx.createRadialGradient(120, 80, 0, 120, 80, 50);
+    gradient1.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
+    gradient1.addColorStop(0.5, 'rgba(200, 200, 200, 0.04)');
+    gradient1.addColorStop(1, 'rgba(150, 150, 150, 0.01)');
+    ctx.fillStyle = gradient1;
+    ctx.beginPath();
+    ctx.arc(120, 80, 50, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Top-right soft element - adjusted for narrower canvas
+    const gradient2 = ctx.createRadialGradient(340, 70, 0, 340, 70, 40);
+    gradient2.addColorStop(0, 'rgba(240, 240, 240, 0.06)');
+    gradient2.addColorStop(0.5, 'rgba(180, 180, 180, 0.03)');
+    gradient2.addColorStop(1, 'rgba(120, 120, 120, 0.01)');
+    ctx.fillStyle = gradient2;
+    ctx.beginPath();
+    ctx.arc(340, 70, 40, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Bottom-left soft element
+    const gradient3 = ctx.createRadialGradient(80, 240, 0, 80, 240, 45);
+    gradient3.addColorStop(0, 'rgba(220, 220, 220, 0.07)');
+    gradient3.addColorStop(0.5, 'rgba(160, 160, 160, 0.04)');
+    gradient3.addColorStop(1, 'rgba(100, 100, 100, 0.01)');
+    ctx.fillStyle = gradient3;
+    ctx.beginPath();
+    ctx.arc(80, 240, 45, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Draw card container (define once)
+    const cardX = 30;
+    const cardY = 30;
+    const cardWidth = canvas.width - 60;
+    const cardHeight = canvas.height - 60;
+    const borderRadius = 20;
+    
+    // Clean card background
+    const cardGradient = ctx.createLinearGradient(cardX, cardY, cardX + cardWidth, cardY + cardHeight);
+    cardGradient.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+    cardGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.9)');
+    cardGradient.addColorStop(1, 'rgba(255, 255, 255, 0.85)');
+    
+    // Draw card
+    ctx.fillStyle = cardGradient;
+    ctx.beginPath();
+    ctx.roundRect(cardX, cardY, cardWidth, cardHeight, borderRadius);
+    ctx.fill();
+    
+    // Subtle card border
+    ctx.strokeStyle = 'rgba(200, 200, 200, 0.3)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
 
     // Lightweight glassmorphism border that preserves transparency
     const drawGlassmorphismBorder = () => {
-      const cardX = 30;
-      const cardY = 30;
-      const cardWidth = canvas.width - 60;
-      const cardHeight = canvas.height - 60;
-      const borderRadius = 20;
+      // Use already defined card dimensions
       
       // Get subtle monochrome glow color based on level
       const getSubtleGlowColor = (score: number, status?: string) => {
@@ -295,9 +252,7 @@ router.get('/card/:userkey', async (req, res) => {
       ctx.restore();
     };
 
-    // Create glassmorphism background
-    await createGlassmorphismBackground();
-    // Background complete
+    // Draw glassmorphism border
     drawGlassmorphismBorder();
     // Start text rendering
 
@@ -515,12 +470,7 @@ router.get('/card/:userkey', async (req, res) => {
     ctx.lineTo(canvas.width - 45, 75);
     ctx.stroke();
 
-    // Enhanced darker and more noticeable glow effect around card border
-    const cardX = 30;
-    const cardY = 30;
-    const cardWidth = canvas.width - 60;
-    const cardHeight = canvas.height - 60;
-    const borderRadius = 20;
+    // Enhanced darker and more noticeable glow effect around card border (use existing variables)
     
     // Create multiple darker glow layers for stronger, more noticeable effect
     ctx.save();

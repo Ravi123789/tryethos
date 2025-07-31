@@ -589,7 +589,12 @@ router.get('/card/:userkey', async (req, res) => {
     ctx.fillText(`@${userHandle}`, canvas.width - 40, 263);
     ctx.restore();
     
-    // No bottom attribution text per user request
+    // Bottom center attribution - positioned well outside card border
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+    ctx.font = '8px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(`Generated using EthosRadar mini app by @cookedzera.eth`, canvas.width / 2, 305);
+    ctx.textAlign = 'left'; // Reset alignment for other text
 
     // Optimized headers for production Farcaster frame delivery
     const isPreview = req.query.preview === 'true';

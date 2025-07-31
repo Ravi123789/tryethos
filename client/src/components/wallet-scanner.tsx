@@ -450,6 +450,10 @@ export function WalletScanner() {
                 src="/ethos-logo.png" 
                 alt="Ethos Logo" 
                 className="w-5 h-5 opacity-60 rounded-full"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.outerHTML = '<div class="w-5 h-5 bg-gradient-to-br from-orange-400 to-teal-500 rounded-full opacity-60"></div>';
+                }}
               />
             </div>
           </div>

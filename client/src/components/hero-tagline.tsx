@@ -1,5 +1,4 @@
 import { Network, Shield, CheckCircle2 } from 'lucide-react';
-import { EthosStatus } from '@/components/ethos-status';
 
 export function HeroTagline() {
   return (
@@ -24,10 +23,7 @@ export function HeroTagline() {
             <CheckCircle2 className="w-3 h-3 text-green-400 dark:text-gray-300" />
           </div>
           
-          {/* API Status - positioned below verification badge in a new line */}
-          <div className="mt-2">
-            <EthosStatus />
-          </div>
+          {/* API Status removed from here to prevent duplication */}
         </div>
 
 

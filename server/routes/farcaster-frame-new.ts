@@ -68,10 +68,10 @@ router.get('/frame/:userkey', async (req, res) => {
         <meta property="og:image:height" content="320">
         
         <!-- Mini App Embed tags -->
-        <meta name="fc:frame" content='{"version":"1","imageUrl":"${cardImageUrl}","button":{"title":"Scan Your Trust Score","action":{"type":"launch_miniapp","name":"EthosRadar","url":"${baseUrl}/","splashImageUrl":"${baseUrl}/splash.png","splashBackgroundColor":"#0F172A"}}}'>
+        <meta name="fc:frame" content='{"version":"1","imageUrl":"${cardImageUrl}","button":{"title":"Scan Your Trust Score","action":{"type":"launch_miniapp","name":"EthosRadar","url":"${baseUrl}/"}}}'>
         
         <!-- For backward compatibility -->
-        <meta name="fc:miniapp" content='{"version":"1","imageUrl":"${cardImageUrl}","button":{"title":"Scan Your Trust Score","action":{"type":"launch_miniapp","name":"EthosRadar","url":"${baseUrl}/","splashImageUrl":"${baseUrl}/splash.png","splashBackgroundColor":"#0F172A"}}}'>
+        <meta name="fc:miniapp" content='{"version":"1","imageUrl":"${cardImageUrl}","button":{"title":"Scan Your Trust Score","action":{"type":"launch_miniapp","name":"EthosRadar","url":"${baseUrl}/"}}}'>
 
 
 

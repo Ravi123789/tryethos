@@ -52,6 +52,7 @@
 - **✅ Card Size Optimization**: Adjusted card dimensions from 600x315 to 480x320 (1.5:1 aspect ratio) for better mobile embed display
 - **✅ Layout Adjustments**: Repositioned content elements for narrower canvas - level text, accent line, floating orbs, and attribution positioning optimized
 - **✅ Content Spacing**: Reduced spacing between elements while maintaining readability and proper touch targets for social media sharing
+- **✅ Splash Image Removed**: Completely removed splash screen image and background color from Mini App configuration per user request for cleaner launch experience
 
 ### Farcaster Auto-Detect Card Optimization - July 30, 2025
 **✅ FARCASTER AUTO-DETECT CARD OPTIMIZATION COMPLETE**: Successfully optimized auto-detect card with compact sizing and improved navigation spacing
